@@ -14,30 +14,35 @@
  * Device
  * ------
  * ATtiny12
- * signature = 0x1e9005
- * Fuse bits for ATtiny12
- *  Int RC osc 1.2MHz; Start-up time 6CK+67ms;[CKSEL=0010];
+ * signature = 0x1e9109
+ * Fuse bits for ATtiny26
+ *  Int RC osc 1.0MHz; Start-up time 6CK+65ms;[CKSEL=0001 SUT=10];
  *  Enable Serial Program [SPIEN=0]
- *  Brown-out detection at VCC=2.3V; [BODLEVEL=0]
- *  fuse=0x52 [0101 0011]
+ *  Brown-out detection at VCC=4.0V; [BODLEVEL=0]
+ *  Low=0xe1 [11100001] Hi=0xf5 [11110101]
  *  from http://www.engbedded.com/fusecalc/
- * This is the default fuse settings, so leave it alone
  *
  * to set fuses:
- * avrdude -c usbtiny -p attiny12 -U fuse:w:0x52:m
+ * avrdude -c usbtiny -p attiny26 -U lfuse:w:0xe1:m -U hfuse:w:0xf5:m
  * to read fuses:
- * avrdude -c usbtiny -p attiny12 -U fuse:r:fuse.txt:h
+ * avrdude -c usbtiny -p attiny26 -U lfuse:r:lfuse.txt:h -U hfuse:r:hfuse.txt:h
  *
  * PINOUT
  * ------
  *            +----------+
- *            | ATtiny12 |
- *      RESET-|1        8|-VCC
- *   SHUTDOWN-|2        7|-ENABLE       [SCK]
- *           -|3        6|-BUTTON       [MISO]
- *        GND-|4        5|-MCU_RUNNING  [MOSI]
- *            |          |    
- *            +----------+     
+ *            | ATtiny26 |
+ *       MOSI-|1       20|-
+ *       MISO-|2       19|-
+ *        SCK-|3       18|-LED6
+ *   SHUTDOWN-|4       17|-LED5
+ *        VCC-|5       16|-GND
+ *        GND-|6       15|-AVCC
+ *MCU_RUNNING-|7       14|-LED4
+ *     ENABLE-|8       13|-LED3
+ *     BUTTON-|9       12|-LED2
+ *      RESET-|10      11|-LED1
+ *            |          |
+ *            +----------+
  */
 
 #include <stdint.h>
@@ -47,11 +52,19 @@
 
 // Define pin labels
 // these are all portB
-#define MCU_RUNNING 0
-#define BUTTON 1
-#define ENABLE 2
+#define MCU_RUNNING 4
+#define BUTTON 6
+#define ENABLE 5
 #define SHUTDOWN 3
-#define RESET 5
+#define RESET 7
+
+// these are all portA
+#define LED1 7
+#define LED2 6
+#define LED3 5
+#define LED4 4
+#define LED5 3
+#define LED6 2
 
 typedef enum {
     Start,
@@ -73,8 +86,9 @@ void
 ioinit(void)
 {
     // set pullups on unused pins
-    // PORTA setup pins for output
-
+    // PORTA setup PINS for output
+    DDRA |= (_BV(LED1)|_BV(LED2)|_BV(LED3)|_BV(LED4)|_BV(LED5)|_BV(LED6));
+    
     // setup PINS for input, RESET is already set as input and pull up on
     // due to fuse setting
     DDRB &= ~(_BV(BUTTON)|_BV(MCU_RUNNING));
@@ -88,9 +102,9 @@ ioinit(void)
     // shutdown is pulled low
     PORTB &= ~(_BV(SHUTDOWN));
     
-    // timer set to CK/1024, overflow interrupt enabled
-    TCCR0B = _BV(CS02)|_BV(CS00);
-    TIMSK0 = _BV(TOIE0);
+    // timer set to CK/8, overflow interrupt enabled
+    TCCR0 = _BV(CS01);
+    TIMSK = _BV(TOIE0);
     
     // set BUTTON pin change interrupt
     //MCUCR |= _BV(ISC00);
@@ -113,6 +127,7 @@ int button_pressed(void)
 {
     if (buttonpress) {
         buttonpress = 0;
+        PORTA &= ~(_BV(LED1));
         return 1;
     }
     return 0;
@@ -146,18 +161,27 @@ main(void)
         } else if (button_state == 2 && button_mask == 0xFF) {
             button_state = 0;
             buttonpress = 1;
+            PORTA |= _BV(LED1);
         }
         
         switch (machine_state) {
         case Start:
+            PORTA &= ~(_BV(LED2)|_BV(LED3)|_BV(LED4)|_BV(LED5)|_BV(LED6));
+
             PORTB &= ~(_BV(ENABLE)|_BV(SHUTDOWN));
             machine_state = WaitSignalOn;
             break;
         case WaitSignalOn:
+            PORTA |= _BV(LED2);
+            PORTA &= ~(_BV(LED3)|_BV(LED4)|_BV(LED5)|_BV(LED6));
+
             if (button_pressed())
                 machine_state = SignaledOn;
             break;
         case SignaledOn:
+            PORTA |= _BV(LED3);
+            PORTA &= ~(_BV(LED2)|_BV(LED4)|_BV(LED5)|_BV(LED6));
+
             PORTB |= _BV(ENABLE);
             if (mcu_is_running())
                 machine_state = MCURunning;
@@ -165,15 +189,24 @@ main(void)
                 machine_state = MCUOff;
             break;
         case MCURunning:
+            PORTA |= _BV(LED4);
+            PORTA &= ~(_BV(LED2)|_BV(LED3)|_BV(LED5)|_BV(LED6));
+
             if (button_pressed())
                 machine_state = SignaledOff;
             break;
         case SignaledOff:
+            PORTA |= _BV(LED5);
+            PORTA &= ~(_BV(LED2)|_BV(LED3)|_BV(LED4)|_BV(LED6));
+
             PORTB |= _BV(SHUTDOWN);
             if (!mcu_is_running())
                 machine_state = MCUOff;
             break;
         case MCUOff:
+            PORTA |= _BV(LED6);
+            PORTA &= ~(_BV(LED2)|_BV(LED3)|_BV(LED4)|_BV(LED5));
+
             PORTB &= ~(_BV(ENABLE)|_BV(SHUTDOWN));
             machine_state = WaitSignalOn;
             break;
@@ -188,16 +221,13 @@ main(void)
  * Timer0 overflow interrupt
  * interrupt flag cleared by hardware
  */
-ISR(TIM0_OVF_vect)
+ISR(TIMER0_OVF0_vect)
 {
-    static uint8_t count = 0;
-    // about 32ms
-    if (++count == F_CPU / 1024 / 32)
-    {
-        button_mask <<= 1;
-        button_mask |= ((PINB & _BV(BUTTON)) == _BV(BUTTON));
-        count = 0;
-    }
+    button_mask <<= 1;
+    if (PINB & _BV(BUTTON))
+        button_mask |= 1;
+    else
+        button_mask &= ~1;
     if (button_state == 1)
         tovflows++;
 }

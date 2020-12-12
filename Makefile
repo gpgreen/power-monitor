@@ -41,7 +41,7 @@
 
 
 # MCU name
-MCU = attiny13
+MCU = attiny26
 
 # Processor frequency.
 #     This will define a symbol, F_CPU, in all source code files equal to the 
@@ -49,7 +49,7 @@ MCU = attiny13
 #     calculate timings. Do NOT tack on a 'UL' at the end, this will be done
 #     automatically to create a 32-bit value in your source code.
 #     Typical values are:
-F_CPU = 1200000
+F_CPU = 1000000
 
 
 # Output format. (can be srec, ihex, binary)
@@ -268,7 +268,7 @@ LDFLAGS += $(PRINTF_LIB) $(SCANF_LIB) $(MATH_LIB)
 #
 AVRDUDE_PROGRAMMER = usbtiny
 
-AVRDUDE_MCU = ATtiny12
+AVRDUDE_MCU = ATtiny26
 
 # com1 = serial port. Use lpt1 to connect to parallel port.
 #AVRDUDE_PORT = com1    # programmer connected to serial device
