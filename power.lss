@@ -1,0 +1,388 @@
+
+power.elf:     file format elf32-avr
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .text         000001b0  00000000  00000000  00000094  2**1
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  1 .data         00000000  00800060  000001b0  00000244  2**0
+                  CONTENTS, ALLOC, LOAD, DATA
+  2 .bss          00000006  00800060  00800060  00000244  2**0
+                  ALLOC
+  3 .stab         00000810  00000000  00000000  00000244  2**2
+                  CONTENTS, READONLY, DEBUGGING
+  4 .stabstr      00000c76  00000000  00000000  00000a54  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  5 .comment      00000011  00000000  00000000  000016ca  2**0
+                  CONTENTS, READONLY
+  6 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  000016dc  2**2
+                  CONTENTS, READONLY
+  7 .debug_info   000002b8  00000000  00000000  00001718  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  8 .debug_abbrev 00000294  00000000  00000000  000019d0  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  9 .debug_line   0000001a  00000000  00000000  00001c64  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 10 .debug_str    000000f6  00000000  00000000  00001c7e  2**0
+                  CONTENTS, READONLY, DEBUGGING
+
+Disassembly of section .text:
+
+00000000 <__vectors>:
+   0:	09 c0       	rjmp	.+18     	; 0x14 <__ctors_end>
+   2:	5a c0       	rjmp	.+180    	; 0xb8 <__vector_1>
+   4:	15 c0       	rjmp	.+42     	; 0x30 <__bad_interrupt>
+   6:	2b c0       	rjmp	.+86     	; 0x5e <__vector_3>
+   8:	13 c0       	rjmp	.+38     	; 0x30 <__bad_interrupt>
+   a:	12 c0       	rjmp	.+36     	; 0x30 <__bad_interrupt>
+   c:	11 c0       	rjmp	.+34     	; 0x30 <__bad_interrupt>
+   e:	10 c0       	rjmp	.+32     	; 0x30 <__bad_interrupt>
+  10:	0f c0       	rjmp	.+30     	; 0x30 <__bad_interrupt>
+  12:	0e c0       	rjmp	.+28     	; 0x30 <__bad_interrupt>
+
+00000014 <__ctors_end>:
+  14:	11 24       	eor	r1, r1
+  16:	1f be       	out	0x3f, r1	; 63
+  18:	cf e9       	ldi	r28, 0x9F	; 159
+  1a:	cd bf       	out	0x3d, r28	; 61
+
+0000001c <__do_clear_bss>:
+  1c:	20 e0       	ldi	r18, 0x00	; 0
+  1e:	a0 e6       	ldi	r26, 0x60	; 96
+  20:	b0 e0       	ldi	r27, 0x00	; 0
+  22:	01 c0       	rjmp	.+2      	; 0x26 <.do_clear_bss_start>
+
+00000024 <.do_clear_bss_loop>:
+  24:	1d 92       	st	X+, r1
+
+00000026 <.do_clear_bss_start>:
+  26:	a6 36       	cpi	r26, 0x66	; 102
+  28:	b2 07       	cpc	r27, r18
+  2a:	e1 f7       	brne	.-8      	; 0x24 <.do_clear_bss_loop>
+  2c:	4f d0       	rcall	.+158    	; 0xcc <main>
+  2e:	be c0       	rjmp	.+380    	; 0x1ac <_exit>
+
+00000030 <__bad_interrupt>:
+  30:	e7 cf       	rjmp	.-50     	; 0x0 <__vectors>
+
+00000032 <ioinit>:
+    // set pullups on unused pins
+    // PORTA setup pins for output
+
+    // setup PINS for input, RESET is already set as input and pull up on
+    // due to fuse setting
+    DDRB &= ~(_BV(BUTTON)|_BV(MCU_RUNNING));
+  32:	87 b3       	in	r24, 0x17	; 23
+  34:	8c 7f       	andi	r24, 0xFC	; 252
+  36:	87 bb       	out	0x17, r24	; 23
+    // set pullups on input pins
+    //PORTB |= _BV(DI)|_BV(SCK);
+
+    // PORTB setup PINS for output
+    DDRB |= _BV(ENABLE)|_BV(SHUTDOWN);
+  38:	87 b3       	in	r24, 0x17	; 23
+  3a:	8c 60       	ori	r24, 0x0C	; 12
+  3c:	87 bb       	out	0x17, r24	; 23
+    // enable is pulled low
+    PORTB &= ~(_BV(ENABLE));
+  3e:	c2 98       	cbi	0x18, 2	; 24
+    // shutdown is pulled low
+    PORTB &= ~(_BV(SHUTDOWN));
+  40:	c3 98       	cbi	0x18, 3	; 24
+    
+    // timer set to CK/1024, overflow interrupt enabled
+    TCCR0B = _BV(CS02)|_BV(CS00);
+  42:	85 e0       	ldi	r24, 0x05	; 5
+  44:	83 bf       	out	0x33, r24	; 51
+    TIMSK0 = _BV(TOIE0);
+  46:	82 e0       	ldi	r24, 0x02	; 2
+  48:	89 bf       	out	0x39, r24	; 57
+    
+    // set BUTTON pin change interrupt
+    //MCUCR |= _BV(ISC00);
+    //GIMSK |= _BV(INT0);
+
+    machine_state = Start;
+  4a:	10 92 65 00 	sts	0x0065, r1	; 0x800065 <machine_state>
+    buttonpress = 0;
+  4e:	10 92 62 00 	sts	0x0062, r1	; 0x800062 <buttonpress>
+    button_state = 0;
+  52:	10 92 64 00 	sts	0x0064, r1	; 0x800064 <button_state>
+    button_mask = 0xFF;
+  56:	8f ef       	ldi	r24, 0xFF	; 255
+  58:	80 93 61 00 	sts	0x0061, r24	; 0x800061 <button_mask>
+  5c:	08 95       	ret
+
+0000005e <__vector_3>:
+/*
+ * Timer0 overflow interrupt
+ * interrupt flag cleared by hardware
+ */
+ISR(TIM0_OVF_vect)
+{
+  5e:	1f 92       	push	r1
+  60:	0f 92       	push	r0
+  62:	0f b6       	in	r0, 0x3f	; 63
+  64:	0f 92       	push	r0
+  66:	11 24       	eor	r1, r1
+  68:	8f 93       	push	r24
+  6a:	9f 93       	push	r25
+    static uint8_t count = 0;
+    // about 32ms
+    if (++count == F_CPU / 1024 / 32)
+  6c:	80 91 60 00 	lds	r24, 0x0060	; 0x800060 <__DATA_REGION_ORIGIN__>
+  70:	8f 5f       	subi	r24, 0xFF	; 255
+  72:	80 93 60 00 	sts	0x0060, r24	; 0x800060 <__DATA_REGION_ORIGIN__>
+  76:	84 32       	cpi	r24, 0x24	; 36
+  78:	79 f4       	brne	.+30     	; 0x98 <__vector_3+0x3a>
+    {
+        button_mask <<= 1;
+  7a:	80 91 61 00 	lds	r24, 0x0061	; 0x800061 <button_mask>
+  7e:	88 0f       	add	r24, r24
+  80:	80 93 61 00 	sts	0x0061, r24	; 0x800061 <button_mask>
+        button_mask |= ((PINB & _BV(BUTTON)) == _BV(BUTTON));
+  84:	86 b3       	in	r24, 0x16	; 22
+  86:	90 91 61 00 	lds	r25, 0x0061	; 0x800061 <button_mask>
+  8a:	86 95       	lsr	r24
+  8c:	81 70       	andi	r24, 0x01	; 1
+  8e:	89 2b       	or	r24, r25
+  90:	80 93 61 00 	sts	0x0061, r24	; 0x800061 <button_mask>
+        count = 0;
+  94:	10 92 60 00 	sts	0x0060, r1	; 0x800060 <__DATA_REGION_ORIGIN__>
+    }
+    if (button_state == 1)
+  98:	80 91 64 00 	lds	r24, 0x0064	; 0x800064 <button_state>
+  9c:	81 30       	cpi	r24, 0x01	; 1
+  9e:	29 f4       	brne	.+10     	; 0xaa <__stack+0xb>
+        tovflows++;
+  a0:	80 91 63 00 	lds	r24, 0x0063	; 0x800063 <tovflows>
+  a4:	8f 5f       	subi	r24, 0xFF	; 255
+  a6:	80 93 63 00 	sts	0x0063, r24	; 0x800063 <tovflows>
+}
+  aa:	9f 91       	pop	r25
+  ac:	8f 91       	pop	r24
+  ae:	0f 90       	pop	r0
+  b0:	0f be       	out	0x3f, r0	; 63
+  b2:	0f 90       	pop	r0
+  b4:	1f 90       	pop	r1
+  b6:	18 95       	reti
+
+000000b8 <__vector_1>:
+  b8:	1f 92       	push	r1
+  ba:	0f 92       	push	r0
+  bc:	0f b6       	in	r0, 0x3f	; 63
+  be:	0f 92       	push	r0
+  c0:	11 24       	eor	r1, r1
+  c2:	0f 90       	pop	r0
+  c4:	0f be       	out	0x3f, r0	; 63
+  c6:	0f 90       	pop	r0
+  c8:	1f 90       	pop	r1
+  ca:	18 95       	reti
+
+000000cc <main>:
+}
+
+int
+main(void)
+{
+    ioinit();
+  cc:	b2 df       	rcall	.-156    	; 0x32 <ioinit>
+
+	// start interrupts
+	sei();
+  ce:	78 94       	sei
+                button_state = 2;
+            }
+            // down long enough, check for release
+        } else if (button_state == 2 && button_mask == 0xFF) {
+            button_state = 0;
+            buttonpress = 1;
+  d0:	91 e0       	ldi	r25, 0x01	; 1
+            // released too early
+            if (button_mask != 0x00)
+                button_state = 0;
+            // is it long enough
+            else if (button_mask == 0x00 && tovflows >= 10) {
+                button_state = 2;
+  d2:	22 e0       	ldi	r18, 0x02	; 2
+        case SignaledOn:
+            PORTB |= _BV(ENABLE);
+            if (mcu_is_running())
+                machine_state = MCURunning;
+            if (button_pressed())
+                machine_state = MCUOff;
+  d4:	35 e0       	ldi	r19, 0x05	; 5
+                machine_state = SignaledOn;
+            break;
+        case SignaledOn:
+            PORTB |= _BV(ENABLE);
+            if (mcu_is_running())
+                machine_state = MCURunning;
+  d6:	43 e0       	ldi	r20, 0x03	; 3
+            if (button_pressed())
+                machine_state = MCUOff;
+            break;
+        case MCURunning:
+            if (button_pressed())
+                machine_state = SignaledOff;
+  d8:	54 e0       	ldi	r21, 0x04	; 4
+
+    // main loop
+    while(1)
+    {
+        // check if button down
+        if (button_state == 0 && button_mask == 0x00) {
+  da:	80 91 64 00 	lds	r24, 0x0064	; 0x800064 <button_state>
+  de:	81 11       	cpse	r24, r1
+  e0:	09 c0       	rjmp	.+18     	; 0xf4 <main+0x28>
+  e2:	80 91 61 00 	lds	r24, 0x0061	; 0x800061 <button_mask>
+  e6:	81 11       	cpse	r24, r1
+  e8:	23 c0       	rjmp	.+70     	; 0x130 <main+0x64>
+            button_state = 1;
+  ea:	90 93 64 00 	sts	0x0064, r25	; 0x800064 <button_state>
+            tovflows = 0;
+  ee:	10 92 63 00 	sts	0x0063, r1	; 0x800063 <tovflows>
+  f2:	1e c0       	rjmp	.+60     	; 0x130 <main+0x64>
+            // has it been down for long enough
+        } else if (button_state == 1) {
+  f4:	81 30       	cpi	r24, 0x01	; 1
+  f6:	91 f4       	brne	.+36     	; 0x11c <main+0x50>
+            // released too early
+            if (button_mask != 0x00)
+  f8:	80 91 61 00 	lds	r24, 0x0061	; 0x800061 <button_mask>
+  fc:	88 23       	and	r24, r24
+  fe:	19 f0       	breq	.+6      	; 0x106 <main+0x3a>
+                button_state = 0;
+ 100:	10 92 64 00 	sts	0x0064, r1	; 0x800064 <button_state>
+ 104:	15 c0       	rjmp	.+42     	; 0x130 <main+0x64>
+            // is it long enough
+            else if (button_mask == 0x00 && tovflows >= 10) {
+ 106:	80 91 61 00 	lds	r24, 0x0061	; 0x800061 <button_mask>
+ 10a:	81 11       	cpse	r24, r1
+ 10c:	11 c0       	rjmp	.+34     	; 0x130 <main+0x64>
+ 10e:	80 91 63 00 	lds	r24, 0x0063	; 0x800063 <tovflows>
+ 112:	8a 30       	cpi	r24, 0x0A	; 10
+ 114:	68 f0       	brcs	.+26     	; 0x130 <main+0x64>
+                button_state = 2;
+ 116:	20 93 64 00 	sts	0x0064, r18	; 0x800064 <button_state>
+ 11a:	0a c0       	rjmp	.+20     	; 0x130 <main+0x64>
+            }
+            // down long enough, check for release
+        } else if (button_state == 2 && button_mask == 0xFF) {
+ 11c:	82 30       	cpi	r24, 0x02	; 2
+ 11e:	41 f4       	brne	.+16     	; 0x130 <main+0x64>
+ 120:	80 91 61 00 	lds	r24, 0x0061	; 0x800061 <button_mask>
+ 124:	8f 3f       	cpi	r24, 0xFF	; 255
+ 126:	21 f4       	brne	.+8      	; 0x130 <main+0x64>
+            button_state = 0;
+ 128:	10 92 64 00 	sts	0x0064, r1	; 0x800064 <button_state>
+            buttonpress = 1;
+ 12c:	90 93 62 00 	sts	0x0062, r25	; 0x800062 <buttonpress>
+        }
+        
+        switch (machine_state) {
+ 130:	80 91 65 00 	lds	r24, 0x0065	; 0x800065 <machine_state>
+ 134:	82 30       	cpi	r24, 0x02	; 2
+ 136:	a9 f0       	breq	.+42     	; 0x162 <main+0x96>
+ 138:	28 f4       	brcc	.+10     	; 0x144 <main+0x78>
+ 13a:	88 23       	and	r24, r24
+ 13c:	71 f1       	breq	.+92     	; 0x19a <main+0xce>
+ 13e:	81 30       	cpi	r24, 0x01	; 1
+ 140:	39 f0       	breq	.+14     	; 0x150 <main+0x84>
+ 142:	31 c0       	rjmp	.+98     	; 0x1a6 <main+0xda>
+ 144:	84 30       	cpi	r24, 0x04	; 4
+ 146:	19 f1       	breq	.+70     	; 0x18e <main+0xc2>
+ 148:	c0 f0       	brcs	.+48     	; 0x17a <main+0xae>
+ 14a:	85 30       	cpi	r24, 0x05	; 5
+ 14c:	31 f1       	breq	.+76     	; 0x19a <main+0xce>
+ 14e:	2b c0       	rjmp	.+86     	; 0x1a6 <main+0xda>
+}
+
+inline
+int button_pressed(void)
+{
+    if (buttonpress) {
+ 150:	80 91 62 00 	lds	r24, 0x0062	; 0x800062 <buttonpress>
+ 154:	88 23       	and	r24, r24
+ 156:	09 f2       	breq	.-126    	; 0xda <main+0xe>
+        buttonpress = 0;
+ 158:	10 92 62 00 	sts	0x0062, r1	; 0x800062 <buttonpress>
+            PORTB &= ~(_BV(ENABLE)|_BV(SHUTDOWN));
+            machine_state = WaitSignalOn;
+            break;
+        case WaitSignalOn:
+            if (button_pressed())
+                machine_state = SignaledOn;
+ 15c:	20 93 65 00 	sts	0x0065, r18	; 0x800065 <machine_state>
+ 160:	bc cf       	rjmp	.-136    	; 0xda <main+0xe>
+            break;
+        case SignaledOn:
+            PORTB |= _BV(ENABLE);
+ 162:	c2 9a       	sbi	0x18, 2	; 24
+            if (mcu_is_running())
+ 164:	b0 99       	sbic	0x16, 0	; 22
+                machine_state = MCURunning;
+ 166:	40 93 65 00 	sts	0x0065, r20	; 0x800065 <machine_state>
+}
+
+inline
+int button_pressed(void)
+{
+    if (buttonpress) {
+ 16a:	80 91 62 00 	lds	r24, 0x0062	; 0x800062 <buttonpress>
+ 16e:	88 23       	and	r24, r24
+ 170:	09 f4       	brne	.+2      	; 0x174 <main+0xa8>
+ 172:	b3 cf       	rjmp	.-154    	; 0xda <main+0xe>
+        buttonpress = 0;
+ 174:	10 92 62 00 	sts	0x0062, r1	; 0x800062 <buttonpress>
+ 178:	0d c0       	rjmp	.+26     	; 0x194 <main+0xc8>
+}
+
+inline
+int button_pressed(void)
+{
+    if (buttonpress) {
+ 17a:	80 91 62 00 	lds	r24, 0x0062	; 0x800062 <buttonpress>
+ 17e:	88 23       	and	r24, r24
+ 180:	09 f4       	brne	.+2      	; 0x184 <main+0xb8>
+ 182:	ab cf       	rjmp	.-170    	; 0xda <main+0xe>
+        buttonpress = 0;
+ 184:	10 92 62 00 	sts	0x0062, r1	; 0x800062 <buttonpress>
+            if (button_pressed())
+                machine_state = MCUOff;
+            break;
+        case MCURunning:
+            if (button_pressed())
+                machine_state = SignaledOff;
+ 188:	50 93 65 00 	sts	0x0065, r21	; 0x800065 <machine_state>
+ 18c:	a6 cf       	rjmp	.-180    	; 0xda <main+0xe>
+            break;
+        case SignaledOff:
+            PORTB |= _BV(SHUTDOWN);
+ 18e:	c3 9a       	sbi	0x18, 3	; 24
+            if (!mcu_is_running())
+ 190:	b0 99       	sbic	0x16, 0	; 22
+ 192:	a3 cf       	rjmp	.-186    	; 0xda <main+0xe>
+                machine_state = MCUOff;
+ 194:	30 93 65 00 	sts	0x0065, r19	; 0x800065 <machine_state>
+ 198:	a0 cf       	rjmp	.-192    	; 0xda <main+0xe>
+            break;
+        case MCUOff:
+            PORTB &= ~(_BV(ENABLE)|_BV(SHUTDOWN));
+ 19a:	88 b3       	in	r24, 0x18	; 24
+ 19c:	83 7f       	andi	r24, 0xF3	; 243
+ 19e:	88 bb       	out	0x18, r24	; 24
+            machine_state = WaitSignalOn;
+ 1a0:	90 93 65 00 	sts	0x0065, r25	; 0x800065 <machine_state>
+            break;
+ 1a4:	9a cf       	rjmp	.-204    	; 0xda <main+0xe>
+        default:
+            machine_state = Start;
+ 1a6:	10 92 65 00 	sts	0x0065, r1	; 0x800065 <machine_state>
+ 1aa:	97 cf       	rjmp	.-210    	; 0xda <main+0xe>
+
+000001ac <_exit>:
+ 1ac:	f8 94       	cli
+
+000001ae <__stop_program>:
+ 1ae:	ff cf       	rjmp	.-2      	; 0x1ae <__stop_program>

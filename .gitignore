@@ -1,0 +1,9 @@
+# .gitignore
+*.eep
+*.elf
+*.lst
+*.map
+*.o
+*.sym
+*~
+.dep/
