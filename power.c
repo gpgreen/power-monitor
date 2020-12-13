@@ -23,31 +23,11 @@
  *  Low=0xc2 [1100 0010] Hi=0xdf [1101 1111] Ext=0xFF
  *  from http://www.engbedded.com/fusecalc/
  *
- * to set fuses:
- * avrdude -c usbtiny -p atmega328p -U lfuse:w:0xc2:m -U hfuse:w:0xdf:m -U efuse:w:0xff:m
  * to read fuses:
  * avrdude -c usbtiny -p atmega328p -U lfuse:r:lfuse.txt:h -U hfuse:r:hfuse.txt:h -U efuse:r:efuse.txt:h
+ * to set fuses:
+ * avrdude -c usbtiny -p atmega328p -U lfuse:w:0xc2:m -U hfuse:w:0xdf:m -U efuse:w:0xff:m
  *
- * PINOUT
- * ------
- *             +--------------------+
- *             |                    |
- *       RESET-|1  PC6        PC5 29|-
- *            -|2  PD0        PC4 27|-
- *            -|3  PD1        PC3 26|-    
- *      BUTTON-|4  PD2        PC2 25|-    
- * MCU_RUNNING-|5  PD3        PC1 24|-   
- *      ENABLE-|6  PD4        PC0 23|-    
- *         VCC-|7                 22|-GND 
- *         GND-|8                 21|-AREF
- *    SHUTDOWN-|9  PB6            20|-AVCC
- *        LED1-|10 PB7        PB5 19|-SCK
- *        LED2-|11 PD5        PB4 18|-MISO
- *        LED3-|12 PD6        PB3 17|-MOSI
- *        LED4-|13 PD7        PB2 16|-SS
- *        LED5-|14 PB0        PB1 15|-LED6
- *             |                    |
- *             +--------------------+
  */
 
 #include <stdint.h>
@@ -55,74 +35,26 @@
 #include <avr/interrupt.h>
 #include <avr/sleep.h>
 
+#include "project.h"
 #include "sensor.h"
 
-// Define pin labels
-// these are all portD
-#define MCU_RUNNING 3
-#define BUTTON 2
-#define ENABLE 4
-#define LED2 5
-#define LED3 6
-#define LED4 7
+/*--------------------------------------------------------*/
 
-// these are all portC
-#define RESET 6
+typedef enum {
+    Start,
+    WaitSignalOn,
+    SignaledOn,
+    MCURunning,
+    SignaledOff,
+    MCUOff,
+    LowPowerMode
+} StateMachine;
 
-// these are all portB
-#define SHUTDOWN 6
-#define LED1 7
-#define LED5 0
-#define LED6 1
-
-///////////////////////////////////////////////////////////////////
-
-#define MCU_RUNNING_ON bit_is_set(PIND, MCU_RUNNING)
-#define MCU_RUNNING_OFF bit_is_clear(PIND, MCU_RUNNING)
-
-#define BUTTON_ON bit_is_set(PIND, BUTTON)
-#define BUTTON_OFF bit_is_clear(PIND, BUTTON)
-
-#define SHUTDOWN_SET_ON PORTB |= _BV(SHUTDOWN)
-#define SHUTDOWN_SET_OFF PORTB &= ~(_BV(SHUTDOWN))
-
-#define ENABLE_SET_ON PORTD |= _BV(ENABLE)
-#define ENABLE_SET_OFF PORTD &= ~(_BV(ENABLE))
-
-#define TOGGLE_LED1 \
-    {if (bit_is_set(PORTB, LED1)) PORTB&=~(_BV(LED1)); else PORTB|=_BV(LED1);}
-    
-#define LED1_SET_ON PORTB |= _BV(LED1)
-#define LED2_SET_ON PORTD |= _BV(LED2)
-#define LED3_SET_ON PORTD |= _BV(LED3)
-#define LED4_SET_ON PORTD |= _BV(LED4)
-#define LED5_SET_ON PORTB |= _BV(LED5)
-#define LED6_SET_ON PORTB |= _BV(LED6)
-
-#define LED1_SET_OFF PORTB &= ~(_BV(LED1))
-#define LED2_SET_OFF PORTD &= ~(_BV(LED2))
-#define LED3_SET_OFF PORTD &= ~(_BV(LED3))
-#define LED4_SET_OFF PORTD &= ~(_BV(LED4))
-#define LED5_SET_OFF PORTB &= ~(_BV(LED5))
-#define LED6_SET_OFF PORTB &= ~(_BV(LED6))
-
-///////////////////////////////////////////////////////////////
-
-    typedef enum {
-        Start,
-        WaitSignalOn,
-        SignaledOn,
-        MCURunning,
-        SignaledOff,
-        MCUOff,
-        LowPowerMode
-    } StateMachine;
+/*--------------------------------------------------------
+ globals
+ --------------------------------------------------------*/
 
 StateMachine machine_state;
-
-//////////////////////////////////////////////////////////////
-// globals
-//////////////////////////////////////////////////////////////
 
 // 1 when buttonpress detected, 0 otherwise
 uint8_t buttonpress;
@@ -134,7 +66,7 @@ volatile uint8_t button_mask;
 // number of timer interrupt while button is down
 volatile uint8_t tovflows;
 
-//////////////////////////////////////////////////////////////
+/*--------------------------------------------------------*/
 
 void
 init(void)
@@ -164,7 +96,7 @@ init(void)
 inline
 int mcu_is_running(void)
 {
-    return (bit_is_set(PIND,MCU_RUNNING));
+    return MCU_RUNNING_ON;
 }
 
 inline

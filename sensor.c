@@ -23,40 +23,14 @@
  * state 2 = waiting for third byte
  * state 3 = transfer finished
  *
- * PINOUT
- * ------
- *             +--------------------+
- *             |                    |
- *       RESET-|1  PC6        PC5 29|-ADC5
- *            -|2  PD0        PC4 27|-ADC4
- *            -|3  PD1        PC3 26|-ADC3
- *      BUTTON-|4  PD2        PC2 25|-ADC2
- * MCU_RUNNING-|5  PD3        PC1 24|-ADC1
- *      ENABLE-|6  PD4        PC0 23|-ADC0
- *         VCC-|7                 22|-GND 
- *         GND-|8                 21|-AREF
- *    SHUTDOWN-|9  PB6            20|-AVCC
- *        LED1-|10 PB7        PB5 19|-SCK
- *        LED2-|11 PD5        PB4 18|-MISO
- *        LED3-|12 PD6        PB3 17|-MOSI
- *        LED4-|13 PD7        PB2 16|-SS
- *        LED5-|14 PB0        PB1 15|-LED6
- *             |                    |
- *             +--------------------+
  */
 
 #include <stdint.h>
 #include <avr/io.h>
 #include <avr/interrupt.h>
 
+#include "project.h"
 #include "sensor.h"
-
-// Define pin labels
-// these are all portB
-#define MISO 4
-#define MOSI 3
-#define SCK 5
-#define SS 2
 
 // adc channels
 volatile uint8_t adc_finished;
