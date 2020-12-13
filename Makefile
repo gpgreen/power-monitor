@@ -41,7 +41,7 @@
 
 
 # MCU name
-MCU = attiny26
+MCU = atmega328p
 
 # Processor frequency.
 #     This will define a symbol, F_CPU, in all source code files equal to the 
@@ -49,7 +49,7 @@ MCU = attiny26
 #     calculate timings. Do NOT tack on a 'UL' at the end, this will be done
 #     automatically to create a 32-bit value in your source code.
 #     Typical values are:
-F_CPU = 1000000
+F_CPU = 8000000
 
 
 # Output format. (can be srec, ihex, binary)
@@ -70,7 +70,7 @@ OBJDIR = .
 VPATH =
 
 # List C source files here. (C dependencies are automatically generated.)
-SRC = $(TARGET).c
+SRC = $(TARGET).c sensor.c
 
 
 # List C++ source files here. (C dependencies are automatically generated.)
@@ -268,7 +268,7 @@ LDFLAGS += $(PRINTF_LIB) $(SCANF_LIB) $(MATH_LIB)
 #
 AVRDUDE_PROGRAMMER = usbtiny
 
-AVRDUDE_MCU = ATtiny26
+AVRDUDE_MCU = atmega328p
 
 # com1 = serial port. Use lpt1 to connect to parallel port.
 #AVRDUDE_PORT = com1    # programmer connected to serial device
