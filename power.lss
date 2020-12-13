@@ -3,403 +3,477 @@ power.elf:     file format elf32-avr
 
 Sections:
 Idx Name          Size      VMA       LMA       File off  Algn
-  0 .text         000001c2  00000000  00000000  00000094  2**1
+  0 .text         00000200  00000000  00000000  00000094  2**1
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
-  1 .data         00000000  00800060  000001c2  00000256  2**0
+  1 .data         00000000  00800060  00000200  00000294  2**0
                   CONTENTS, ALLOC, LOAD, DATA
-  2 .bss          00000006  00800060  00800060  00000256  2**0
+  2 .bss          00000005  00800060  00800060  00000294  2**0
                   ALLOC
-  3 .stab         0000084c  00000000  00000000  00000258  2**2
+  3 .stab         0000090c  00000000  00000000  00000294  2**2
                   CONTENTS, READONLY, DEBUGGING
-  4 .stabstr      00000c76  00000000  00000000  00000aa4  2**0
+  4 .stabstr      00000c78  00000000  00000000  00000ba0  2**0
                   CONTENTS, READONLY, DEBUGGING
-  5 .comment      00000011  00000000  00000000  0000171a  2**0
+  5 .comment      00000011  00000000  00000000  00001818  2**0
                   CONTENTS, READONLY
-  6 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  0000172c  2**2
+  6 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  0000182c  2**2
                   CONTENTS, READONLY
-  7 .debug_info   000002dc  00000000  00000000  00001768  2**0
+  7 .avr.prop     00000016  00000000  00000000  00001868  2**0
+                  CONTENTS, READONLY
+  8 .debug_info   000002dc  00000000  00000000  0000187e  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_abbrev 000002b6  00000000  00000000  00001a44  2**0
+  9 .debug_abbrev 000002b6  00000000  00000000  00001b5a  2**0
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_line   0000001a  00000000  00000000  00001cfa  2**0
+ 10 .debug_line   0000001a  00000000  00000000  00001e10  2**0
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_str    000000fa  00000000  00000000  00001d14  2**0
+ 11 .debug_str    000000fa  00000000  00000000  00001e2a  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
 
 00000000 <__vectors>:
-   0:	0b c0       	rjmp	.+22     	; 0x18 <__ctors_end>
-   2:	5e c0       	rjmp	.+188    	; 0xc0 <__vector_1>
-   4:	17 c0       	rjmp	.+46     	; 0x34 <__bad_interrupt>
-   6:	16 c0       	rjmp	.+44     	; 0x34 <__bad_interrupt>
-   8:	15 c0       	rjmp	.+42     	; 0x34 <__bad_interrupt>
-   a:	14 c0       	rjmp	.+40     	; 0x34 <__bad_interrupt>
-   c:	2b c0       	rjmp	.+86     	; 0x64 <__vector_6>
-   e:	12 c0       	rjmp	.+36     	; 0x34 <__bad_interrupt>
-  10:	11 c0       	rjmp	.+34     	; 0x34 <__bad_interrupt>
-  12:	10 c0       	rjmp	.+32     	; 0x34 <__bad_interrupt>
-  14:	0f c0       	rjmp	.+30     	; 0x34 <__bad_interrupt>
-  16:	0e c0       	rjmp	.+28     	; 0x34 <__bad_interrupt>
+   0:	12 c0       	rjmp	.+36     	; 0x26 <__ctors_end>
+   2:	63 c0       	rjmp	.+198    	; 0xca <__vector_1>
+   4:	1e c0       	rjmp	.+60     	; 0x42 <__bad_interrupt>
+   6:	1d c0       	rjmp	.+58     	; 0x42 <__bad_interrupt>
+   8:	1c c0       	rjmp	.+56     	; 0x42 <__bad_interrupt>
+   a:	1b c0       	rjmp	.+54     	; 0x42 <__bad_interrupt>
+   c:	39 c0       	rjmp	.+114    	; 0x80 <__vector_6>
+   e:	19 c0       	rjmp	.+50     	; 0x42 <__bad_interrupt>
+  10:	18 c0       	rjmp	.+48     	; 0x42 <__bad_interrupt>
+  12:	17 c0       	rjmp	.+46     	; 0x42 <__bad_interrupt>
+  14:	16 c0       	rjmp	.+44     	; 0x42 <__bad_interrupt>
+  16:	15 c0       	rjmp	.+42     	; 0x42 <__bad_interrupt>
+  18:	93 c0       	rjmp	.+294    	; 0x140 <__stack+0x61>
+  1a:	99 c0       	rjmp	.+306    	; 0x14e <__stack+0x6f>
+  1c:	a6 c0       	rjmp	.+332    	; 0x16a <__stack+0x8b>
+  1e:	b6 c0       	rjmp	.+364    	; 0x18c <__stack+0xad>
+  20:	c4 c0       	rjmp	.+392    	; 0x1aa <__stack+0xcb>
+  22:	cd c0       	rjmp	.+410    	; 0x1be <__stack+0xdf>
+  24:	d6 c0       	rjmp	.+428    	; 0x1d2 <__stack+0xf3>
 
-00000018 <__ctors_end>:
-  18:	11 24       	eor	r1, r1
-  1a:	1f be       	out	0x3f, r1	; 63
-  1c:	cf ed       	ldi	r28, 0xDF	; 223
-  1e:	cd bf       	out	0x3d, r28	; 61
+00000026 <__ctors_end>:
+  26:	11 24       	eor	r1, r1
+  28:	1f be       	out	0x3f, r1	; 63
+  2a:	cf ed       	ldi	r28, 0xDF	; 223
+  2c:	cd bf       	out	0x3d, r28	; 61
 
-00000020 <__do_clear_bss>:
-  20:	20 e0       	ldi	r18, 0x00	; 0
-  22:	a0 e6       	ldi	r26, 0x60	; 96
-  24:	b0 e0       	ldi	r27, 0x00	; 0
-  26:	01 c0       	rjmp	.+2      	; 0x2a <.do_clear_bss_start>
+0000002e <__do_clear_bss>:
+  2e:	20 e0       	ldi	r18, 0x00	; 0
+  30:	a0 e6       	ldi	r26, 0x60	; 96
+  32:	b0 e0       	ldi	r27, 0x00	; 0
+  34:	01 c0       	rjmp	.+2      	; 0x38 <.do_clear_bss_start>
 
-00000028 <.do_clear_bss_loop>:
-  28:	1d 92       	st	X+, r1
+00000036 <.do_clear_bss_loop>:
+  36:	1d 92       	st	X+, r1
 
-0000002a <.do_clear_bss_start>:
-  2a:	a6 36       	cpi	r26, 0x66	; 102
-  2c:	b2 07       	cpc	r27, r18
-  2e:	e1 f7       	brne	.-8      	; 0x28 <.do_clear_bss_loop>
-  30:	51 d0       	rcall	.+162    	; 0xd4 <main>
-  32:	c5 c0       	rjmp	.+394    	; 0x1be <_exit>
+00000038 <.do_clear_bss_start>:
+  38:	a5 36       	cpi	r26, 0x65	; 101
+  3a:	b2 07       	cpc	r27, r18
+  3c:	e1 f7       	brne	.-8      	; 0x36 <.do_clear_bss_loop>
+  3e:	4f d0       	rcall	.+158    	; 0xde <main>
+  40:	dd c0       	rjmp	.+442    	; 0x1fc <_exit>
 
-00000034 <__bad_interrupt>:
-  34:	e5 cf       	rjmp	.-54     	; 0x0 <__vectors>
+00000042 <__bad_interrupt>:
+  42:	de cf       	rjmp	.-68     	; 0x0 <__vectors>
 
-00000036 <ioinit>:
+00000044 <ioinit>:
 void
 ioinit(void)
 {
     // set pullups on unused pins
     // PORTA setup PINS for output
-    DDRA |= _BV(LED1);
-  36:	d7 9a       	sbi	0x1a, 7	; 26
+    DDRA |= (_BV(LED1)|_BV(LED2)|_BV(LED3)|_BV(LED4)|_BV(LED5)|_BV(LED6));
+  44:	8a b3       	in	r24, 0x1a	; 26
+  46:	8c 6f       	ori	r24, 0xFC	; 252
+  48:	8a bb       	out	0x1a, r24	; 26
     
     // setup PINS for input, RESET is already set as input and pull up on
     // due to fuse setting
     DDRB &= ~(_BV(BUTTON)|_BV(MCU_RUNNING));
-  38:	87 b3       	in	r24, 0x17	; 23
-  3a:	8f 7a       	andi	r24, 0xAF	; 175
-  3c:	87 bb       	out	0x17, r24	; 23
+  4a:	87 b3       	in	r24, 0x17	; 23
+  4c:	8f 7a       	andi	r24, 0xAF	; 175
+  4e:	87 bb       	out	0x17, r24	; 23
     // set pullups on input pins
     //PORTB |= _BV(DI)|_BV(SCK);
 
     // PORTB setup PINS for output
     DDRB |= _BV(ENABLE)|_BV(SHUTDOWN);
-  3e:	87 b3       	in	r24, 0x17	; 23
-  40:	88 62       	ori	r24, 0x28	; 40
-  42:	87 bb       	out	0x17, r24	; 23
+  50:	87 b3       	in	r24, 0x17	; 23
+  52:	88 62       	ori	r24, 0x28	; 40
+  54:	87 bb       	out	0x17, r24	; 23
     // enable is pulled low
     PORTB &= ~(_BV(ENABLE));
-  44:	c5 98       	cbi	0x18, 5	; 24
+  56:	c5 98       	cbi	0x18, 5	; 24
     // shutdown is pulled low
     PORTB &= ~(_BV(SHUTDOWN));
-  46:	c3 98       	cbi	0x18, 3	; 24
+  58:	c3 98       	cbi	0x18, 3	; 24
     
-    // timer set to CK/1024, overflow interrupt enabled
-    TCCR0 = _BV(CS02)|_BV(CS00);
-  48:	85 e0       	ldi	r24, 0x05	; 5
-  4a:	83 bf       	out	0x33, r24	; 51
+    // timer set to CK/8, overflow interrupt enabled
+    TCCR0 = _BV(CS01);
+  5a:	82 e0       	ldi	r24, 0x02	; 2
+  5c:	83 bf       	out	0x33, r24	; 51
     TIMSK = _BV(TOIE0);
-  4c:	82 e0       	ldi	r24, 0x02	; 2
-  4e:	89 bf       	out	0x39, r24	; 57
+  5e:	89 bf       	out	0x39, r24	; 57
     
     // set BUTTON pin change interrupt
-    //MCUCR |= _BV(ISC00);
-    //GIMSK |= _BV(INT0);
+    MCUCR |= _BV(ISC00);
+  60:	85 b7       	in	r24, 0x35	; 53
+  62:	81 60       	ori	r24, 0x01	; 1
+  64:	85 bf       	out	0x35, r24	; 53
+    GIMSK |= _BV(INT0);
+  66:	8b b7       	in	r24, 0x3b	; 59
+  68:	80 64       	ori	r24, 0x40	; 64
+  6a:	8b bf       	out	0x3b, r24	; 59
 
     machine_state = Start;
-  50:	10 92 65 00 	sts	0x0065, r1	; 0x800065 <machine_state>
+  6c:	10 92 64 00 	sts	0x0064, r1	; 0x800064 <machine_state>
     buttonpress = 0;
-  54:	10 92 62 00 	sts	0x0062, r1	; 0x800062 <buttonpress>
+  70:	10 92 61 00 	sts	0x0061, r1	; 0x800061 <buttonpress>
     button_state = 0;
-  58:	10 92 64 00 	sts	0x0064, r1	; 0x800064 <button_state>
+  74:	10 92 63 00 	sts	0x0063, r1	; 0x800063 <button_state>
     button_mask = 0xFF;
-  5c:	8f ef       	ldi	r24, 0xFF	; 255
-  5e:	80 93 61 00 	sts	0x0061, r24	; 0x800061 <button_mask>
-  62:	08 95       	ret
+  78:	8f ef       	ldi	r24, 0xFF	; 255
+  7a:	80 93 60 00 	sts	0x0060, r24	; 0x800060 <__DATA_REGION_ORIGIN__>
+  7e:	08 95       	ret
 
-00000064 <__vector_6>:
+00000080 <__vector_6>:
 /*
  * Timer0 overflow interrupt
  * interrupt flag cleared by hardware
  */
 ISR(TIMER0_OVF0_vect)
 {
-  64:	1f 92       	push	r1
-  66:	0f 92       	push	r0
-  68:	0f b6       	in	r0, 0x3f	; 63
-  6a:	0f 92       	push	r0
-  6c:	11 24       	eor	r1, r1
-  6e:	8f 93       	push	r24
-  70:	9f 93       	push	r25
-    static uint8_t count = 0;
-    // about 32ms
-    if (++count == F_CPU / 1024 / 32)
-  72:	80 91 60 00 	lds	r24, 0x0060	; 0x800060 <__DATA_REGION_ORIGIN__>
-  76:	8f 5f       	subi	r24, 0xFF	; 255
-  78:	80 93 60 00 	sts	0x0060, r24	; 0x800060 <__DATA_REGION_ORIGIN__>
-  7c:	8e 31       	cpi	r24, 0x1E	; 30
-  7e:	81 f4       	brne	.+32     	; 0xa0 <__vector_6+0x3c>
-    {
-        button_mask <<= 1;
-  80:	80 91 61 00 	lds	r24, 0x0061	; 0x800061 <button_mask>
-  84:	88 0f       	add	r24, r24
-  86:	80 93 61 00 	sts	0x0061, r24	; 0x800061 <button_mask>
-        button_mask |= ((PINB & _BV(BUTTON)) == _BV(BUTTON));
-  8a:	86 b3       	in	r24, 0x16	; 22
-  8c:	90 91 61 00 	lds	r25, 0x0061	; 0x800061 <button_mask>
-  90:	86 fb       	bst	r24, 6
-  92:	88 27       	eor	r24, r24
-  94:	80 f9       	bld	r24, 0
-  96:	89 2b       	or	r24, r25
-  98:	80 93 61 00 	sts	0x0061, r24	; 0x800061 <button_mask>
-        count = 0;
-  9c:	10 92 60 00 	sts	0x0060, r1	; 0x800060 <__DATA_REGION_ORIGIN__>
-    }
+  80:	1f 92       	push	r1
+  82:	0f 92       	push	r0
+  84:	0f b6       	in	r0, 0x3f	; 63
+  86:	0f 92       	push	r0
+  88:	11 24       	eor	r1, r1
+  8a:	8f 93       	push	r24
+    button_mask <<= 1;
+  8c:	80 91 60 00 	lds	r24, 0x0060	; 0x800060 <__DATA_REGION_ORIGIN__>
+  90:	88 0f       	add	r24, r24
+  92:	80 93 60 00 	sts	0x0060, r24	; 0x800060 <__DATA_REGION_ORIGIN__>
+    if (PINB & _BV(BUTTON))
+  96:	b6 9b       	sbis	0x16, 6	; 22
+  98:	04 c0       	rjmp	.+8      	; 0xa2 <__vector_6+0x22>
+        button_mask |= 1;
+  9a:	80 91 60 00 	lds	r24, 0x0060	; 0x800060 <__DATA_REGION_ORIGIN__>
+  9e:	81 60       	ori	r24, 0x01	; 1
+  a0:	03 c0       	rjmp	.+6      	; 0xa8 <__vector_6+0x28>
+    else
+        button_mask &= ~1;
+  a2:	80 91 60 00 	lds	r24, 0x0060	; 0x800060 <__DATA_REGION_ORIGIN__>
+  a6:	8e 7f       	andi	r24, 0xFE	; 254
+  a8:	80 93 60 00 	sts	0x0060, r24	; 0x800060 <__DATA_REGION_ORIGIN__>
     if (button_state == 1)
-  a0:	80 91 64 00 	lds	r24, 0x0064	; 0x800064 <button_state>
-  a4:	81 30       	cpi	r24, 0x01	; 1
-  a6:	29 f4       	brne	.+10     	; 0xb2 <__vector_6+0x4e>
+  ac:	80 91 63 00 	lds	r24, 0x0063	; 0x800063 <button_state>
+  b0:	81 30       	cpi	r24, 0x01	; 1
+  b2:	29 f4       	brne	.+10     	; 0xbe <__vector_6+0x3e>
         tovflows++;
-  a8:	80 91 63 00 	lds	r24, 0x0063	; 0x800063 <tovflows>
-  ac:	8f 5f       	subi	r24, 0xFF	; 255
-  ae:	80 93 63 00 	sts	0x0063, r24	; 0x800063 <tovflows>
+  b4:	80 91 62 00 	lds	r24, 0x0062	; 0x800062 <tovflows>
+  b8:	8f 5f       	subi	r24, 0xFF	; 255
+  ba:	80 93 62 00 	sts	0x0062, r24	; 0x800062 <tovflows>
 }
-  b2:	9f 91       	pop	r25
-  b4:	8f 91       	pop	r24
-  b6:	0f 90       	pop	r0
-  b8:	0f be       	out	0x3f, r0	; 63
-  ba:	0f 90       	pop	r0
-  bc:	1f 90       	pop	r1
-  be:	18 95       	reti
+  be:	8f 91       	pop	r24
+  c0:	0f 90       	pop	r0
+  c2:	0f be       	out	0x3f, r0	; 63
+  c4:	0f 90       	pop	r0
+  c6:	1f 90       	pop	r1
+  c8:	18 95       	reti
 
-000000c0 <__vector_1>:
-  c0:	1f 92       	push	r1
-  c2:	0f 92       	push	r0
-  c4:	0f b6       	in	r0, 0x3f	; 63
-  c6:	0f 92       	push	r0
-  c8:	11 24       	eor	r1, r1
-  ca:	0f 90       	pop	r0
-  cc:	0f be       	out	0x3f, r0	; 63
-  ce:	0f 90       	pop	r0
-  d0:	1f 90       	pop	r1
-  d2:	18 95       	reti
+000000ca <__vector_1>:
+  ca:	1f 92       	push	r1
+  cc:	0f 92       	push	r0
+  ce:	0f b6       	in	r0, 0x3f	; 63
+  d0:	0f 92       	push	r0
+  d2:	11 24       	eor	r1, r1
+  d4:	0f 90       	pop	r0
+  d6:	0f be       	out	0x3f, r0	; 63
+  d8:	0f 90       	pop	r0
+  da:	1f 90       	pop	r1
+  dc:	18 95       	reti
 
-000000d4 <main>:
+000000de <main>:
 }
 
 int
 main(void)
 {
     ioinit();
-  d4:	b0 df       	rcall	.-160    	; 0x36 <ioinit>
+  de:	b2 df       	rcall	.-156    	; 0x44 <ioinit>
 
 	// start interrupts
 	sei();
-  d6:	78 94       	sei
-                button_state = 2;
-            }
-            // down long enough, check for release
-        } else if (button_state == 2 && button_mask == 0xFF) {
-            button_state = 0;
-            buttonpress = 1;
-  d8:	91 e0       	ldi	r25, 0x01	; 1
-            // released too early
-            if (button_mask != 0x00)
-                button_state = 0;
-            // is it long enough
-            else if (button_mask == 0x00 && tovflows >= 10) {
-                button_state = 2;
-  da:	22 e0       	ldi	r18, 0x02	; 2
-        case SignaledOn:
-            PORTB |= _BV(ENABLE);
-            if (mcu_is_running())
-                machine_state = MCURunning;
-            if (button_pressed())
+  e0:	78 94       	sei
+    // main loop
+    while(1)
+    {
+        // check if button down
+        if (button_state == 0 && button_mask == 0x00) {
+            button_state = 1;
+  e2:	21 e0       	ldi	r18, 0x01	; 1
+        case MCUOff:
+            PORTA |= _BV(LED6);
+            PORTA &= ~(_BV(LED2)|_BV(LED3)|_BV(LED4)|_BV(LED5));
+
+            PORTB &= ~(_BV(ENABLE)|_BV(SHUTDOWN));
+            machine_state = LowPowerMode;
+  e4:	46 e0       	ldi	r20, 0x06	; 6
+            PORTA |= _BV(LED5);
+            PORTA &= ~(_BV(LED2)|_BV(LED3)|_BV(LED4)|_BV(LED6));
+
+            PORTB |= _BV(SHUTDOWN);
+            if (!mcu_is_running())
                 machine_state = MCUOff;
-  dc:	35 e0       	ldi	r19, 0x05	; 5
-                machine_state = SignaledOn;
-            break;
-        case SignaledOn:
-            PORTB |= _BV(ENABLE);
-            if (mcu_is_running())
-                machine_state = MCURunning;
-  de:	43 e0       	ldi	r20, 0x03	; 3
-            if (button_pressed())
-                machine_state = MCUOff;
-            break;
+  e6:	35 e0       	ldi	r19, 0x05	; 5
         case MCURunning:
+            PORTA |= _BV(LED4);
+            PORTA &= ~(_BV(LED2)|_BV(LED3)|_BV(LED5)|_BV(LED6));
+
             if (button_pressed())
                 machine_state = SignaledOff;
-  e0:	54 e0       	ldi	r21, 0x04	; 4
+  e8:	54 e0       	ldi	r21, 0x04	; 4
+            PORTA |= _BV(LED3);
+            PORTA &= ~(_BV(LED2)|_BV(LED4)|_BV(LED5)|_BV(LED6));
+
+            PORTB |= _BV(ENABLE);
+            if (mcu_is_running())
+                machine_state = MCURunning;
+  ea:	63 e0       	ldi	r22, 0x03	; 3
+        case WaitSignalOn:
+            PORTA |= _BV(LED2);
+            PORTA &= ~(_BV(LED3)|_BV(LED4)|_BV(LED5)|_BV(LED6));
+
+            if (button_pressed())
+                machine_state = SignaledOn;
+  ec:	72 e0       	ldi	r23, 0x02	; 2
 
     // main loop
     while(1)
     {
         // check if button down
         if (button_state == 0 && button_mask == 0x00) {
-  e2:	80 91 64 00 	lds	r24, 0x0064	; 0x800064 <button_state>
-  e6:	81 11       	cpse	r24, r1
-  e8:	09 c0       	rjmp	.+18     	; 0xfc <__stack+0x1d>
-  ea:	80 91 61 00 	lds	r24, 0x0061	; 0x800061 <button_mask>
-  ee:	81 11       	cpse	r24, r1
-  f0:	24 c0       	rjmp	.+72     	; 0x13a <__stack+0x5b>
+  ee:	80 91 63 00 	lds	r24, 0x0063	; 0x800063 <button_state>
+  f2:	81 11       	cpse	r24, r1
+  f4:	09 c0       	rjmp	.+18     	; 0x108 <__stack+0x29>
+  f6:	80 91 60 00 	lds	r24, 0x0060	; 0x800060 <__DATA_REGION_ORIGIN__>
+  fa:	81 11       	cpse	r24, r1
+  fc:	14 c0       	rjmp	.+40     	; 0x126 <__stack+0x47>
             button_state = 1;
-  f2:	90 93 64 00 	sts	0x0064, r25	; 0x800064 <button_state>
+  fe:	20 93 63 00 	sts	0x0063, r18	; 0x800063 <button_state>
             tovflows = 0;
-  f6:	10 92 63 00 	sts	0x0063, r1	; 0x800063 <tovflows>
-  fa:	1f c0       	rjmp	.+62     	; 0x13a <__stack+0x5b>
+ 102:	10 92 62 00 	sts	0x0062, r1	; 0x800062 <tovflows>
+ 106:	0f c0       	rjmp	.+30     	; 0x126 <__stack+0x47>
             // has it been down for long enough
         } else if (button_state == 1) {
-  fc:	81 30       	cpi	r24, 0x01	; 1
-  fe:	91 f4       	brne	.+36     	; 0x124 <__stack+0x45>
-            // released too early
-            if (button_mask != 0x00)
- 100:	80 91 61 00 	lds	r24, 0x0061	; 0x800061 <button_mask>
- 104:	88 23       	and	r24, r24
- 106:	19 f0       	breq	.+6      	; 0x10e <__stack+0x2f>
+ 108:	81 30       	cpi	r24, 0x01	; 1
+ 10a:	69 f4       	brne	.+26     	; 0x126 <__stack+0x47>
+            if (button_mask == 0xFF) {
+ 10c:	90 91 60 00 	lds	r25, 0x0060	; 0x800060 <__DATA_REGION_ORIGIN__>
+ 110:	9f 3f       	cpi	r25, 0xFF	; 255
+ 112:	49 f4       	brne	.+18     	; 0x126 <__stack+0x47>
+                // delay long enough
+                if (tovflows >= 10) {
+ 114:	90 91 62 00 	lds	r25, 0x0062	; 0x800062 <tovflows>
+ 118:	9a 30       	cpi	r25, 0x0A	; 10
+ 11a:	18 f0       	brcs	.+6      	; 0x122 <__stack+0x43>
+                    buttonpress = 1;
+ 11c:	80 93 61 00 	sts	0x0061, r24	; 0x800061 <buttonpress>
+                    PORTA |= _BV(LED1);
+ 120:	df 9a       	sbi	0x1b, 7	; 27
+                }
                 button_state = 0;
- 108:	10 92 64 00 	sts	0x0064, r1	; 0x800064 <button_state>
- 10c:	16 c0       	rjmp	.+44     	; 0x13a <__stack+0x5b>
-            // is it long enough
-            else if (button_mask == 0x00 && tovflows >= 10) {
- 10e:	80 91 61 00 	lds	r24, 0x0061	; 0x800061 <button_mask>
- 112:	81 11       	cpse	r24, r1
- 114:	12 c0       	rjmp	.+36     	; 0x13a <__stack+0x5b>
- 116:	80 91 63 00 	lds	r24, 0x0063	; 0x800063 <tovflows>
- 11a:	8a 30       	cpi	r24, 0x0A	; 10
- 11c:	70 f0       	brcs	.+28     	; 0x13a <__stack+0x5b>
-                button_state = 2;
- 11e:	20 93 64 00 	sts	0x0064, r18	; 0x800064 <button_state>
- 122:	0b c0       	rjmp	.+22     	; 0x13a <__stack+0x5b>
+ 122:	10 92 63 00 	sts	0x0063, r1	; 0x800063 <button_state>
             }
-            // down long enough, check for release
-        } else if (button_state == 2 && button_mask == 0xFF) {
- 124:	82 30       	cpi	r24, 0x02	; 2
- 126:	49 f4       	brne	.+18     	; 0x13a <__stack+0x5b>
- 128:	80 91 61 00 	lds	r24, 0x0061	; 0x800061 <button_mask>
- 12c:	8f 3f       	cpi	r24, 0xFF	; 255
- 12e:	29 f4       	brne	.+10     	; 0x13a <__stack+0x5b>
-            button_state = 0;
- 130:	10 92 64 00 	sts	0x0064, r1	; 0x800064 <button_state>
-            buttonpress = 1;
- 134:	90 93 62 00 	sts	0x0062, r25	; 0x800062 <buttonpress>
-            PORTA |= _BV(LED1);
- 138:	df 9a       	sbi	0x1b, 7	; 27
         }
         
         switch (machine_state) {
- 13a:	80 91 65 00 	lds	r24, 0x0065	; 0x800065 <machine_state>
- 13e:	82 30       	cpi	r24, 0x02	; 2
- 140:	b9 f0       	breq	.+46     	; 0x170 <__stack+0x91>
- 142:	28 f4       	brcc	.+10     	; 0x14e <__stack+0x6f>
- 144:	88 23       	and	r24, r24
- 146:	91 f1       	breq	.+100    	; 0x1ac <__stack+0xcd>
- 148:	81 30       	cpi	r24, 0x01	; 1
- 14a:	39 f0       	breq	.+14     	; 0x15a <__stack+0x7b>
- 14c:	35 c0       	rjmp	.+106    	; 0x1b8 <__stack+0xd9>
- 14e:	84 30       	cpi	r24, 0x04	; 4
- 150:	39 f1       	breq	.+78     	; 0x1a0 <__stack+0xc1>
- 152:	d8 f0       	brcs	.+54     	; 0x18a <__stack+0xab>
- 154:	85 30       	cpi	r24, 0x05	; 5
- 156:	51 f1       	breq	.+84     	; 0x1ac <__stack+0xcd>
- 158:	2f c0       	rjmp	.+94     	; 0x1b8 <__stack+0xd9>
-}
+ 126:	e0 91 64 00 	lds	r30, 0x0064	; 0x800064 <machine_state>
+ 12a:	8e 2f       	mov	r24, r30
+ 12c:	90 e0       	ldi	r25, 0x00	; 0
+ 12e:	87 30       	cpi	r24, 0x07	; 7
+ 130:	91 05       	cpc	r25, r1
+ 132:	08 f0       	brcs	.+2      	; 0x136 <__stack+0x57>
+ 134:	60 c0       	rjmp	.+192    	; 0x1f6 <__stack+0x117>
+ 136:	e8 2f       	mov	r30, r24
+ 138:	f9 2f       	mov	r31, r25
+ 13a:	e4 5f       	subi	r30, 0xF4	; 244
+ 13c:	ff 4f       	sbci	r31, 0xFF	; 255
+ 13e:	09 94       	ijmp
+        case Start:
+            PORTA &= ~(_BV(LED2)|_BV(LED3)|_BV(LED4)|_BV(LED5)|_BV(LED6));
+ 140:	8b b3       	in	r24, 0x1b	; 27
+ 142:	83 78       	andi	r24, 0x83	; 131
+ 144:	8b bb       	out	0x1b, r24	; 27
 
-inline
-int button_pressed(void)
-{
-    if (buttonpress) {
- 15a:	80 91 62 00 	lds	r24, 0x0062	; 0x800062 <buttonpress>
- 15e:	88 23       	and	r24, r24
- 160:	09 f4       	brne	.+2      	; 0x164 <__stack+0x85>
- 162:	bf cf       	rjmp	.-130    	; 0xe2 <__stack+0x3>
-        buttonpress = 0;
- 164:	10 92 62 00 	sts	0x0062, r1	; 0x800062 <buttonpress>
-        PORTA &= ~(_BV(LED1));
- 168:	df 98       	cbi	0x1b, 7	; 27
             PORTB &= ~(_BV(ENABLE)|_BV(SHUTDOWN));
+ 146:	88 b3       	in	r24, 0x18	; 24
+ 148:	87 7d       	andi	r24, 0xD7	; 215
+ 14a:	88 bb       	out	0x18, r24	; 24
+ 14c:	51 c0       	rjmp	.+162    	; 0x1f0 <__stack+0x111>
             machine_state = WaitSignalOn;
             break;
         case WaitSignalOn:
+            PORTA |= _BV(LED2);
+ 14e:	de 9a       	sbi	0x1b, 6	; 27
+            PORTA &= ~(_BV(LED3)|_BV(LED4)|_BV(LED5)|_BV(LED6));
+ 150:	8b b3       	in	r24, 0x1b	; 27
+ 152:	83 7c       	andi	r24, 0xC3	; 195
+ 154:	8b bb       	out	0x1b, r24	; 27
+}
+
+inline
+int button_pressed(void)
+{
+    if (buttonpress) {
+ 156:	80 91 61 00 	lds	r24, 0x0061	; 0x800061 <buttonpress>
+ 15a:	88 23       	and	r24, r24
+ 15c:	41 f2       	breq	.-112    	; 0xee <__stack+0xf>
+        buttonpress = 0;
+ 15e:	10 92 61 00 	sts	0x0061, r1	; 0x800061 <buttonpress>
+        PORTA &= ~(_BV(LED1));
+ 162:	df 98       	cbi	0x1b, 7	; 27
+        case WaitSignalOn:
+            PORTA |= _BV(LED2);
+            PORTA &= ~(_BV(LED3)|_BV(LED4)|_BV(LED5)|_BV(LED6));
+
             if (button_pressed())
                 machine_state = SignaledOn;
- 16a:	20 93 65 00 	sts	0x0065, r18	; 0x800065 <machine_state>
- 16e:	b9 cf       	rjmp	.-142    	; 0xe2 <__stack+0x3>
+ 164:	70 93 64 00 	sts	0x0064, r23	; 0x800064 <machine_state>
+ 168:	c2 cf       	rjmp	.-124    	; 0xee <__stack+0xf>
             break;
         case SignaledOn:
+            PORTA |= _BV(LED3);
+ 16a:	dd 9a       	sbi	0x1b, 5	; 27
+            PORTA &= ~(_BV(LED2)|_BV(LED4)|_BV(LED5)|_BV(LED6));
+ 16c:	8b b3       	in	r24, 0x1b	; 27
+ 16e:	83 7a       	andi	r24, 0xA3	; 163
+ 170:	8b bb       	out	0x1b, r24	; 27
+
             PORTB |= _BV(ENABLE);
- 170:	c5 9a       	sbi	0x18, 5	; 24
+ 172:	c5 9a       	sbi	0x18, 5	; 24
             if (mcu_is_running())
- 172:	b4 99       	sbic	0x16, 4	; 22
+ 174:	b4 99       	sbic	0x16, 4	; 22
                 machine_state = MCURunning;
- 174:	40 93 65 00 	sts	0x0065, r20	; 0x800065 <machine_state>
+ 176:	60 93 64 00 	sts	0x0064, r22	; 0x800064 <machine_state>
 }
 
 inline
 int button_pressed(void)
 {
     if (buttonpress) {
- 178:	80 91 62 00 	lds	r24, 0x0062	; 0x800062 <buttonpress>
- 17c:	88 23       	and	r24, r24
- 17e:	09 f4       	brne	.+2      	; 0x182 <__stack+0xa3>
- 180:	b0 cf       	rjmp	.-160    	; 0xe2 <__stack+0x3>
+ 17a:	80 91 61 00 	lds	r24, 0x0061	; 0x800061 <buttonpress>
+ 17e:	88 23       	and	r24, r24
+ 180:	09 f4       	brne	.+2      	; 0x184 <__stack+0xa5>
+ 182:	b5 cf       	rjmp	.-150    	; 0xee <__stack+0xf>
         buttonpress = 0;
- 182:	10 92 62 00 	sts	0x0062, r1	; 0x800062 <buttonpress>
+ 184:	10 92 61 00 	sts	0x0061, r1	; 0x800061 <buttonpress>
         PORTA &= ~(_BV(LED1));
- 186:	df 98       	cbi	0x1b, 7	; 27
- 188:	0e c0       	rjmp	.+28     	; 0x1a6 <__stack+0xc7>
-}
-
-inline
-int button_pressed(void)
-{
-    if (buttonpress) {
- 18a:	80 91 62 00 	lds	r24, 0x0062	; 0x800062 <buttonpress>
- 18e:	88 23       	and	r24, r24
- 190:	09 f4       	brne	.+2      	; 0x194 <__stack+0xb5>
- 192:	a7 cf       	rjmp	.-178    	; 0xe2 <__stack+0x3>
-        buttonpress = 0;
- 194:	10 92 62 00 	sts	0x0062, r1	; 0x800062 <buttonpress>
-        PORTA &= ~(_BV(LED1));
- 198:	df 98       	cbi	0x1b, 7	; 27
+ 188:	df 98       	cbi	0x1b, 7	; 27
+ 18a:	16 c0       	rjmp	.+44     	; 0x1b8 <__stack+0xd9>
+                machine_state = MCURunning;
             if (button_pressed())
                 machine_state = MCUOff;
             break;
         case MCURunning:
+            PORTA |= _BV(LED4);
+ 18c:	dc 9a       	sbi	0x1b, 4	; 27
+            PORTA &= ~(_BV(LED2)|_BV(LED3)|_BV(LED5)|_BV(LED6));
+ 18e:	8b b3       	in	r24, 0x1b	; 27
+ 190:	83 79       	andi	r24, 0x93	; 147
+ 192:	8b bb       	out	0x1b, r24	; 27
+}
+
+inline
+int button_pressed(void)
+{
+    if (buttonpress) {
+ 194:	80 91 61 00 	lds	r24, 0x0061	; 0x800061 <buttonpress>
+ 198:	88 23       	and	r24, r24
+ 19a:	09 f4       	brne	.+2      	; 0x19e <__stack+0xbf>
+ 19c:	a8 cf       	rjmp	.-176    	; 0xee <__stack+0xf>
+        buttonpress = 0;
+ 19e:	10 92 61 00 	sts	0x0061, r1	; 0x800061 <buttonpress>
+        PORTA &= ~(_BV(LED1));
+ 1a2:	df 98       	cbi	0x1b, 7	; 27
+        case MCURunning:
+            PORTA |= _BV(LED4);
+            PORTA &= ~(_BV(LED2)|_BV(LED3)|_BV(LED5)|_BV(LED6));
+
             if (button_pressed())
                 machine_state = SignaledOff;
- 19a:	50 93 65 00 	sts	0x0065, r21	; 0x800065 <machine_state>
- 19e:	a1 cf       	rjmp	.-190    	; 0xe2 <__stack+0x3>
+ 1a4:	50 93 64 00 	sts	0x0064, r21	; 0x800064 <machine_state>
+ 1a8:	a2 cf       	rjmp	.-188    	; 0xee <__stack+0xf>
             break;
         case SignaledOff:
+            PORTA |= _BV(LED5);
+ 1aa:	db 9a       	sbi	0x1b, 3	; 27
+            PORTA &= ~(_BV(LED2)|_BV(LED3)|_BV(LED4)|_BV(LED6));
+ 1ac:	8b b3       	in	r24, 0x1b	; 27
+ 1ae:	8b 78       	andi	r24, 0x8B	; 139
+ 1b0:	8b bb       	out	0x1b, r24	; 27
+
             PORTB |= _BV(SHUTDOWN);
- 1a0:	c3 9a       	sbi	0x18, 3	; 24
+ 1b2:	c3 9a       	sbi	0x18, 3	; 24
             if (!mcu_is_running())
- 1a2:	b4 99       	sbic	0x16, 4	; 22
- 1a4:	9e cf       	rjmp	.-196    	; 0xe2 <__stack+0x3>
+ 1b4:	b4 99       	sbic	0x16, 4	; 22
+ 1b6:	9b cf       	rjmp	.-202    	; 0xee <__stack+0xf>
                 machine_state = MCUOff;
- 1a6:	30 93 65 00 	sts	0x0065, r19	; 0x800065 <machine_state>
- 1aa:	9b cf       	rjmp	.-202    	; 0xe2 <__stack+0x3>
+ 1b8:	30 93 64 00 	sts	0x0064, r19	; 0x800064 <machine_state>
+ 1bc:	98 cf       	rjmp	.-208    	; 0xee <__stack+0xf>
             break;
         case MCUOff:
+            PORTA |= _BV(LED6);
+ 1be:	da 9a       	sbi	0x1b, 2	; 27
+            PORTA &= ~(_BV(LED2)|_BV(LED3)|_BV(LED4)|_BV(LED5));
+ 1c0:	8b b3       	in	r24, 0x1b	; 27
+ 1c2:	87 78       	andi	r24, 0x87	; 135
+ 1c4:	8b bb       	out	0x1b, r24	; 27
+
             PORTB &= ~(_BV(ENABLE)|_BV(SHUTDOWN));
- 1ac:	88 b3       	in	r24, 0x18	; 24
- 1ae:	87 7d       	andi	r24, 0xD7	; 215
- 1b0:	88 bb       	out	0x18, r24	; 24
-            machine_state = WaitSignalOn;
- 1b2:	90 93 65 00 	sts	0x0065, r25	; 0x800065 <machine_state>
+ 1c6:	88 b3       	in	r24, 0x18	; 24
+ 1c8:	87 7d       	andi	r24, 0xD7	; 215
+ 1ca:	88 bb       	out	0x18, r24	; 24
+            machine_state = LowPowerMode;
+ 1cc:	40 93 64 00 	sts	0x0064, r20	; 0x800064 <machine_state>
             break;
- 1b6:	95 cf       	rjmp	.-214    	; 0xe2 <__stack+0x3>
+ 1d0:	8e cf       	rjmp	.-228    	; 0xee <__stack+0xf>
+        case LowPowerMode:
+            PORTA &= ~(_BV(LED2)|_BV(LED3)|_BV(LED4)|_BV(LED5)|_BV(LED6));
+ 1d2:	8b b3       	in	r24, 0x1b	; 27
+ 1d4:	83 78       	andi	r24, 0x83	; 131
+ 1d6:	8b bb       	out	0x1b, r24	; 27
+
+            // enter Power-Down mode
+            MCUCR |= _BV(SM1);
+ 1d8:	85 b7       	in	r24, 0x35	; 53
+ 1da:	80 61       	ori	r24, 0x10	; 16
+ 1dc:	85 bf       	out	0x35, r24	; 53
+            cli();
+ 1de:	f8 94       	cli
+            sleep_enable();
+ 1e0:	85 b7       	in	r24, 0x35	; 53
+ 1e2:	80 62       	ori	r24, 0x20	; 32
+ 1e4:	85 bf       	out	0x35, r24	; 53
+            sei();
+ 1e6:	78 94       	sei
+            sleep_cpu();
+ 1e8:	88 95       	sleep
+            sleep_disable();
+ 1ea:	85 b7       	in	r24, 0x35	; 53
+ 1ec:	8f 7d       	andi	r24, 0xDF	; 223
+ 1ee:	85 bf       	out	0x35, r24	; 53
+            machine_state = WaitSignalOn;
+ 1f0:	20 93 64 00 	sts	0x0064, r18	; 0x800064 <machine_state>
+            break;
+ 1f4:	7c cf       	rjmp	.-264    	; 0xee <__stack+0xf>
         default:
             machine_state = Start;
- 1b8:	10 92 65 00 	sts	0x0065, r1	; 0x800065 <machine_state>
- 1bc:	92 cf       	rjmp	.-220    	; 0xe2 <__stack+0x3>
+ 1f6:	10 92 64 00 	sts	0x0064, r1	; 0x800064 <machine_state>
+ 1fa:	79 cf       	rjmp	.-270    	; 0xee <__stack+0xf>
 
-000001be <_exit>:
- 1be:	f8 94       	cli
+000001fc <_exit>:
+ 1fc:	f8 94       	cli
 
-000001c0 <__stop_program>:
- 1c0:	ff cf       	rjmp	.-2      	; 0x1c0 <__stop_program>
+000001fe <__stop_program>:
+ 1fe:	ff cf       	rjmp	.-2      	; 0x1fe <__stop_program>

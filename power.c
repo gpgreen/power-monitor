@@ -29,26 +29,26 @@
  *
  * PINOUT
  * ------
- *            +----------+
- *            | ATtiny26 |
- *       MOSI-|1       20|-
- *       MISO-|2       19|-
- *        SCK-|3       18|-LED6
- *   SHUTDOWN-|4       17|-LED5
- *        VCC-|5       16|-GND
- *        GND-|6       15|-AVCC
- *MCU_RUNNING-|7       14|-LED4
- *     ENABLE-|8       13|-LED3
- *     BUTTON-|9       12|-LED2
- *      RESET-|10      11|-LED1
- *            |          |
- *            +----------+
+ *             +----------+
+ *             | ATtiny26 |
+ *        MOSI-|1       20|-
+ *        MISO-|2       19|-
+ *         SCK-|3       18|-LED6
+ *    SHUTDOWN-|4       17|-LED5
+ *         VCC-|5       16|-GND
+ *         GND-|6       15|-AVCC
+ * MCU_RUNNING-|7       14|-LED4
+ *      ENABLE-|8       13|-LED3
+ *      BUTTON-|9       12|-LED2
+ *       RESET-|10      11|-LED1
+ *             |          |
+ *             +----------+
  */
 
 #include <stdint.h>
 #include <avr/io.h>
 #include <avr/interrupt.h>
-#include <util/atomic.h>
+#include <avr/sleep.h>
 
 // Define pin labels
 // these are all portB
@@ -72,22 +72,28 @@ typedef enum {
     SignaledOn,
     MCURunning,
     SignaledOff,
-    MCUOff
+    MCUOff,
+    LowPowerMode
 } StateMachine;
 
 StateMachine machine_state;
 
+// 1 when buttonpress detected, 0 otherwise
 uint8_t buttonpress;
+// 0 = up, 1 = down detected, waiting for delay
 uint8_t button_state;
+// button state mask updated by timer interrupt
+// will be 0xFF when button up, 0x00 when down (debounced)
 volatile uint8_t button_mask;
+// number of timer interrupt while button is down
 volatile uint8_t tovflows;
 
 void
-ioinit(void)
+init(void)
 {
     // set pullups on unused pins
     // PORTA setup PINS for output
-    DDRA |= (_BV(LED1)|_BV(LED2)|_BV(LED3)|_BV(LED4)|_BV(LED5)|_BV(LED6));
+    DDRA |= (_BV(LED1)|_BV(LED2)|_BV(LED3)|_BV(LED4)|_BV(LED5)|_BV(LED6)|_BV(0));
     
     // setup PINS for input, RESET is already set as input and pull up on
     // due to fuse setting
@@ -101,19 +107,9 @@ ioinit(void)
     PORTB &= ~(_BV(ENABLE));
     // shutdown is pulled low
     PORTB &= ~(_BV(SHUTDOWN));
-    
     // timer set to CK/8, overflow interrupt enabled
     TCCR0 = _BV(CS01);
     TIMSK = _BV(TOIE0);
-    
-    // set BUTTON pin change interrupt
-    //MCUCR |= _BV(ISC00);
-    //GIMSK |= _BV(INT0);
-
-    machine_state = Start;
-    buttonpress = 0;
-    button_state = 0;
-    button_mask = 0xFF;
 }
 
 inline
@@ -127,7 +123,6 @@ int button_pressed(void)
 {
     if (buttonpress) {
         buttonpress = 0;
-        PORTA &= ~(_BV(LED1));
         return 1;
     }
     return 0;
@@ -136,8 +131,11 @@ int button_pressed(void)
 int
 main(void)
 {
-    ioinit();
+    init();
 
+    machine_state = Start;
+    button_mask = 0xFF;
+    
 	// start interrupts
 	sei();
 
@@ -150,18 +148,13 @@ main(void)
             tovflows = 0;
             // has it been down for long enough
         } else if (button_state == 1) {
-            // released too early
-            if (button_mask != 0x00)
+            if (button_mask == 0x0FF) {
+                // delay long enough
+                if (tovflows >= 10) {
+                    buttonpress = 1;
+                }
                 button_state = 0;
-            // is it long enough
-            else if (button_mask == 0x00 && tovflows >= 10) {
-                button_state = 2;
             }
-            // down long enough, check for release
-        } else if (button_state == 2 && button_mask == 0xFF) {
-            button_state = 0;
-            buttonpress = 1;
-            PORTA |= _BV(LED1);
         }
         
         switch (machine_state) {
@@ -208,6 +201,19 @@ main(void)
             PORTA &= ~(_BV(LED2)|_BV(LED3)|_BV(LED4)|_BV(LED5));
 
             PORTB &= ~(_BV(ENABLE)|_BV(SHUTDOWN));
+            machine_state = LowPowerMode;
+            break;
+        case LowPowerMode:
+            PORTA &= ~(_BV(LED1)|_BV(LED2)|_BV(LED3)|_BV(LED4)|_BV(LED5)|_BV(LED6)|_BV(0));
+
+            // enter Power-Down mode
+            MCUCR |= _BV(SM1);
+            GIMSK |= _BV(INT0);
+            sleep_enable();
+            sleep_mode();
+
+            // woken up
+            GIMSK &= ~(_BV(INT0));
             machine_state = WaitSignalOn;
             break;
         default:
@@ -230,6 +236,8 @@ ISR(TIMER0_OVF0_vect)
         button_mask &= ~1;
     if (button_state == 1)
         tovflows++;
+    if (PINA & _BV(LED1)) PORTA &= ~(_BV(LED1));
+    else PORTA |= _BV(LED1);
 }
 
 /*
@@ -238,4 +246,5 @@ ISR(TIMER0_OVF0_vect)
  */
 ISR(INT0_vect)
 {
+    // does nothing but wake up the cpu
 }
