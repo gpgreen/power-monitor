@@ -32,6 +32,8 @@
 #include "project.h"
 #include "sensor.h"
 
+#define MAX_ADC_PINS 6
+
 // adc channels
 volatile uint8_t adc_finished;
 volatile uint8_t adc_channels;
@@ -39,7 +41,7 @@ volatile uint8_t adc_channels;
 int current_channel;
 
 // array of adc values
-uint16_t adc_values[5];
+uint16_t adc_values[MAX_ADC_PINS];
 
 // spi
 volatile uint8_t addr;          /* register address received via SPI */
@@ -57,6 +59,9 @@ sensor_init(void)
     // PORTB setup PINS for output
     DDRB |= _BV(MISO);
 
+    // PORTC setup PINS for input
+    DDRC &= ~(_BV(PC0)|_BV(PC1)|_BV(PC2)|_BV(PC3)|_BV(PC4)|_BV(PC5));
+    
     // start the ADC, and enable interrupt, scale clock by 8
     ADCSRA = _BV(ADEN)|_BV(ADIE)|_BV(ADPS1)|_BV(ADPS0);
     // at start, no channels are in use
@@ -99,11 +104,11 @@ void
 sensor_state_machine(void)
 {
     // if we now have a set of channels to look at,
-    // start the measuring
+    // set the current_channel and initiate measurement
     if (adc_channels > 0 && current_channel < 0)
     {
         // find the first channel
-        for (uint8_t i=0; i<5; i++)
+        for (uint8_t i=0; i<MAX_ADC_PINS; i++)
         {
             if (adc_channels & (1<<i))
             {
@@ -117,6 +122,7 @@ sensor_state_machine(void)
         ADCSRA |= _BV(ADSC);
     }
 
+    // adc measurement finished, get the next channel
     if (adc_finished)
     {
         // if no channels are requested, then finish
@@ -126,16 +132,18 @@ sensor_state_machine(void)
             // get the next channel
             uint8_t i = current_channel + 1;
         find_channel:
-            while (i < 5)
+            while (i < MAX_ADC_PINS)
             {
                 if (adc_channels & (1<<i)) {
                     current_channel = i;
                     break;
-                }
+                } else
+                    // zero out channels not used
+                    adc_values[i] = 0;
                 ++i;
             }
             // roll back to 0 if needed
-            if (i == 5) {
+            if (i >= MAX_ADC_PINS) {
                 i = 0;
                 goto find_channel;
             }
@@ -144,6 +152,11 @@ sensor_state_machine(void)
             ADCSRA |= _BV(ADSC);
         }
         adc_finished = 0;
+    } else {
+        // zero out channels not used
+        for (int i=0; i<MAX_ADC_PINS; i++)
+            if ((adc_channels & (1 << i)) != (1 << i))
+                adc_values[i] = 0;
     }
 
     // reset SPI if we have just handled a transaction
@@ -177,7 +190,7 @@ ISR(SPI_STC_vect)
     {
     case 0: // first byte recvd, send second
         addr = recvd;
-        if (addr >= 0x10 && addr <= 0x14)
+        if (addr >= 0x10 && addr < MAX_ADC_PINS + 0x10)
         {
             SPDR = (uint8_t)(adc_values[addr-0x10] & 0xFF);
             send2 = (uint8_t)((adc_values[addr-0x10] & 0xFF00) >> 8);

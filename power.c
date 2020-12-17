@@ -148,11 +148,11 @@ main(void)
         
         switch (machine_state) {
         case Start:
+            LED1_SET_OFF;
             LED2_SET_OFF;
             LED3_SET_OFF;
             LED4_SET_OFF;
             LED5_SET_OFF;
-            LED6_SET_OFF;
 
             ENABLE_SET_OFF;
             SHUTDOWN_SET_OFF;
@@ -160,21 +160,21 @@ main(void)
             machine_state = WaitSignalOn;
             break;
         case WaitSignalOn:
-            LED2_SET_ON;
+            LED1_SET_ON;
+            LED2_SET_OFF;
             LED3_SET_OFF;
             LED4_SET_OFF;
             LED5_SET_OFF;
-            LED6_SET_OFF;
 
             if (button_pressed())
                 machine_state = SignaledOn;
             break;
         case SignaledOn:
-            LED3_SET_ON;
-            LED2_SET_OFF;
+            LED2_SET_ON;
+            LED1_SET_OFF;
+            LED3_SET_OFF;
             LED4_SET_OFF;
             LED5_SET_OFF;
-            LED6_SET_OFF;
 
             ENABLE_SET_ON;
 
@@ -184,21 +184,21 @@ main(void)
                 machine_state = MCUOff;
             break;
         case MCURunning:
-            LED4_SET_ON;
+            LED3_SET_ON;
+            LED1_SET_OFF;
             LED2_SET_OFF;
-            LED3_SET_OFF;
+            LED4_SET_OFF;
             LED5_SET_OFF;
-            LED6_SET_OFF;
 
             if (button_pressed())
                 machine_state = SignaledOff;
             break;
         case SignaledOff:
-            LED5_SET_ON;
+            LED4_SET_ON;
+            LED1_SET_OFF;
             LED2_SET_OFF;
             LED3_SET_OFF;
-            LED4_SET_OFF;
-            LED6_SET_OFF;
+            LED5_SET_OFF;
 
             SHUTDOWN_SET_ON;
 
@@ -206,11 +206,11 @@ main(void)
                 machine_state = MCUOff;
             break;
         case MCUOff:
-            LED6_SET_ON;
+            LED5_SET_ON;
+            LED1_SET_OFF;
             LED2_SET_OFF;
             LED3_SET_OFF;
             LED4_SET_OFF;
-            LED5_SET_OFF;
 
             ENABLE_SET_OFF;
             SHUTDOWN_SET_OFF;
@@ -262,7 +262,7 @@ ISR(TIMER0_OVF_vect)
     if (button_state == 1)
         tovflows++;
 
-    TOGGLE_LED1;
+    TOGGLE_LED6;
 }
 
 /*

@@ -3,27 +3,27 @@ power.elf:     file format elf32-avr
 
 Sections:
 Idx Name          Size      VMA       LMA       File off  Algn
-  0 .data         00000000  00800100  000004b6  0000054a  2**0
+  0 .data         00000000  00800100  00000500  00000594  2**0
                   CONTENTS, ALLOC, LOAD, DATA
-  1 .text         000004b6  00000000  00000000  00000094  2**1
+  1 .text         00000500  00000000  00000000  00000094  2**1
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
-  2 .bss          00000016  00800100  00800100  0000054a  2**0
+  2 .bss          00000018  00800100  00800100  00000594  2**0
                   ALLOC
-  3 .stab         00001158  00000000  00000000  0000054c  2**2
+  3 .stab         000011b8  00000000  00000000  00000594  2**2
                   CONTENTS, READONLY, DEBUGGING
-  4 .stabstr      00000df8  00000000  00000000  000016a4  2**0
+  4 .stabstr      00000e01  00000000  00000000  0000174c  2**0
                   CONTENTS, READONLY, DEBUGGING
-  5 .comment      00000011  00000000  00000000  0000249c  2**0
+  5 .comment      00000011  00000000  00000000  0000254d  2**0
                   CONTENTS, READONLY
-  6 .note.gnu.avr.deviceinfo 00000040  00000000  00000000  000024b0  2**2
+  6 .note.gnu.avr.deviceinfo 00000040  00000000  00000000  00002560  2**2
                   CONTENTS, READONLY
-  7 .debug_info   000005f4  00000000  00000000  000024f0  2**0
+  7 .debug_info   000005f4  00000000  00000000  000025a0  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_abbrev 000005a2  00000000  00000000  00002ae4  2**0
+  8 .debug_abbrev 000005a2  00000000  00000000  00002b94  2**0
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_line   0000001a  00000000  00000000  00003086  2**0
+  9 .debug_line   0000001a  00000000  00000000  00003136  2**0
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_str    00000208  00000000  00000000  000030a0  2**0
+ 10 .debug_str    00000208  00000000  00000000  00003150  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -46,22 +46,22 @@ Disassembly of section .text:
   38:	0c 94 4d 00 	jmp	0x9a	; 0x9a <__bad_interrupt>
   3c:	0c 94 4d 00 	jmp	0x9a	; 0x9a <__bad_interrupt>
   40:	0c 94 60 00 	jmp	0xc0	; 0xc0 <__vector_16>
-  44:	0c 94 57 01 	jmp	0x2ae	; 0x2ae <__vector_17>
+  44:	0c 94 7c 01 	jmp	0x2f8	; 0x2f8 <__vector_17>
   48:	0c 94 4d 00 	jmp	0x9a	; 0x9a <__bad_interrupt>
   4c:	0c 94 4d 00 	jmp	0x9a	; 0x9a <__bad_interrupt>
   50:	0c 94 4d 00 	jmp	0x9a	; 0x9a <__bad_interrupt>
-  54:	0c 94 30 01 	jmp	0x260	; 0x260 <__vector_21>
+  54:	0c 94 55 01 	jmp	0x2aa	; 0x2aa <__vector_21>
   58:	0c 94 4d 00 	jmp	0x9a	; 0x9a <__bad_interrupt>
   5c:	0c 94 4d 00 	jmp	0x9a	; 0x9a <__bad_interrupt>
   60:	0c 94 4d 00 	jmp	0x9a	; 0x9a <__bad_interrupt>
   64:	0c 94 4d 00 	jmp	0x9a	; 0x9a <__bad_interrupt>
-  68:	e6 01       	movw	r28, r12
-  6a:	ee 01       	movw	r28, r28
-  6c:	fd 01       	movw	r30, r26
-  6e:	0e 02       	muls	r16, r30
-  70:	1c 02       	muls	r17, r28
-  72:	27 02       	muls	r18, r23
-  74:	31 02       	muls	r19, r17
+  68:	0b 02       	muls	r16, r27
+  6a:	13 02       	muls	r17, r19
+  6c:	22 02       	muls	r18, r18
+  6e:	33 02       	muls	r19, r19
+  70:	41 02       	muls	r20, r17
+  72:	4c 02       	muls	r20, r28
+  74:	56 02       	muls	r21, r22
 
 00000076 <__ctors_end>:
   76:	11 24       	eor	r1, r1
@@ -81,11 +81,11 @@ Disassembly of section .text:
   8a:	1d 92       	st	X+, r1
 
 0000008c <.do_clear_bss_start>:
-  8c:	a6 31       	cpi	r26, 0x16	; 22
+  8c:	a8 31       	cpi	r26, 0x18	; 24
   8e:	b2 07       	cpc	r27, r18
   90:	e1 f7       	brne	.-8      	; 0x8a <.do_clear_bss_loop>
-  92:	0e 94 a7 01 	call	0x34e	; 0x34e <main>
-  96:	0c 94 59 02 	jmp	0x4b2	; 0x4b2 <_exit>
+  92:	0e 94 cc 01 	call	0x398	; 0x398 <main>
+  96:	0c 94 7e 02 	jmp	0x4fc	; 0x4fc <_exit>
 
 0000009a <__bad_interrupt>:
   9a:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
@@ -169,12 +169,12 @@ ISR(TIMER0_OVF_vect)
   f8:	8f 5f       	subi	r24, 0xFF	; 255
   fa:	80 93 03 01 	sts	0x0103, r24	; 0x800103 <tovflows>
 
-    TOGGLE_LED1;
-  fe:	2f 9b       	sbis	0x05, 7	; 5
+    TOGGLE_LED6;
+  fe:	29 9b       	sbis	0x05, 1	; 5
  100:	02 c0       	rjmp	.+4      	; 0x106 <__vector_16+0x46>
- 102:	2f 98       	cbi	0x05, 7	; 5
+ 102:	29 98       	cbi	0x05, 1	; 5
  104:	01 c0       	rjmp	.+2      	; 0x108 <__vector_16+0x48>
- 106:	2f 9a       	sbi	0x05, 7	; 5
+ 106:	29 9a       	sbi	0x05, 1	; 5
 }
  108:	8f 91       	pop	r24
  10a:	0f 90       	pop	r0
@@ -204,9 +204,9 @@ ISR(INT0_vect)
  126:	18 95       	reti
 
 00000128 <sensor_init>:
-    // set pullups on unused pins
-    // PORTA setup pins for output
-
+void
+sensor_init(void)
+{
     // setup PINS for input, RESET is already set as input and pull up on
     // due to fuse setting
     DDRB &= ~(_BV(MOSI)|_BV(SCK)|_BV(SS));
@@ -214,707 +214,779 @@ ISR(INT0_vect)
  12a:	83 7d       	andi	r24, 0xD3	; 211
  12c:	84 b9       	out	0x04, r24	; 4
     // set pullups on input pins
-    PORTB |= _BV(MOSI)|_BV(SCK);
+    PORTB |= (_BV(MOSI)|_BV(SCK)|_BV(SS));
  12e:	85 b1       	in	r24, 0x05	; 5
- 130:	88 62       	ori	r24, 0x28	; 40
+ 130:	8c 62       	ori	r24, 0x2C	; 44
  132:	85 b9       	out	0x05, r24	; 5
 
     // PORTB setup PINS for output
     DDRB |= _BV(MISO);
  134:	24 9a       	sbi	0x04, 4	; 4
 
+    // PORTC setup PINS for input
+    DDRC &= ~(_BV(PC0)|_BV(PC1)|_BV(PC2)|_BV(PC3)|_BV(PC4)|_BV(PC5));
+ 136:	87 b1       	in	r24, 0x07	; 7
+ 138:	80 7c       	andi	r24, 0xC0	; 192
+ 13a:	87 b9       	out	0x07, r24	; 7
+    
     // start the ADC, and enable interrupt, scale clock by 8
     ADCSRA = _BV(ADEN)|_BV(ADIE)|_BV(ADPS1)|_BV(ADPS0);
- 136:	8b e8       	ldi	r24, 0x8B	; 139
- 138:	80 93 7a 00 	sts	0x007A, r24	; 0x80007a <__DATA_REGION_ORIGIN__+0x1a>
+ 13c:	8b e8       	ldi	r24, 0x8B	; 139
+ 13e:	80 93 7a 00 	sts	0x007A, r24	; 0x80007a <__DATA_REGION_ORIGIN__+0x1a>
     // at start, no channels are in use
     adc_channels = 0;           /* the channels enabled mask */
- 13c:	10 92 06 01 	sts	0x0106, r1	; 0x800106 <adc_channels>
+ 142:	10 92 06 01 	sts	0x0106, r1	; 0x800106 <adc_channels>
     current_channel = -1;       /* channel currently measured */
- 140:	8f ef       	ldi	r24, 0xFF	; 255
- 142:	9f ef       	ldi	r25, 0xFF	; 255
- 144:	90 93 09 01 	sts	0x0109, r25	; 0x800109 <current_channel+0x1>
- 148:	80 93 08 01 	sts	0x0108, r24	; 0x800108 <current_channel>
+ 146:	8f ef       	ldi	r24, 0xFF	; 255
+ 148:	9f ef       	ldi	r25, 0xFF	; 255
+ 14a:	90 93 09 01 	sts	0x0109, r25	; 0x800109 <current_channel+0x1>
+ 14e:	80 93 08 01 	sts	0x0108, r24	; 0x800108 <current_channel>
     adc_finished = 0;
- 14c:	10 92 07 01 	sts	0x0107, r1	; 0x800107 <adc_finished>
+ 152:	10 92 07 01 	sts	0x0107, r1	; 0x800107 <adc_finished>
 
     // set SPI hardware, enable interrupt
     SPCR = _BV(SPE)|_BV(SPIE);
- 150:	80 ec       	ldi	r24, 0xC0	; 192
- 152:	8c bd       	out	0x2c, r24	; 44
+ 156:	80 ec       	ldi	r24, 0xC0	; 192
+ 158:	8c bd       	out	0x2c, r24	; 44
 
     // SPI starting state
     spi_state = 0;
- 154:	10 92 0b 01 	sts	0x010B, r1	; 0x80010b <spi_state>
- 158:	08 95       	ret
+ 15a:	10 92 0b 01 	sts	0x010B, r1	; 0x80010b <spi_state>
+ 15e:	08 95       	ret
 
-0000015a <sensor_pre_power_down>:
+00000160 <sensor_pre_power_down>:
 
 void
 sensor_pre_power_down(void)
 {
     // turn off adc
     ADCSRA = 0;
- 15a:	10 92 7a 00 	sts	0x007A, r1	; 0x80007a <__DATA_REGION_ORIGIN__+0x1a>
+ 160:	10 92 7a 00 	sts	0x007A, r1	; 0x80007a <__DATA_REGION_ORIGIN__+0x1a>
     // shutdown modules
     PRR |= (_BV(PRADC)|_BV(PRSPI));
- 15e:	e4 e6       	ldi	r30, 0x64	; 100
- 160:	f0 e0       	ldi	r31, 0x00	; 0
- 162:	80 81       	ld	r24, Z
- 164:	85 60       	ori	r24, 0x05	; 5
- 166:	80 83       	st	Z, r24
- 168:	08 95       	ret
+ 164:	e4 e6       	ldi	r30, 0x64	; 100
+ 166:	f0 e0       	ldi	r31, 0x00	; 0
+ 168:	80 81       	ld	r24, Z
+ 16a:	85 60       	ori	r24, 0x05	; 5
+ 16c:	80 83       	st	Z, r24
+ 16e:	08 95       	ret
 
-0000016a <sensor_post_power_down>:
+00000170 <sensor_post_power_down>:
 
 void
 sensor_post_power_down(void)
 {
     // startup adc
     PRR &= ~(_BV(PRADC));
- 16a:	e4 e6       	ldi	r30, 0x64	; 100
- 16c:	f0 e0       	ldi	r31, 0x00	; 0
- 16e:	80 81       	ld	r24, Z
- 170:	8e 7f       	andi	r24, 0xFE	; 254
- 172:	80 83       	st	Z, r24
+ 170:	e4 e6       	ldi	r30, 0x64	; 100
+ 172:	f0 e0       	ldi	r31, 0x00	; 0
+ 174:	80 81       	ld	r24, Z
+ 176:	8e 7f       	andi	r24, 0xFE	; 254
+ 178:	80 83       	st	Z, r24
     // initialize the ADC, and enable interrupt, scale clock by 8
     ADCSRA = _BV(ADEN)|_BV(ADIE)|_BV(ADPS1)|_BV(ADPS0);
- 174:	8b e8       	ldi	r24, 0x8B	; 139
- 176:	80 93 7a 00 	sts	0x007A, r24	; 0x80007a <__DATA_REGION_ORIGIN__+0x1a>
+ 17a:	8b e8       	ldi	r24, 0x8B	; 139
+ 17c:	80 93 7a 00 	sts	0x007A, r24	; 0x80007a <__DATA_REGION_ORIGIN__+0x1a>
     current_channel = -1;
- 17a:	8f ef       	ldi	r24, 0xFF	; 255
- 17c:	9f ef       	ldi	r25, 0xFF	; 255
- 17e:	90 93 09 01 	sts	0x0109, r25	; 0x800109 <current_channel+0x1>
- 182:	80 93 08 01 	sts	0x0108, r24	; 0x800108 <current_channel>
+ 180:	8f ef       	ldi	r24, 0xFF	; 255
+ 182:	9f ef       	ldi	r25, 0xFF	; 255
+ 184:	90 93 09 01 	sts	0x0109, r25	; 0x800109 <current_channel+0x1>
+ 188:	80 93 08 01 	sts	0x0108, r24	; 0x800108 <current_channel>
     adc_finished = 0;
- 186:	10 92 07 01 	sts	0x0107, r1	; 0x800107 <adc_finished>
+ 18c:	10 92 07 01 	sts	0x0107, r1	; 0x800107 <adc_finished>
     
     PRR &= ~(_BV(PRSPI));
- 18a:	80 81       	ld	r24, Z
- 18c:	8b 7f       	andi	r24, 0xFB	; 251
- 18e:	80 83       	st	Z, r24
+ 190:	80 81       	ld	r24, Z
+ 192:	8b 7f       	andi	r24, 0xFB	; 251
+ 194:	80 83       	st	Z, r24
     // set SPI hardware, enable interrupt
     SPCR = _BV(SPE)|_BV(SPIE);
- 190:	80 ec       	ldi	r24, 0xC0	; 192
- 192:	8c bd       	out	0x2c, r24	; 44
- 194:	08 95       	ret
+ 196:	80 ec       	ldi	r24, 0xC0	; 192
+ 198:	8c bd       	out	0x2c, r24	; 44
+ 19a:	08 95       	ret
 
-00000196 <sensor_state_machine>:
+0000019c <sensor_state_machine>:
 void
 sensor_state_machine(void)
 {
     // if we now have a set of channels to look at,
-    // start the measuring
+    // set the current_channel and initiate measurement
     if (adc_channels > 0 && current_channel < 0)
- 196:	80 91 06 01 	lds	r24, 0x0106	; 0x800106 <adc_channels>
- 19a:	88 23       	and	r24, r24
- 19c:	29 f1       	breq	.+74     	; 0x1e8 <sensor_state_machine+0x52>
- 19e:	80 91 08 01 	lds	r24, 0x0108	; 0x800108 <current_channel>
- 1a2:	90 91 09 01 	lds	r25, 0x0109	; 0x800109 <current_channel+0x1>
- 1a6:	97 ff       	sbrs	r25, 7
- 1a8:	1f c0       	rjmp	.+62     	; 0x1e8 <sensor_state_machine+0x52>
- 1aa:	80 e0       	ldi	r24, 0x00	; 0
- 1ac:	90 e0       	ldi	r25, 0x00	; 0
+ 19c:	80 91 06 01 	lds	r24, 0x0106	; 0x800106 <adc_channels>
+ 1a0:	88 23       	and	r24, r24
+ 1a2:	29 f1       	breq	.+74     	; 0x1ee <sensor_state_machine+0x52>
+ 1a4:	80 91 08 01 	lds	r24, 0x0108	; 0x800108 <current_channel>
+ 1a8:	90 91 09 01 	lds	r25, 0x0109	; 0x800109 <current_channel+0x1>
+ 1ac:	97 ff       	sbrs	r25, 7
+ 1ae:	1f c0       	rjmp	.+62     	; 0x1ee <sensor_state_machine+0x52>
+ 1b0:	80 e0       	ldi	r24, 0x00	; 0
+ 1b2:	90 e0       	ldi	r25, 0x00	; 0
     {
         // find the first channel
-        for (uint8_t i=0; i<5; i++)
+        for (uint8_t i=0; i<MAX_ADC_PINS; i++)
         {
             if (adc_channels & (1<<i))
- 1ae:	20 91 06 01 	lds	r18, 0x0106	; 0x800106 <adc_channels>
- 1b2:	30 e0       	ldi	r19, 0x00	; 0
- 1b4:	08 2e       	mov	r0, r24
- 1b6:	02 c0       	rjmp	.+4      	; 0x1bc <sensor_state_machine+0x26>
- 1b8:	35 95       	asr	r19
- 1ba:	27 95       	ror	r18
- 1bc:	0a 94       	dec	r0
- 1be:	e2 f7       	brpl	.-8      	; 0x1b8 <sensor_state_machine+0x22>
- 1c0:	20 ff       	sbrs	r18, 0
- 1c2:	05 c0       	rjmp	.+10     	; 0x1ce <sensor_state_machine+0x38>
+ 1b4:	20 91 06 01 	lds	r18, 0x0106	; 0x800106 <adc_channels>
+ 1b8:	30 e0       	ldi	r19, 0x00	; 0
+ 1ba:	08 2e       	mov	r0, r24
+ 1bc:	02 c0       	rjmp	.+4      	; 0x1c2 <sensor_state_machine+0x26>
+ 1be:	35 95       	asr	r19
+ 1c0:	27 95       	ror	r18
+ 1c2:	0a 94       	dec	r0
+ 1c4:	e2 f7       	brpl	.-8      	; 0x1be <sensor_state_machine+0x22>
+ 1c6:	20 ff       	sbrs	r18, 0
+ 1c8:	05 c0       	rjmp	.+10     	; 0x1d4 <sensor_state_machine+0x38>
             {
                 current_channel = i;
- 1c4:	80 93 08 01 	sts	0x0108, r24	; 0x800108 <current_channel>
- 1c8:	90 93 09 01 	sts	0x0109, r25	; 0x800109 <current_channel+0x1>
+ 1ca:	80 93 08 01 	sts	0x0108, r24	; 0x800108 <current_channel>
+ 1ce:	90 93 09 01 	sts	0x0109, r25	; 0x800109 <current_channel+0x1>
                 break;
- 1cc:	04 c0       	rjmp	.+8      	; 0x1d6 <sensor_state_machine+0x40>
- 1ce:	01 96       	adiw	r24, 0x01	; 1
+ 1d2:	04 c0       	rjmp	.+8      	; 0x1dc <sensor_state_machine+0x40>
+ 1d4:	01 96       	adiw	r24, 0x01	; 1
     // if we now have a set of channels to look at,
-    // start the measuring
+    // set the current_channel and initiate measurement
     if (adc_channels > 0 && current_channel < 0)
     {
         // find the first channel
-        for (uint8_t i=0; i<5; i++)
- 1d0:	85 30       	cpi	r24, 0x05	; 5
- 1d2:	91 05       	cpc	r25, r1
- 1d4:	61 f7       	brne	.-40     	; 0x1ae <sensor_state_machine+0x18>
+        for (uint8_t i=0; i<MAX_ADC_PINS; i++)
+ 1d6:	86 30       	cpi	r24, 0x06	; 6
+ 1d8:	91 05       	cpc	r25, r1
+ 1da:	61 f7       	brne	.-40     	; 0x1b4 <sensor_state_machine+0x18>
             {
                 current_channel = i;
                 break;
             }
         }
         ADMUX = current_channel;
- 1d6:	80 91 08 01 	lds	r24, 0x0108	; 0x800108 <current_channel>
- 1da:	80 93 7c 00 	sts	0x007C, r24	; 0x80007c <__DATA_REGION_ORIGIN__+0x1c>
+ 1dc:	80 91 08 01 	lds	r24, 0x0108	; 0x800108 <current_channel>
+ 1e0:	80 93 7c 00 	sts	0x007C, r24	; 0x80007c <__DATA_REGION_ORIGIN__+0x1c>
 
         // start a new conversion
         ADCSRA |= _BV(ADSC);
- 1de:	80 91 7a 00 	lds	r24, 0x007A	; 0x80007a <__DATA_REGION_ORIGIN__+0x1a>
- 1e2:	80 64       	ori	r24, 0x40	; 64
- 1e4:	80 93 7a 00 	sts	0x007A, r24	; 0x80007a <__DATA_REGION_ORIGIN__+0x1a>
+ 1e4:	80 91 7a 00 	lds	r24, 0x007A	; 0x80007a <__DATA_REGION_ORIGIN__+0x1a>
+ 1e8:	80 64       	ori	r24, 0x40	; 64
+ 1ea:	80 93 7a 00 	sts	0x007A, r24	; 0x80007a <__DATA_REGION_ORIGIN__+0x1a>
     }
 
+    // adc measurement finished, get the next channel
     if (adc_finished)
- 1e8:	80 91 07 01 	lds	r24, 0x0107	; 0x800107 <adc_finished>
- 1ec:	88 23       	and	r24, r24
- 1ee:	89 f1       	breq	.+98     	; 0x252 <sensor_state_machine+0xbc>
+ 1ee:	80 91 07 01 	lds	r24, 0x0107	; 0x800107 <adc_finished>
+ 1f2:	88 23       	and	r24, r24
+ 1f4:	b1 f1       	breq	.+108    	; 0x262 <sensor_state_machine+0xc6>
     {
         // if no channels are requested, then finish
         if (adc_channels == 0) {
- 1f0:	80 91 06 01 	lds	r24, 0x0106	; 0x800106 <adc_channels>
- 1f4:	81 11       	cpse	r24, r1
- 1f6:	07 c0       	rjmp	.+14     	; 0x206 <sensor_state_machine+0x70>
+ 1f6:	80 91 06 01 	lds	r24, 0x0106	; 0x800106 <adc_channels>
+ 1fa:	81 11       	cpse	r24, r1
+ 1fc:	07 c0       	rjmp	.+14     	; 0x20c <sensor_state_machine+0x70>
             current_channel = -1;
- 1f8:	8f ef       	ldi	r24, 0xFF	; 255
- 1fa:	9f ef       	ldi	r25, 0xFF	; 255
- 1fc:	90 93 09 01 	sts	0x0109, r25	; 0x800109 <current_channel+0x1>
- 200:	80 93 08 01 	sts	0x0108, r24	; 0x800108 <current_channel>
- 204:	24 c0       	rjmp	.+72     	; 0x24e <sensor_state_machine+0xb8>
+ 1fe:	8f ef       	ldi	r24, 0xFF	; 255
+ 200:	9f ef       	ldi	r25, 0xFF	; 255
+ 202:	90 93 09 01 	sts	0x0109, r25	; 0x800109 <current_channel+0x1>
+ 206:	80 93 08 01 	sts	0x0108, r24	; 0x800108 <current_channel>
+ 20a:	28 c0       	rjmp	.+80     	; 0x25c <sensor_state_machine+0xc0>
         } else {
             // get the next channel
             uint8_t i = current_channel + 1;
- 206:	80 91 08 01 	lds	r24, 0x0108	; 0x800108 <current_channel>
-            {
-                if (adc_channels & (1<<i)) {
+ 20c:	80 91 08 01 	lds	r24, 0x0108	; 0x800108 <current_channel>
                     current_channel = i;
                     break;
-                }
+                } else
+                    // zero out channels not used
+                    adc_values[i] = 0;
                 ++i;
- 20a:	8f 5f       	subi	r24, 0xFF	; 255
+ 210:	8f 5f       	subi	r24, 0xFF	; 255
             current_channel = -1;
         } else {
             // get the next channel
             uint8_t i = current_channel + 1;
         find_channel:
-            while (i < 5)
- 20c:	85 30       	cpi	r24, 0x05	; 5
- 20e:	90 f4       	brcc	.+36     	; 0x234 <sensor_state_machine+0x9e>
+            while (i < MAX_ADC_PINS)
+ 212:	86 30       	cpi	r24, 0x06	; 6
+ 214:	08 f5       	brcc	.+66     	; 0x258 <sensor_state_machine+0xbc>
             {
                 if (adc_channels & (1<<i)) {
- 210:	20 91 06 01 	lds	r18, 0x0106	; 0x800106 <adc_channels>
- 214:	48 2f       	mov	r20, r24
- 216:	50 e0       	ldi	r21, 0x00	; 0
- 218:	30 e0       	ldi	r19, 0x00	; 0
- 21a:	08 2e       	mov	r0, r24
- 21c:	02 c0       	rjmp	.+4      	; 0x222 <sensor_state_machine+0x8c>
- 21e:	35 95       	asr	r19
- 220:	27 95       	ror	r18
- 222:	0a 94       	dec	r0
- 224:	e2 f7       	brpl	.-8      	; 0x21e <sensor_state_machine+0x88>
- 226:	20 ff       	sbrs	r18, 0
- 228:	f0 cf       	rjmp	.-32     	; 0x20a <sensor_state_machine+0x74>
+ 216:	40 91 06 01 	lds	r20, 0x0106	; 0x800106 <adc_channels>
+ 21a:	28 2f       	mov	r18, r24
+ 21c:	30 e0       	ldi	r19, 0x00	; 0
+ 21e:	50 e0       	ldi	r21, 0x00	; 0
+ 220:	08 2e       	mov	r0, r24
+ 222:	02 c0       	rjmp	.+4      	; 0x228 <sensor_state_machine+0x8c>
+ 224:	55 95       	asr	r21
+ 226:	47 95       	ror	r20
+ 228:	0a 94       	dec	r0
+ 22a:	e2 f7       	brpl	.-8      	; 0x224 <sensor_state_machine+0x88>
+ 22c:	40 ff       	sbrs	r20, 0
+ 22e:	0c c0       	rjmp	.+24     	; 0x248 <sensor_state_machine+0xac>
                     current_channel = i;
- 22a:	50 93 09 01 	sts	0x0109, r21	; 0x800109 <current_channel+0x1>
- 22e:	40 93 08 01 	sts	0x0108, r20	; 0x800108 <current_channel>
- 232:	04 c0       	rjmp	.+8      	; 0x23c <sensor_state_machine+0xa6>
-                    break;
-                }
-                ++i;
-            }
-            // roll back to 0 if needed
-            if (i == 5) {
- 234:	85 30       	cpi	r24, 0x05	; 5
- 236:	11 f4       	brne	.+4      	; 0x23c <sensor_state_machine+0xa6>
+ 230:	30 93 09 01 	sts	0x0109, r19	; 0x800109 <current_channel+0x1>
+ 234:	20 93 08 01 	sts	0x0108, r18	; 0x800108 <current_channel>
+            if (i >= MAX_ADC_PINS) {
                 i = 0;
- 238:	80 e0       	ldi	r24, 0x00	; 0
- 23a:	ea cf       	rjmp	.-44     	; 0x210 <sensor_state_machine+0x7a>
                 goto find_channel;
             }
             // start new conversion
             ADMUX = current_channel;
- 23c:	80 91 08 01 	lds	r24, 0x0108	; 0x800108 <current_channel>
- 240:	80 93 7c 00 	sts	0x007C, r24	; 0x80007c <__DATA_REGION_ORIGIN__+0x1c>
+ 238:	80 93 7c 00 	sts	0x007C, r24	; 0x80007c <__DATA_REGION_ORIGIN__+0x1c>
             ADCSRA |= _BV(ADSC);
- 244:	80 91 7a 00 	lds	r24, 0x007A	; 0x80007a <__DATA_REGION_ORIGIN__+0x1a>
- 248:	80 64       	ori	r24, 0x40	; 64
- 24a:	80 93 7a 00 	sts	0x007A, r24	; 0x80007a <__DATA_REGION_ORIGIN__+0x1a>
+ 23c:	80 91 7a 00 	lds	r24, 0x007A	; 0x80007a <__DATA_REGION_ORIGIN__+0x1a>
+ 240:	80 64       	ori	r24, 0x40	; 64
+ 242:	80 93 7a 00 	sts	0x007A, r24	; 0x80007a <__DATA_REGION_ORIGIN__+0x1a>
+ 246:	0a c0       	rjmp	.+20     	; 0x25c <sensor_state_machine+0xc0>
+                if (adc_channels & (1<<i)) {
+                    current_channel = i;
+                    break;
+                } else
+                    // zero out channels not used
+                    adc_values[i] = 0;
+ 248:	22 0f       	add	r18, r18
+ 24a:	33 1f       	adc	r19, r19
+ 24c:	f9 01       	movw	r30, r18
+ 24e:	e4 5f       	subi	r30, 0xF4	; 244
+ 250:	fe 4f       	sbci	r31, 0xFE	; 254
+ 252:	11 82       	std	Z+1, r1	; 0x01
+ 254:	10 82       	st	Z, r1
+ 256:	dc cf       	rjmp	.-72     	; 0x210 <sensor_state_machine+0x74>
+                ++i;
+            }
+            // roll back to 0 if needed
+            if (i >= MAX_ADC_PINS) {
+                i = 0;
+ 258:	80 e0       	ldi	r24, 0x00	; 0
+ 25a:	dd cf       	rjmp	.-70     	; 0x216 <sensor_state_machine+0x7a>
+            }
+            // start new conversion
+            ADMUX = current_channel;
+            ADCSRA |= _BV(ADSC);
         }
         adc_finished = 0;
- 24e:	10 92 07 01 	sts	0x0107, r1	; 0x800107 <adc_finished>
+ 25c:	10 92 07 01 	sts	0x0107, r1	; 0x800107 <adc_finished>
+ 260:	1d c0       	rjmp	.+58     	; 0x29c <sensor_state_machine+0x100>
+ 262:	ec e0       	ldi	r30, 0x0C	; 12
+ 264:	f1 e0       	ldi	r31, 0x01	; 1
+        // start a new conversion
+        ADCSRA |= _BV(ADSC);
+    }
+
+    // adc measurement finished, get the next channel
+    if (adc_finished)
+ 266:	20 e0       	ldi	r18, 0x00	; 0
+ 268:	30 e0       	ldi	r19, 0x00	; 0
+        }
+        adc_finished = 0;
+    } else {
+        // zero out channels not used
+        for (int i=0; i<MAX_ADC_PINS; i++)
+            if ((adc_channels & (1 << i)) != (1 << i))
+ 26a:	61 e0       	ldi	r22, 0x01	; 1
+ 26c:	70 e0       	ldi	r23, 0x00	; 0
+ 26e:	80 91 06 01 	lds	r24, 0x0106	; 0x800106 <adc_channels>
+ 272:	90 e0       	ldi	r25, 0x00	; 0
+ 274:	ab 01       	movw	r20, r22
+ 276:	02 2e       	mov	r0, r18
+ 278:	02 c0       	rjmp	.+4      	; 0x27e <sensor_state_machine+0xe2>
+ 27a:	44 0f       	add	r20, r20
+ 27c:	55 1f       	adc	r21, r21
+ 27e:	0a 94       	dec	r0
+ 280:	e2 f7       	brpl	.-8      	; 0x27a <sensor_state_machine+0xde>
+ 282:	84 23       	and	r24, r20
+ 284:	95 23       	and	r25, r21
+ 286:	48 17       	cp	r20, r24
+ 288:	59 07       	cpc	r21, r25
+ 28a:	11 f0       	breq	.+4      	; 0x290 <sensor_state_machine+0xf4>
+                adc_values[i] = 0;
+ 28c:	11 82       	std	Z+1, r1	; 0x01
+ 28e:	10 82       	st	Z, r1
+            ADCSRA |= _BV(ADSC);
+        }
+        adc_finished = 0;
+    } else {
+        // zero out channels not used
+        for (int i=0; i<MAX_ADC_PINS; i++)
+ 290:	2f 5f       	subi	r18, 0xFF	; 255
+ 292:	3f 4f       	sbci	r19, 0xFF	; 255
+ 294:	32 96       	adiw	r30, 0x02	; 2
+ 296:	26 30       	cpi	r18, 0x06	; 6
+ 298:	31 05       	cpc	r19, r1
+ 29a:	49 f7       	brne	.-46     	; 0x26e <sensor_state_machine+0xd2>
+            if ((adc_channels & (1 << i)) != (1 << i))
+                adc_values[i] = 0;
     }
 
     // reset SPI if we have just handled a transaction
     if (spi_state == 3)
- 252:	80 91 0b 01 	lds	r24, 0x010B	; 0x80010b <spi_state>
- 256:	83 30       	cpi	r24, 0x03	; 3
- 258:	11 f4       	brne	.+4      	; 0x25e <sensor_state_machine+0xc8>
+ 29c:	80 91 0b 01 	lds	r24, 0x010B	; 0x80010b <spi_state>
+ 2a0:	83 30       	cpi	r24, 0x03	; 3
+ 2a2:	11 f4       	brne	.+4      	; 0x2a8 <sensor_state_machine+0x10c>
         spi_state = 0;
- 25a:	10 92 0b 01 	sts	0x010B, r1	; 0x80010b <spi_state>
- 25e:	08 95       	ret
+ 2a4:	10 92 0b 01 	sts	0x010B, r1	; 0x80010b <spi_state>
+ 2a8:	08 95       	ret
 
-00000260 <__vector_21>:
+000002aa <__vector_21>:
 /*
  * ADC complete interrupt
  * interrupt flag cleared by hardware
  */
 ISR(ADC_vect)
 {
- 260:	1f 92       	push	r1
- 262:	0f 92       	push	r0
- 264:	0f b6       	in	r0, 0x3f	; 63
- 266:	0f 92       	push	r0
- 268:	11 24       	eor	r1, r1
- 26a:	2f 93       	push	r18
- 26c:	8f 93       	push	r24
- 26e:	9f 93       	push	r25
- 270:	ef 93       	push	r30
- 272:	ff 93       	push	r31
+ 2aa:	1f 92       	push	r1
+ 2ac:	0f 92       	push	r0
+ 2ae:	0f b6       	in	r0, 0x3f	; 63
+ 2b0:	0f 92       	push	r0
+ 2b2:	11 24       	eor	r1, r1
+ 2b4:	2f 93       	push	r18
+ 2b6:	8f 93       	push	r24
+ 2b8:	9f 93       	push	r25
+ 2ba:	ef 93       	push	r30
+ 2bc:	ff 93       	push	r31
     uint8_t low, high;
     low = ADCL;
- 274:	80 91 78 00 	lds	r24, 0x0078	; 0x800078 <__DATA_REGION_ORIGIN__+0x18>
+ 2be:	80 91 78 00 	lds	r24, 0x0078	; 0x800078 <__DATA_REGION_ORIGIN__+0x18>
     high = ADCH;
- 278:	20 91 79 00 	lds	r18, 0x0079	; 0x800079 <__DATA_REGION_ORIGIN__+0x19>
+ 2c2:	20 91 79 00 	lds	r18, 0x0079	; 0x800079 <__DATA_REGION_ORIGIN__+0x19>
     adc_values[current_channel] = (high << 8) | low;
- 27c:	e0 91 08 01 	lds	r30, 0x0108	; 0x800108 <current_channel>
- 280:	f0 91 09 01 	lds	r31, 0x0109	; 0x800109 <current_channel+0x1>
- 284:	ee 0f       	add	r30, r30
- 286:	ff 1f       	adc	r31, r31
- 288:	e4 5f       	subi	r30, 0xF4	; 244
- 28a:	fe 4f       	sbci	r31, 0xFE	; 254
- 28c:	90 e0       	ldi	r25, 0x00	; 0
- 28e:	92 2b       	or	r25, r18
- 290:	91 83       	std	Z+1, r25	; 0x01
- 292:	80 83       	st	Z, r24
+ 2c6:	e0 91 08 01 	lds	r30, 0x0108	; 0x800108 <current_channel>
+ 2ca:	f0 91 09 01 	lds	r31, 0x0109	; 0x800109 <current_channel+0x1>
+ 2ce:	ee 0f       	add	r30, r30
+ 2d0:	ff 1f       	adc	r31, r31
+ 2d2:	e4 5f       	subi	r30, 0xF4	; 244
+ 2d4:	fe 4f       	sbci	r31, 0xFE	; 254
+ 2d6:	90 e0       	ldi	r25, 0x00	; 0
+ 2d8:	92 2b       	or	r25, r18
+ 2da:	91 83       	std	Z+1, r25	; 0x01
+ 2dc:	80 83       	st	Z, r24
     adc_finished = 1;
- 294:	81 e0       	ldi	r24, 0x01	; 1
- 296:	80 93 07 01 	sts	0x0107, r24	; 0x800107 <adc_finished>
+ 2de:	81 e0       	ldi	r24, 0x01	; 1
+ 2e0:	80 93 07 01 	sts	0x0107, r24	; 0x800107 <adc_finished>
 }
- 29a:	ff 91       	pop	r31
- 29c:	ef 91       	pop	r30
- 29e:	9f 91       	pop	r25
- 2a0:	8f 91       	pop	r24
- 2a2:	2f 91       	pop	r18
- 2a4:	0f 90       	pop	r0
- 2a6:	0f be       	out	0x3f, r0	; 63
- 2a8:	0f 90       	pop	r0
- 2aa:	1f 90       	pop	r1
- 2ac:	18 95       	reti
+ 2e4:	ff 91       	pop	r31
+ 2e6:	ef 91       	pop	r30
+ 2e8:	9f 91       	pop	r25
+ 2ea:	8f 91       	pop	r24
+ 2ec:	2f 91       	pop	r18
+ 2ee:	0f 90       	pop	r0
+ 2f0:	0f be       	out	0x3f, r0	; 63
+ 2f2:	0f 90       	pop	r0
+ 2f4:	1f 90       	pop	r1
+ 2f6:	18 95       	reti
 
-000002ae <__vector_17>:
- 2ae:	1f 92       	push	r1
- 2b0:	0f 92       	push	r0
- 2b2:	0f b6       	in	r0, 0x3f	; 63
- 2b4:	0f 92       	push	r0
- 2b6:	11 24       	eor	r1, r1
- 2b8:	8f 93       	push	r24
- 2ba:	9f 93       	push	r25
- 2bc:	ef 93       	push	r30
- 2be:	ff 93       	push	r31
- 2c0:	8e b5       	in	r24, 0x2e	; 46
- 2c2:	90 91 0b 01 	lds	r25, 0x010B	; 0x80010b <spi_state>
- 2c6:	99 23       	and	r25, r25
- 2c8:	19 f0       	breq	.+6      	; 0x2d0 <__vector_17+0x22>
- 2ca:	91 30       	cpi	r25, 0x01	; 1
- 2cc:	31 f1       	breq	.+76     	; 0x31a <__vector_17+0x6c>
- 2ce:	32 c0       	rjmp	.+100    	; 0x334 <__vector_17+0x86>
- 2d0:	80 93 0a 01 	sts	0x010A, r24	; 0x80010a <addr>
- 2d4:	80 91 0a 01 	lds	r24, 0x010A	; 0x80010a <addr>
- 2d8:	80 31       	cpi	r24, 0x10	; 16
- 2da:	c0 f0       	brcs	.+48     	; 0x30c <__vector_17+0x5e>
- 2dc:	80 91 0a 01 	lds	r24, 0x010A	; 0x80010a <addr>
- 2e0:	85 31       	cpi	r24, 0x15	; 21
- 2e2:	a0 f4       	brcc	.+40     	; 0x30c <__vector_17+0x5e>
- 2e4:	e0 91 0a 01 	lds	r30, 0x010A	; 0x80010a <addr>
- 2e8:	f0 e0       	ldi	r31, 0x00	; 0
- 2ea:	ee 0f       	add	r30, r30
- 2ec:	ff 1f       	adc	r31, r31
- 2ee:	e4 51       	subi	r30, 0x14	; 20
- 2f0:	ff 4f       	sbci	r31, 0xFF	; 255
- 2f2:	80 81       	ld	r24, Z
- 2f4:	8e bd       	out	0x2e, r24	; 46
- 2f6:	e0 91 0a 01 	lds	r30, 0x010A	; 0x80010a <addr>
- 2fa:	f0 e0       	ldi	r31, 0x00	; 0
- 2fc:	ee 0f       	add	r30, r30
- 2fe:	ff 1f       	adc	r31, r31
- 300:	e4 51       	subi	r30, 0x14	; 20
- 302:	ff 4f       	sbci	r31, 0xFF	; 255
- 304:	81 81       	ldd	r24, Z+1	; 0x01
- 306:	80 93 00 01 	sts	0x0100, r24	; 0x800100 <_edata>
- 30a:	05 c0       	rjmp	.+10     	; 0x316 <__vector_17+0x68>
- 30c:	80 91 0a 01 	lds	r24, 0x010A	; 0x80010a <addr>
- 310:	1e bc       	out	0x2e, r1	; 46
- 312:	10 92 00 01 	sts	0x0100, r1	; 0x800100 <_edata>
- 316:	81 e0       	ldi	r24, 0x01	; 1
- 318:	0a c0       	rjmp	.+20     	; 0x32e <__vector_17+0x80>
- 31a:	90 91 0a 01 	lds	r25, 0x010A	; 0x80010a <addr>
- 31e:	91 30       	cpi	r25, 0x01	; 1
- 320:	11 f4       	brne	.+4      	; 0x326 <__vector_17+0x78>
- 322:	80 93 06 01 	sts	0x0106, r24	; 0x800106 <adc_channels>
- 326:	80 91 00 01 	lds	r24, 0x0100	; 0x800100 <_edata>
- 32a:	8e bd       	out	0x2e, r24	; 46
- 32c:	82 e0       	ldi	r24, 0x02	; 2
- 32e:	80 93 0b 01 	sts	0x010B, r24	; 0x80010b <spi_state>
- 332:	04 c0       	rjmp	.+8      	; 0x33c <__vector_17+0x8e>
- 334:	83 e0       	ldi	r24, 0x03	; 3
- 336:	80 93 0b 01 	sts	0x010B, r24	; 0x80010b <spi_state>
- 33a:	1e bc       	out	0x2e, r1	; 46
- 33c:	ff 91       	pop	r31
- 33e:	ef 91       	pop	r30
- 340:	9f 91       	pop	r25
- 342:	8f 91       	pop	r24
- 344:	0f 90       	pop	r0
- 346:	0f be       	out	0x3f, r0	; 63
- 348:	0f 90       	pop	r0
- 34a:	1f 90       	pop	r1
- 34c:	18 95       	reti
+000002f8 <__vector_17>:
+ 2f8:	1f 92       	push	r1
+ 2fa:	0f 92       	push	r0
+ 2fc:	0f b6       	in	r0, 0x3f	; 63
+ 2fe:	0f 92       	push	r0
+ 300:	11 24       	eor	r1, r1
+ 302:	8f 93       	push	r24
+ 304:	9f 93       	push	r25
+ 306:	ef 93       	push	r30
+ 308:	ff 93       	push	r31
+ 30a:	8e b5       	in	r24, 0x2e	; 46
+ 30c:	90 91 0b 01 	lds	r25, 0x010B	; 0x80010b <spi_state>
+ 310:	99 23       	and	r25, r25
+ 312:	19 f0       	breq	.+6      	; 0x31a <__vector_17+0x22>
+ 314:	91 30       	cpi	r25, 0x01	; 1
+ 316:	31 f1       	breq	.+76     	; 0x364 <__vector_17+0x6c>
+ 318:	32 c0       	rjmp	.+100    	; 0x37e <__vector_17+0x86>
+ 31a:	80 93 0a 01 	sts	0x010A, r24	; 0x80010a <addr>
+ 31e:	80 91 0a 01 	lds	r24, 0x010A	; 0x80010a <addr>
+ 322:	80 31       	cpi	r24, 0x10	; 16
+ 324:	c0 f0       	brcs	.+48     	; 0x356 <__vector_17+0x5e>
+ 326:	80 91 0a 01 	lds	r24, 0x010A	; 0x80010a <addr>
+ 32a:	86 31       	cpi	r24, 0x16	; 22
+ 32c:	a0 f4       	brcc	.+40     	; 0x356 <__vector_17+0x5e>
+ 32e:	e0 91 0a 01 	lds	r30, 0x010A	; 0x80010a <addr>
+ 332:	f0 e0       	ldi	r31, 0x00	; 0
+ 334:	ee 0f       	add	r30, r30
+ 336:	ff 1f       	adc	r31, r31
+ 338:	e4 51       	subi	r30, 0x14	; 20
+ 33a:	ff 4f       	sbci	r31, 0xFF	; 255
+ 33c:	80 81       	ld	r24, Z
+ 33e:	8e bd       	out	0x2e, r24	; 46
+ 340:	e0 91 0a 01 	lds	r30, 0x010A	; 0x80010a <addr>
+ 344:	f0 e0       	ldi	r31, 0x00	; 0
+ 346:	ee 0f       	add	r30, r30
+ 348:	ff 1f       	adc	r31, r31
+ 34a:	e4 51       	subi	r30, 0x14	; 20
+ 34c:	ff 4f       	sbci	r31, 0xFF	; 255
+ 34e:	81 81       	ldd	r24, Z+1	; 0x01
+ 350:	80 93 00 01 	sts	0x0100, r24	; 0x800100 <_edata>
+ 354:	05 c0       	rjmp	.+10     	; 0x360 <__vector_17+0x68>
+ 356:	80 91 0a 01 	lds	r24, 0x010A	; 0x80010a <addr>
+ 35a:	1e bc       	out	0x2e, r1	; 46
+ 35c:	10 92 00 01 	sts	0x0100, r1	; 0x800100 <_edata>
+ 360:	81 e0       	ldi	r24, 0x01	; 1
+ 362:	0a c0       	rjmp	.+20     	; 0x378 <__vector_17+0x80>
+ 364:	90 91 0a 01 	lds	r25, 0x010A	; 0x80010a <addr>
+ 368:	91 30       	cpi	r25, 0x01	; 1
+ 36a:	11 f4       	brne	.+4      	; 0x370 <__vector_17+0x78>
+ 36c:	80 93 06 01 	sts	0x0106, r24	; 0x800106 <adc_channels>
+ 370:	80 91 00 01 	lds	r24, 0x0100	; 0x800100 <_edata>
+ 374:	8e bd       	out	0x2e, r24	; 46
+ 376:	82 e0       	ldi	r24, 0x02	; 2
+ 378:	80 93 0b 01 	sts	0x010B, r24	; 0x80010b <spi_state>
+ 37c:	04 c0       	rjmp	.+8      	; 0x386 <__vector_17+0x8e>
+ 37e:	83 e0       	ldi	r24, 0x03	; 3
+ 380:	80 93 0b 01 	sts	0x010B, r24	; 0x80010b <spi_state>
+ 384:	1e bc       	out	0x2e, r1	; 46
+ 386:	ff 91       	pop	r31
+ 388:	ef 91       	pop	r30
+ 38a:	9f 91       	pop	r25
+ 38c:	8f 91       	pop	r24
+ 38e:	0f 90       	pop	r0
+ 390:	0f be       	out	0x3f, r0	; 63
+ 392:	0f 90       	pop	r0
+ 394:	1f 90       	pop	r1
+ 396:	18 95       	reti
 
-0000034e <main>:
+00000398 <main>:
     // set the clock to 8MHz
 //    CLKPR = _BV(CLKPCE);
 //    CLKPR = 0;
 
     // turn off modules that aren't used
     PRR |= (_BV(PRTWI)|_BV(PRTIM2)|_BV(PRTIM1)|_BV(PRUSART0));
- 34e:	80 91 64 00 	lds	r24, 0x0064	; 0x800064 <__DATA_REGION_ORIGIN__+0x4>
- 352:	8a 6c       	ori	r24, 0xCA	; 202
- 354:	80 93 64 00 	sts	0x0064, r24	; 0x800064 <__DATA_REGION_ORIGIN__+0x4>
+ 398:	80 91 64 00 	lds	r24, 0x0064	; 0x800064 <__DATA_REGION_ORIGIN__+0x4>
+ 39c:	8a 6c       	ori	r24, 0xCA	; 202
+ 39e:	80 93 64 00 	sts	0x0064, r24	; 0x800064 <__DATA_REGION_ORIGIN__+0x4>
     
     init();
- 358:	0e 94 4f 00 	call	0x9e	; 0x9e <init>
+ 3a2:	0e 94 4f 00 	call	0x9e	; 0x9e <init>
     sensor_init();
- 35c:	0e 94 94 00 	call	0x128	; 0x128 <sensor_init>
+ 3a6:	0e 94 94 00 	call	0x128	; 0x128 <sensor_init>
     
     machine_state = Start;
- 360:	10 92 05 01 	sts	0x0105, r1	; 0x800105 <machine_state>
+ 3aa:	10 92 05 01 	sts	0x0105, r1	; 0x800105 <machine_state>
     button_mask = 0xFF;
- 364:	8f ef       	ldi	r24, 0xFF	; 255
- 366:	80 93 01 01 	sts	0x0101, r24	; 0x800101 <button_mask>
+ 3ae:	8f ef       	ldi	r24, 0xFF	; 255
+ 3b0:	80 93 01 01 	sts	0x0101, r24	; 0x800101 <button_mask>
     
 	// start interrupts
 	sei();
- 36a:	78 94       	sei
+ 3b4:	78 94       	sei
     // main loop
     while(1)
     {
         // check if button down, mask length is 2.048ms
         if (button_state == 0 && button_mask == 0x00) {
             button_state = 1;
- 36c:	c1 e0       	ldi	r28, 0x01	; 1
-            LED5_SET_OFF;
+ 3b6:	c1 e0       	ldi	r28, 0x01	; 1
+            LED4_SET_OFF;
 
             ENABLE_SET_OFF;
             SHUTDOWN_SET_OFF;
 
             machine_state = LowPowerMode;
- 36e:	16 e0       	ldi	r17, 0x06	; 6
-            LED6_SET_OFF;
+ 3b8:	16 e0       	ldi	r17, 0x06	; 6
+            LED5_SET_OFF;
 
             SHUTDOWN_SET_ON;
 
             if (!mcu_is_running())
                 machine_state = MCUOff;
- 370:	d5 e0       	ldi	r29, 0x05	; 5
-            LED3_SET_OFF;
+ 3ba:	d5 e0       	ldi	r29, 0x05	; 5
+            LED2_SET_OFF;
+            LED4_SET_OFF;
             LED5_SET_OFF;
-            LED6_SET_OFF;
 
             if (button_pressed())
                 machine_state = SignaledOff;
- 372:	04 e0       	ldi	r16, 0x04	; 4
-            LED6_SET_OFF;
+ 3bc:	04 e0       	ldi	r16, 0x04	; 4
+            LED5_SET_OFF;
 
             ENABLE_SET_ON;
 
             if (mcu_is_running())
                 machine_state = MCURunning;
- 374:	83 e0       	ldi	r24, 0x03	; 3
- 376:	f8 2e       	mov	r15, r24
+ 3be:	83 e0       	ldi	r24, 0x03	; 3
+ 3c0:	f8 2e       	mov	r15, r24
+            LED3_SET_OFF;
             LED4_SET_OFF;
             LED5_SET_OFF;
-            LED6_SET_OFF;
 
             if (button_pressed())
                 machine_state = SignaledOn;
- 378:	92 e0       	ldi	r25, 0x02	; 2
- 37a:	e9 2e       	mov	r14, r25
+ 3c2:	92 e0       	ldi	r25, 0x02	; 2
+ 3c4:	e9 2e       	mov	r14, r25
 
     // main loop
     while(1)
     {
         // check if button down, mask length is 2.048ms
         if (button_state == 0 && button_mask == 0x00) {
- 37c:	80 91 04 01 	lds	r24, 0x0104	; 0x800104 <button_state>
- 380:	81 11       	cpse	r24, r1
- 382:	09 c0       	rjmp	.+18     	; 0x396 <main+0x48>
- 384:	80 91 01 01 	lds	r24, 0x0101	; 0x800101 <button_mask>
- 388:	81 11       	cpse	r24, r1
- 38a:	13 c0       	rjmp	.+38     	; 0x3b2 <main+0x64>
+ 3c6:	80 91 04 01 	lds	r24, 0x0104	; 0x800104 <button_state>
+ 3ca:	81 11       	cpse	r24, r1
+ 3cc:	09 c0       	rjmp	.+18     	; 0x3e0 <main+0x48>
+ 3ce:	80 91 01 01 	lds	r24, 0x0101	; 0x800101 <button_mask>
+ 3d2:	81 11       	cpse	r24, r1
+ 3d4:	13 c0       	rjmp	.+38     	; 0x3fc <main+0x64>
             button_state = 1;
- 38c:	c0 93 04 01 	sts	0x0104, r28	; 0x800104 <button_state>
+ 3d6:	c0 93 04 01 	sts	0x0104, r28	; 0x800104 <button_state>
             tovflows = 0;
- 390:	10 92 03 01 	sts	0x0103, r1	; 0x800103 <tovflows>
- 394:	0e c0       	rjmp	.+28     	; 0x3b2 <main+0x64>
+ 3da:	10 92 03 01 	sts	0x0103, r1	; 0x800103 <tovflows>
+ 3de:	0e c0       	rjmp	.+28     	; 0x3fc <main+0x64>
             // has it been down for long enough
         } else if (button_state == 1) {
- 396:	81 30       	cpi	r24, 0x01	; 1
- 398:	61 f4       	brne	.+24     	; 0x3b2 <main+0x64>
+ 3e0:	81 30       	cpi	r24, 0x01	; 1
+ 3e2:	61 f4       	brne	.+24     	; 0x3fc <main+0x64>
             if (button_mask == 0x0FF) {
- 39a:	90 91 01 01 	lds	r25, 0x0101	; 0x800101 <button_mask>
- 39e:	9f 3f       	cpi	r25, 0xFF	; 255
- 3a0:	41 f4       	brne	.+16     	; 0x3b2 <main+0x64>
+ 3e4:	90 91 01 01 	lds	r25, 0x0101	; 0x800101 <button_mask>
+ 3e8:	9f 3f       	cpi	r25, 0xFF	; 255
+ 3ea:	41 f4       	brne	.+16     	; 0x3fc <main+0x64>
                 // delay long enough, each overflow = 256us, this is 25.6ms
                 if (tovflows >= F_CPU / 8 / 256 / 100) {
- 3a2:	90 91 03 01 	lds	r25, 0x0103	; 0x800103 <tovflows>
- 3a6:	97 32       	cpi	r25, 0x27	; 39
- 3a8:	10 f0       	brcs	.+4      	; 0x3ae <main+0x60>
+ 3ec:	90 91 03 01 	lds	r25, 0x0103	; 0x800103 <tovflows>
+ 3f0:	97 32       	cpi	r25, 0x27	; 39
+ 3f2:	10 f0       	brcs	.+4      	; 0x3f8 <main+0x60>
                     buttonpress = 1;
- 3aa:	80 93 02 01 	sts	0x0102, r24	; 0x800102 <buttonpress>
+ 3f4:	80 93 02 01 	sts	0x0102, r24	; 0x800102 <buttonpress>
                 }
                 button_state = 0;
- 3ae:	10 92 04 01 	sts	0x0104, r1	; 0x800104 <button_state>
+ 3f8:	10 92 04 01 	sts	0x0104, r1	; 0x800104 <button_state>
             }
         }
         
         switch (machine_state) {
- 3b2:	e0 91 05 01 	lds	r30, 0x0105	; 0x800105 <machine_state>
- 3b6:	8e 2f       	mov	r24, r30
- 3b8:	90 e0       	ldi	r25, 0x00	; 0
- 3ba:	87 30       	cpi	r24, 0x07	; 7
- 3bc:	91 05       	cpc	r25, r1
- 3be:	08 f0       	brcs	.+2      	; 0x3c2 <main+0x74>
- 3c0:	6d c0       	rjmp	.+218    	; 0x49c <__LOCK_REGION_LENGTH__+0x9c>
- 3c2:	fc 01       	movw	r30, r24
- 3c4:	ec 5c       	subi	r30, 0xCC	; 204
- 3c6:	ff 4f       	sbci	r31, 0xFF	; 255
- 3c8:	0c 94 53 02 	jmp	0x4a6	; 0x4a6 <__tablejump2__>
+ 3fc:	e0 91 05 01 	lds	r30, 0x0105	; 0x800105 <machine_state>
+ 400:	8e 2f       	mov	r24, r30
+ 402:	90 e0       	ldi	r25, 0x00	; 0
+ 404:	87 30       	cpi	r24, 0x07	; 7
+ 406:	91 05       	cpc	r25, r1
+ 408:	08 f0       	brcs	.+2      	; 0x40c <__LOCK_REGION_LENGTH__+0xc>
+ 40a:	6d c0       	rjmp	.+218    	; 0x4e6 <__LOCK_REGION_LENGTH__+0xe6>
+ 40c:	fc 01       	movw	r30, r24
+ 40e:	ec 5c       	subi	r30, 0xCC	; 204
+ 410:	ff 4f       	sbci	r31, 0xFF	; 255
+ 412:	0c 94 78 02 	jmp	0x4f0	; 0x4f0 <__tablejump2__>
         case Start:
+            LED1_SET_OFF;
+ 416:	2f 98       	cbi	0x05, 7	; 5
             LED2_SET_OFF;
- 3cc:	5d 98       	cbi	0x0b, 5	; 11
+ 418:	5d 98       	cbi	0x0b, 5	; 11
             LED3_SET_OFF;
- 3ce:	5e 98       	cbi	0x0b, 6	; 11
+ 41a:	5e 98       	cbi	0x0b, 6	; 11
             LED4_SET_OFF;
- 3d0:	5f 98       	cbi	0x0b, 7	; 11
+ 41c:	5f 98       	cbi	0x0b, 7	; 11
             LED5_SET_OFF;
- 3d2:	28 98       	cbi	0x05, 0	; 5
-            LED6_SET_OFF;
- 3d4:	29 98       	cbi	0x05, 1	; 5
+ 41e:	28 98       	cbi	0x05, 0	; 5
 
             ENABLE_SET_OFF;
- 3d6:	5c 98       	cbi	0x0b, 4	; 11
+ 420:	5c 98       	cbi	0x0b, 4	; 11
             SHUTDOWN_SET_OFF;
- 3d8:	2e 98       	cbi	0x05, 6	; 5
- 3da:	5d c0       	rjmp	.+186    	; 0x496 <__LOCK_REGION_LENGTH__+0x96>
+ 422:	2e 98       	cbi	0x05, 6	; 5
+ 424:	5d c0       	rjmp	.+186    	; 0x4e0 <__LOCK_REGION_LENGTH__+0xe0>
 
             machine_state = WaitSignalOn;
             break;
         case WaitSignalOn:
-            LED2_SET_ON;
- 3dc:	5d 9a       	sbi	0x0b, 5	; 11
+            LED1_SET_ON;
+ 426:	2f 9a       	sbi	0x05, 7	; 5
+            LED2_SET_OFF;
+ 428:	5d 98       	cbi	0x0b, 5	; 11
             LED3_SET_OFF;
- 3de:	5e 98       	cbi	0x0b, 6	; 11
+ 42a:	5e 98       	cbi	0x0b, 6	; 11
             LED4_SET_OFF;
- 3e0:	5f 98       	cbi	0x0b, 7	; 11
+ 42c:	5f 98       	cbi	0x0b, 7	; 11
             LED5_SET_OFF;
- 3e2:	28 98       	cbi	0x05, 0	; 5
-            LED6_SET_OFF;
- 3e4:	29 98       	cbi	0x05, 1	; 5
+ 42e:	28 98       	cbi	0x05, 0	; 5
 }
 
 inline
 int button_pressed(void)
 {
     if (buttonpress) {
- 3e6:	80 91 02 01 	lds	r24, 0x0102	; 0x800102 <buttonpress>
- 3ea:	88 23       	and	r24, r24
- 3ec:	09 f4       	brne	.+2      	; 0x3f0 <main+0xa2>
- 3ee:	58 c0       	rjmp	.+176    	; 0x4a0 <__LOCK_REGION_LENGTH__+0xa0>
+ 430:	80 91 02 01 	lds	r24, 0x0102	; 0x800102 <buttonpress>
+ 434:	88 23       	and	r24, r24
+ 436:	09 f4       	brne	.+2      	; 0x43a <__LOCK_REGION_LENGTH__+0x3a>
+ 438:	58 c0       	rjmp	.+176    	; 0x4ea <__LOCK_REGION_LENGTH__+0xea>
         buttonpress = 0;
- 3f0:	10 92 02 01 	sts	0x0102, r1	; 0x800102 <buttonpress>
+ 43a:	10 92 02 01 	sts	0x0102, r1	; 0x800102 <buttonpress>
+            LED3_SET_OFF;
             LED4_SET_OFF;
             LED5_SET_OFF;
-            LED6_SET_OFF;
 
             if (button_pressed())
                 machine_state = SignaledOn;
- 3f4:	e0 92 05 01 	sts	0x0105, r14	; 0x800105 <machine_state>
- 3f8:	53 c0       	rjmp	.+166    	; 0x4a0 <__LOCK_REGION_LENGTH__+0xa0>
+ 43e:	e0 92 05 01 	sts	0x0105, r14	; 0x800105 <machine_state>
+ 442:	53 c0       	rjmp	.+166    	; 0x4ea <__LOCK_REGION_LENGTH__+0xea>
             break;
         case SignaledOn:
-            LED3_SET_ON;
- 3fa:	5e 9a       	sbi	0x0b, 6	; 11
-            LED2_SET_OFF;
- 3fc:	5d 98       	cbi	0x0b, 5	; 11
+            LED2_SET_ON;
+ 444:	5d 9a       	sbi	0x0b, 5	; 11
+            LED1_SET_OFF;
+ 446:	2f 98       	cbi	0x05, 7	; 5
+            LED3_SET_OFF;
+ 448:	5e 98       	cbi	0x0b, 6	; 11
             LED4_SET_OFF;
- 3fe:	5f 98       	cbi	0x0b, 7	; 11
+ 44a:	5f 98       	cbi	0x0b, 7	; 11
             LED5_SET_OFF;
- 400:	28 98       	cbi	0x05, 0	; 5
-            LED6_SET_OFF;
- 402:	29 98       	cbi	0x05, 1	; 5
+ 44c:	28 98       	cbi	0x05, 0	; 5
 
             ENABLE_SET_ON;
- 404:	5c 9a       	sbi	0x0b, 4	; 11
+ 44e:	5c 9a       	sbi	0x0b, 4	; 11
 
             if (mcu_is_running())
- 406:	4b 99       	sbic	0x09, 3	; 9
+ 450:	4b 99       	sbic	0x09, 3	; 9
                 machine_state = MCURunning;
- 408:	f0 92 05 01 	sts	0x0105, r15	; 0x800105 <machine_state>
+ 452:	f0 92 05 01 	sts	0x0105, r15	; 0x800105 <machine_state>
 }
 
 inline
 int button_pressed(void)
 {
     if (buttonpress) {
- 40c:	80 91 02 01 	lds	r24, 0x0102	; 0x800102 <buttonpress>
- 410:	88 23       	and	r24, r24
- 412:	09 f4       	brne	.+2      	; 0x416 <__LOCK_REGION_LENGTH__+0x16>
- 414:	45 c0       	rjmp	.+138    	; 0x4a0 <__LOCK_REGION_LENGTH__+0xa0>
+ 456:	80 91 02 01 	lds	r24, 0x0102	; 0x800102 <buttonpress>
+ 45a:	88 23       	and	r24, r24
+ 45c:	09 f4       	brne	.+2      	; 0x460 <__LOCK_REGION_LENGTH__+0x60>
+ 45e:	45 c0       	rjmp	.+138    	; 0x4ea <__LOCK_REGION_LENGTH__+0xea>
         buttonpress = 0;
- 416:	10 92 02 01 	sts	0x0102, r1	; 0x800102 <buttonpress>
- 41a:	16 c0       	rjmp	.+44     	; 0x448 <__LOCK_REGION_LENGTH__+0x48>
+ 460:	10 92 02 01 	sts	0x0102, r1	; 0x800102 <buttonpress>
+ 464:	16 c0       	rjmp	.+44     	; 0x492 <__LOCK_REGION_LENGTH__+0x92>
                 machine_state = MCURunning;
             if (button_pressed())
                 machine_state = MCUOff;
             break;
         case MCURunning:
-            LED4_SET_ON;
- 41c:	5f 9a       	sbi	0x0b, 7	; 11
+            LED3_SET_ON;
+ 466:	5e 9a       	sbi	0x0b, 6	; 11
+            LED1_SET_OFF;
+ 468:	2f 98       	cbi	0x05, 7	; 5
             LED2_SET_OFF;
- 41e:	5d 98       	cbi	0x0b, 5	; 11
-            LED3_SET_OFF;
- 420:	5e 98       	cbi	0x0b, 6	; 11
+ 46a:	5d 98       	cbi	0x0b, 5	; 11
+            LED4_SET_OFF;
+ 46c:	5f 98       	cbi	0x0b, 7	; 11
             LED5_SET_OFF;
- 422:	28 98       	cbi	0x05, 0	; 5
-            LED6_SET_OFF;
- 424:	29 98       	cbi	0x05, 1	; 5
+ 46e:	28 98       	cbi	0x05, 0	; 5
 }
 
 inline
 int button_pressed(void)
 {
     if (buttonpress) {
- 426:	80 91 02 01 	lds	r24, 0x0102	; 0x800102 <buttonpress>
- 42a:	88 23       	and	r24, r24
- 42c:	c9 f1       	breq	.+114    	; 0x4a0 <__LOCK_REGION_LENGTH__+0xa0>
+ 470:	80 91 02 01 	lds	r24, 0x0102	; 0x800102 <buttonpress>
+ 474:	88 23       	and	r24, r24
+ 476:	c9 f1       	breq	.+114    	; 0x4ea <__LOCK_REGION_LENGTH__+0xea>
         buttonpress = 0;
- 42e:	10 92 02 01 	sts	0x0102, r1	; 0x800102 <buttonpress>
-            LED3_SET_OFF;
+ 478:	10 92 02 01 	sts	0x0102, r1	; 0x800102 <buttonpress>
+            LED2_SET_OFF;
+            LED4_SET_OFF;
             LED5_SET_OFF;
-            LED6_SET_OFF;
 
             if (button_pressed())
                 machine_state = SignaledOff;
- 432:	00 93 05 01 	sts	0x0105, r16	; 0x800105 <machine_state>
- 436:	34 c0       	rjmp	.+104    	; 0x4a0 <__LOCK_REGION_LENGTH__+0xa0>
+ 47c:	00 93 05 01 	sts	0x0105, r16	; 0x800105 <machine_state>
+ 480:	34 c0       	rjmp	.+104    	; 0x4ea <__LOCK_REGION_LENGTH__+0xea>
             break;
         case SignaledOff:
-            LED5_SET_ON;
- 438:	28 9a       	sbi	0x05, 0	; 5
+            LED4_SET_ON;
+ 482:	5f 9a       	sbi	0x0b, 7	; 11
+            LED1_SET_OFF;
+ 484:	2f 98       	cbi	0x05, 7	; 5
             LED2_SET_OFF;
- 43a:	5d 98       	cbi	0x0b, 5	; 11
+ 486:	5d 98       	cbi	0x0b, 5	; 11
             LED3_SET_OFF;
- 43c:	5e 98       	cbi	0x0b, 6	; 11
-            LED4_SET_OFF;
- 43e:	5f 98       	cbi	0x0b, 7	; 11
-            LED6_SET_OFF;
- 440:	29 98       	cbi	0x05, 1	; 5
+ 488:	5e 98       	cbi	0x0b, 6	; 11
+            LED5_SET_OFF;
+ 48a:	28 98       	cbi	0x05, 0	; 5
 
             SHUTDOWN_SET_ON;
- 442:	2e 9a       	sbi	0x05, 6	; 5
+ 48c:	2e 9a       	sbi	0x05, 6	; 5
 
             if (!mcu_is_running())
- 444:	4b 99       	sbic	0x09, 3	; 9
- 446:	2c c0       	rjmp	.+88     	; 0x4a0 <__LOCK_REGION_LENGTH__+0xa0>
+ 48e:	4b 99       	sbic	0x09, 3	; 9
+ 490:	2c c0       	rjmp	.+88     	; 0x4ea <__LOCK_REGION_LENGTH__+0xea>
                 machine_state = MCUOff;
- 448:	d0 93 05 01 	sts	0x0105, r29	; 0x800105 <machine_state>
- 44c:	29 c0       	rjmp	.+82     	; 0x4a0 <__LOCK_REGION_LENGTH__+0xa0>
+ 492:	d0 93 05 01 	sts	0x0105, r29	; 0x800105 <machine_state>
+ 496:	29 c0       	rjmp	.+82     	; 0x4ea <__LOCK_REGION_LENGTH__+0xea>
             break;
         case MCUOff:
-            LED6_SET_ON;
- 44e:	29 9a       	sbi	0x05, 1	; 5
+            LED5_SET_ON;
+ 498:	28 9a       	sbi	0x05, 0	; 5
+            LED1_SET_OFF;
+ 49a:	2f 98       	cbi	0x05, 7	; 5
             LED2_SET_OFF;
- 450:	5d 98       	cbi	0x0b, 5	; 11
+ 49c:	5d 98       	cbi	0x0b, 5	; 11
             LED3_SET_OFF;
- 452:	5e 98       	cbi	0x0b, 6	; 11
+ 49e:	5e 98       	cbi	0x0b, 6	; 11
             LED4_SET_OFF;
- 454:	5f 98       	cbi	0x0b, 7	; 11
-            LED5_SET_OFF;
- 456:	28 98       	cbi	0x05, 0	; 5
+ 4a0:	5f 98       	cbi	0x0b, 7	; 11
 
             ENABLE_SET_OFF;
- 458:	5c 98       	cbi	0x0b, 4	; 11
+ 4a2:	5c 98       	cbi	0x0b, 4	; 11
             SHUTDOWN_SET_OFF;
- 45a:	2e 98       	cbi	0x05, 6	; 5
+ 4a4:	2e 98       	cbi	0x05, 6	; 5
 
             machine_state = LowPowerMode;
- 45c:	10 93 05 01 	sts	0x0105, r17	; 0x800105 <machine_state>
+ 4a6:	10 93 05 01 	sts	0x0105, r17	; 0x800105 <machine_state>
             break;
- 460:	1f c0       	rjmp	.+62     	; 0x4a0 <__LOCK_REGION_LENGTH__+0xa0>
+ 4aa:	1f c0       	rjmp	.+62     	; 0x4ea <__LOCK_REGION_LENGTH__+0xea>
         case LowPowerMode:
             LED1_SET_OFF;
- 462:	2f 98       	cbi	0x05, 7	; 5
+ 4ac:	2f 98       	cbi	0x05, 7	; 5
             LED2_SET_OFF;
- 464:	5d 98       	cbi	0x0b, 5	; 11
+ 4ae:	5d 98       	cbi	0x0b, 5	; 11
             LED3_SET_OFF;
- 466:	5e 98       	cbi	0x0b, 6	; 11
+ 4b0:	5e 98       	cbi	0x0b, 6	; 11
             LED4_SET_OFF;
- 468:	5f 98       	cbi	0x0b, 7	; 11
+ 4b2:	5f 98       	cbi	0x0b, 7	; 11
             LED5_SET_OFF;
- 46a:	28 98       	cbi	0x05, 0	; 5
+ 4b4:	28 98       	cbi	0x05, 0	; 5
             LED6_SET_OFF;
- 46c:	29 98       	cbi	0x05, 1	; 5
+ 4b6:	29 98       	cbi	0x05, 1	; 5
 
             // enter Power-Down mode
             set_sleep_mode(SLEEP_MODE_PWR_DOWN);
- 46e:	83 b7       	in	r24, 0x33	; 51
- 470:	81 7f       	andi	r24, 0xF1	; 241
- 472:	84 60       	ori	r24, 0x04	; 4
- 474:	83 bf       	out	0x33, r24	; 51
+ 4b8:	83 b7       	in	r24, 0x33	; 51
+ 4ba:	81 7f       	andi	r24, 0xF1	; 241
+ 4bc:	84 60       	ori	r24, 0x04	; 4
+ 4be:	83 bf       	out	0x33, r24	; 51
             // set INTO interrupt
             EIMSK |= _BV(INT0);
- 476:	e8 9a       	sbi	0x1d, 0	; 29
+ 4c0:	e8 9a       	sbi	0x1d, 0	; 29
             sensor_pre_power_down();
- 478:	0e 94 ad 00 	call	0x15a	; 0x15a <sensor_pre_power_down>
+ 4c2:	0e 94 b0 00 	call	0x160	; 0x160 <sensor_pre_power_down>
             sleep_enable();
- 47c:	83 b7       	in	r24, 0x33	; 51
- 47e:	81 60       	ori	r24, 0x01	; 1
- 480:	83 bf       	out	0x33, r24	; 51
+ 4c6:	83 b7       	in	r24, 0x33	; 51
+ 4c8:	81 60       	ori	r24, 0x01	; 1
+ 4ca:	83 bf       	out	0x33, r24	; 51
             sleep_mode();
- 482:	83 b7       	in	r24, 0x33	; 51
- 484:	81 60       	ori	r24, 0x01	; 1
- 486:	83 bf       	out	0x33, r24	; 51
- 488:	88 95       	sleep
- 48a:	83 b7       	in	r24, 0x33	; 51
- 48c:	8e 7f       	andi	r24, 0xFE	; 254
- 48e:	83 bf       	out	0x33, r24	; 51
+ 4cc:	83 b7       	in	r24, 0x33	; 51
+ 4ce:	81 60       	ori	r24, 0x01	; 1
+ 4d0:	83 bf       	out	0x33, r24	; 51
+ 4d2:	88 95       	sleep
+ 4d4:	83 b7       	in	r24, 0x33	; 51
+ 4d6:	8e 7f       	andi	r24, 0xFE	; 254
+ 4d8:	83 bf       	out	0x33, r24	; 51
 
             // woken up
             // turn off INT0 interrupt
             EIMSK &= ~(_BV(INT0));
- 490:	e8 98       	cbi	0x1d, 0	; 29
+ 4da:	e8 98       	cbi	0x1d, 0	; 29
             sensor_post_power_down();
- 492:	0e 94 b5 00 	call	0x16a	; 0x16a <sensor_post_power_down>
+ 4dc:	0e 94 b8 00 	call	0x170	; 0x170 <sensor_post_power_down>
             machine_state = WaitSignalOn;
- 496:	c0 93 05 01 	sts	0x0105, r28	; 0x800105 <machine_state>
+ 4e0:	c0 93 05 01 	sts	0x0105, r28	; 0x800105 <machine_state>
             break;
- 49a:	02 c0       	rjmp	.+4      	; 0x4a0 <__LOCK_REGION_LENGTH__+0xa0>
+ 4e4:	02 c0       	rjmp	.+4      	; 0x4ea <__LOCK_REGION_LENGTH__+0xea>
         default:
             machine_state = Start;
- 49c:	10 92 05 01 	sts	0x0105, r1	; 0x800105 <machine_state>
+ 4e6:	10 92 05 01 	sts	0x0105, r1	; 0x800105 <machine_state>
         }
 
         sensor_state_machine();
- 4a0:	0e 94 cb 00 	call	0x196	; 0x196 <sensor_state_machine>
+ 4ea:	0e 94 ce 00 	call	0x19c	; 0x19c <sensor_state_machine>
     }
- 4a4:	6b cf       	rjmp	.-298    	; 0x37c <main+0x2e>
+ 4ee:	6b cf       	rjmp	.-298    	; 0x3c6 <main+0x2e>
 
-000004a6 <__tablejump2__>:
- 4a6:	ee 0f       	add	r30, r30
- 4a8:	ff 1f       	adc	r31, r31
- 4aa:	05 90       	lpm	r0, Z+
- 4ac:	f4 91       	lpm	r31, Z
- 4ae:	e0 2d       	mov	r30, r0
- 4b0:	09 94       	ijmp
+000004f0 <__tablejump2__>:
+ 4f0:	ee 0f       	add	r30, r30
+ 4f2:	ff 1f       	adc	r31, r31
+ 4f4:	05 90       	lpm	r0, Z+
+ 4f6:	f4 91       	lpm	r31, Z
+ 4f8:	e0 2d       	mov	r30, r0
+ 4fa:	09 94       	ijmp
 
-000004b2 <_exit>:
- 4b2:	f8 94       	cli
+000004fc <_exit>:
+ 4fc:	f8 94       	cli
 
-000004b4 <__stop_program>:
- 4b4:	ff cf       	rjmp	.-2      	; 0x4b4 <__stop_program>
+000004fe <__stop_program>:
+ 4fe:	ff cf       	rjmp	.-2      	; 0x4fe <__stop_program>

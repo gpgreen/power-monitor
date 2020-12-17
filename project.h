@@ -67,6 +67,8 @@
 
 #define TOGGLE_LED1 \
     {if (bit_is_set(PORTB, LED1)) PORTB&=~(_BV(LED1)); else PORTB|=_BV(LED1);}
+#define TOGGLE_LED6 \
+    {if (bit_is_set(PORTB, LED6)) PORTB&=~(_BV(LED6)); else PORTB|=_BV(LED6);}
     
 #define LED1_SET_ON PORTB |= _BV(LED1)
 #define LED2_SET_ON PORTD |= _BV(LED2)
