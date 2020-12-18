@@ -1,3 +1,11 @@
+#!/usr/bin/env python
+#
+# Copyright 2020 Greg Green <ggreen@bit-builder.com>
+#
+# Script to detect a shutdown signal sent by the Chart Plotter Hat.
+# If the signal is detected, then call the 'sudo poweroff' command
+# to shutdown the Pi cleanly.
+
 import gpiozero
 import sys
 import time
@@ -13,6 +21,12 @@ def main(args):
     shutdown_button = Button(shutdown_pin,
                              pull_up=False,   # pin should be low until shutdown signalled
                              hold_time=shutdown_pulse_minimum/1000)
+    # Rev A of the hat has the mcu_running pin connected to the 3.3V pin, so it
+    # is always on whenever the Pi is powered. This has been corrected in
+    # Rev B. This still works, but the Hat power monitor cannot know that the
+    # Pi is in the multi user state, which is when this script is intended
+    # to start
+
 #    # the "i am running" pin
 #    running_device = gpiozero.DigitalOutputDevice(mcu_running_pin,
 #                                                  active_high=True,

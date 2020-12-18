@@ -1,0 +1,10 @@
+[Unit]
+Description=Shutdown Monitor
+After=multi-user.target
+
+[Service]
+ExecStart=/usr/bin/shutdown_monitor.py
+RestartSec=1min
+
+[Install]
+WantedBy=multi-user.target
