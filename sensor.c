@@ -53,6 +53,7 @@ sensor_init(void)
     // setup PINS for input, RESET is already set as input and pull up on
     // due to fuse setting
     DDRB &= ~(_BV(MOSI)|_BV(SCK)|_BV(SS));
+
     // set pullups on input pins
     PORTB |= (_BV(MOSI)|_BV(SCK)|_BV(SS));
 
@@ -69,7 +70,7 @@ sensor_init(void)
     current_channel = -1;       /* channel currently measured */
     adc_finished = 0;
 
-    // set SPI hardware, enable interrupt
+    // enabled SPI, enable interrupt
     SPCR = _BV(SPE)|_BV(SPIE);
 
     // SPI starting state
@@ -81,8 +82,16 @@ sensor_pre_power_down(void)
 {
     // turn off adc
     ADCSRA = 0;
+
     // shutdown modules
     PRR |= (_BV(PRADC)|_BV(PRSPI));
+
+    // MISO to input, pull-up on
+    DDRB &= ~(_BV(MISO));
+    PORTB |= _BV(MISO);
+
+    // turn on pull ups on adc ports
+    PORTC |= (_BV(PC0)|_BV(PC1)|_BV(PC2)|_BV(PC3)|_BV(PC4)|_BV(PC5));
 }
 
 void
@@ -95,8 +104,16 @@ sensor_post_power_down(void)
     current_channel = -1;
     adc_finished = 0;
     
+    // MISO to output, pull-up off
+    PORTB &= ~(_BV(MISO));
+    DDRB |= _BV(MISO);
+
+    // turn off pull ups on ADC ports
+    PORTC &= ~(_BV(PC0)|_BV(PC1)|_BV(PC2)|_BV(PC3)|_BV(PC4)|_BV(PC5));
+
+    // turn on SPI
     PRR &= ~(_BV(PRSPI));
-    // set SPI hardware, enable interrupt
+    // enable SPI, enable interrupt
     SPCR = _BV(SPE)|_BV(SPIE);
 }
 

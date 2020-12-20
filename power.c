@@ -4,12 +4,12 @@
  *
  * This device will monitor a momentary pushbutton. If the button
  * is pushed, the device will enable a switching power supply.
- * This will turn on the Raspberry Pi. Once it is running, it will
+ * This will turn on the Raspberry Pi. Once it is running, the Pi will
  * pull a pin high and hold it there to show it is running. If the
  * button is pushed again, this device will pull a pin high that is monitored
  * by the Pi to signal a shutdown. Once the Pi has powered down
  * the pin that it has been holding high will drop. This
- * allows this device to power down the switching power supply.
+ * allows this device to turn off the switching power supply.
  *
  * Device
  * ------
@@ -71,7 +71,6 @@ volatile uint8_t tovflows;
 void
 init(void)
 {
-    // set pullups on unused pins
     // PORTD setup PINS for output
     DDRD |= (_BV(ENABLE)|_BV(LED2)|_BV(LED3)|_BV(LED4));
 
