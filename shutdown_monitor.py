@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 #
 # Copyright 2020 Greg Green <ggreen@bit-builder.com>
 #
@@ -40,12 +40,15 @@ def main(args):
         if shutdown_button.is_pressed():
             sleep_interval = shutdown_wait_delay / 1000
             if shutdown_button.is_held():
+                print("Detected shutdown signal, powering off..")
+                os.system("/usr/bin/pkill -u debian opencpn")
+                time.sleep(1)
                 # execute the shutdown command
-                os.command("/usr/bin/sudo /sbin/poweroff")
+                os.system("/usr/bin/sudo /sbin/poweroff")
                 sys.exit(0)
         else:
             sleep_interval = 1
         time.sleep(sleep_interval)
         
 if __name__ == '__main__':
-    main(sys.args)
+    main(sys.argv)

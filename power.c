@@ -5,10 +5,10 @@
  * This device will monitor a momentary pushbutton. If the button
  * is pushed, the device will enable a switching power supply.
  * This will turn on the Raspberry Pi. Once it is running, the Pi will
- * pull a pin high and hold it there to show it is running. If the
+ * pull a pin low and hold it there to show it is running. If the
  * button is pushed again, this device will pull a pin high that is monitored
  * by the Pi to signal a shutdown. Once the Pi has powered down
- * the pin that it has been holding high will drop. This
+ * the pin that it has been holding low will go high due to pullup. This
  * allows this device to turn off the switching power supply.
  *
  * Device
@@ -80,12 +80,14 @@ init(void)
     // setup PINS for input, RESET is already set as input and pull up on
     // due to fuse setting
     DDRD &= ~(_BV(BUTTON)|_BV(MCU_RUNNING));
-
-    // enable is pulled low
+    // set pull up on MCU_RUNNING
+    PORTD |= _BV(MCU_RUNNING);
+    
+    // enable is set low
     ENABLE_SET_OFF;
 
-    // shutdown is pulled low
-    SHUTDOWN_SET_OFF;
+    // shutdown is set high
+    SHUTDOWN_SET_ON;
     
     // timer set to CK/8, overflow interrupt enabled
     TCCR0B = _BV(CS01);
@@ -95,7 +97,7 @@ init(void)
 inline
 int mcu_is_running(void)
 {
-    return MCU_RUNNING_ON;
+    return MCU_RUNNING_OFF;
 }
 
 inline
@@ -154,7 +156,7 @@ main(void)
             LED5_SET_OFF;
 
             ENABLE_SET_OFF;
-            SHUTDOWN_SET_OFF;
+            SHUTDOWN_SET_ON;
 
             machine_state = WaitSignalOn;
             break;
@@ -191,6 +193,9 @@ main(void)
 
             if (button_pressed())
                 machine_state = SignaledOff;
+            // if turned off via the desktop
+            if (!mcu_is_running())
+                machine_state = MCUOff;
             break;
         case SignaledOff:
             LED4_SET_ON;
@@ -199,7 +204,7 @@ main(void)
             LED3_SET_OFF;
             LED5_SET_OFF;
 
-            SHUTDOWN_SET_ON;
+            SHUTDOWN_SET_OFF;
 
             if (!mcu_is_running())
                 machine_state = MCUOff;
@@ -212,7 +217,7 @@ main(void)
             LED4_SET_OFF;
 
             ENABLE_SET_OFF;
-            SHUTDOWN_SET_OFF;
+            SHUTDOWN_SET_ON;
 
             machine_state = LowPowerMode;
             break;
