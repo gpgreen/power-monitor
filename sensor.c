@@ -13,7 +13,10 @@
  * 0x01 = adc channels requested
  *   second byte contains flags of which adc channels are requested, ie if bit 0 is set
  *   then adc channel 0 is requested and so on up to 5 channels.
- *   Third byte is zeros
+ *   Third byte is zero
+ * 0x02 = adc channels reading
+ *   second byte contains which channels are activated
+ *   third byte is zero
  * 0x10-0x14 = retrieve adc value on the channel [address - 16], ie address 0x10 is adc channel 0
  *
  * SPI protocol is implemented using a state machine, transitions happen during
@@ -28,6 +31,7 @@
 #include <stdint.h>
 #include <avr/io.h>
 #include <avr/interrupt.h>
+#include <util/atomic.h>
 
 #include "project.h"
 #include "sensor.h"
@@ -43,19 +47,15 @@ int current_channel;
 // array of adc values
 uint16_t adc_values[MAX_ADC_PINS];
 
-// spi
-volatile uint8_t addr;          /* register address received via SPI */
-volatile uint8_t spi_state;     /* current SPI state machine val */
-
 void
 sensor_init(void)
 {
     // setup PINS for input, RESET is already set as input and pull up on
     // due to fuse setting
-    DDRB &= ~(_BV(MOSI)|_BV(SCK)|_BV(SS));
+    DDRB &= ~(_BV(MOSI)|_BV(SCK)|_BV(CS));
 
     // set pullups on input pins
-    PORTB |= (_BV(MOSI)|_BV(SCK)|_BV(SS));
+    PORTB |= (_BV(MOSI)|_BV(SCK)|_BV(CS));
 
     // PORTB setup PINS for output
     DDRB |= _BV(MISO);
@@ -72,9 +72,6 @@ sensor_init(void)
 
     // enabled SPI, enable interrupt
     SPCR = _BV(SPE)|_BV(SPIE);
-
-    // SPI starting state
-    spi_state = 0;
 }
 
 void
@@ -122,14 +119,17 @@ sensor_state_machine(void)
 {
     // if we now have a set of channels to look at,
     // set the current_channel and initiate measurement
-    if (adc_channels > 0 && current_channel < 0)
+    uint8_t curchannels = adc_channels;
+    if (curchannels > 0 && current_channel < 0)
     {
         // find the first channel
         for (uint8_t i=0; i<MAX_ADC_PINS; i++)
         {
-            if (adc_channels & (1<<i))
+            if (curchannels & (1<<i))
             {
-                current_channel = i;
+                ATOMIC_BLOCK(ATOMIC_FORCEON) {
+                    current_channel = i;
+                }
                 break;
             }
         }
@@ -143,16 +143,20 @@ sensor_state_machine(void)
     if (adc_finished)
     {
         // if no channels are requested, then finish
-        if (adc_channels == 0) {
-            current_channel = -1;
+        if (curchannels == 0) {
+            ATOMIC_BLOCK(ATOMIC_FORCEON) {
+                current_channel = -1;
+            }
         } else {
             // get the next channel
             uint8_t i = current_channel + 1;
         find_channel:
             while (i < MAX_ADC_PINS)
             {
-                if (adc_channels & (1<<i)) {
-                    current_channel = i;
+                if (curchannels & (1<<i)) {
+                    ATOMIC_BLOCK(ATOMIC_FORCEON) {
+                        current_channel = i;
+                    }
                     break;
                 } else
                     // zero out channels not used
@@ -172,13 +176,9 @@ sensor_state_machine(void)
     } else {
         // zero out channels not used
         for (int i=0; i<MAX_ADC_PINS; i++)
-            if ((adc_channels & (1 << i)) != (1 << i))
+            if ((curchannels & (1 << i)) != (1 << i))
                 adc_values[i] = 0;
     }
-
-    // reset SPI if we have just handled a transaction
-    if (spi_state == 3)
-        spi_state = 0;
 }
 
 /*
@@ -202,6 +202,8 @@ ISR(SPI_STC_vect)
 {
     uint8_t recvd = SPDR;
     static uint8_t send2 = 0;
+    static uint8_t addr = 0;
+    static int spi_state = 0;
 
     switch (spi_state)
     {
@@ -211,27 +213,26 @@ ISR(SPI_STC_vect)
         {
             SPDR = (uint8_t)(adc_values[addr-0x10] & 0xFF);
             send2 = (uint8_t)((adc_values[addr-0x10] & 0xFF00) >> 8);
-        }
-        else if (addr == 0x01)
+        } else if (addr == 0x02)
         {
-            SPDR = 0;
+            SPDR = adc_channels;
             send2 = 0;
-        } else
-        {
+        } else {
             SPDR = 0;
             send2 = 0;
         }
         spi_state = 1;
         break;
     case 1: // second byte recvd, send third
+        SPDR = send2;
         if (addr == 0x1)
             adc_channels = recvd;
-        SPDR = send2;
         spi_state = 2;
         break;
-    default: // third byte recvd, end of transfer
-        spi_state = 3;
+    case 2:
         SPDR = 0;
+        spi_state = 0; // third byte recvd, end of transfer
         break;
     }
+    TOGGLE_LED5;
 }

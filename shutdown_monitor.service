@@ -3,6 +3,7 @@ Description=Shutdown Monitor
 After=multi-user.target
 
 [Service]
+Type=Simple
 ExecStart=/usr/bin/shutdown_monitor.py
 RestartSec=1min
 

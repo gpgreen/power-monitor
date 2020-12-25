@@ -11,16 +11,19 @@ import sys
 import time
 import os
 
+# which user is running OpenCPN, so we can shut it down
+opencpn_user = "debian"
+
 shutdown_pin = 22
 #mcu_running_pin = 16
 shutdown_pulse_minimum = 600              # milliseconds
 shutdown_wait_delay = 20                  # milliseconds
 
 def main(args):
-    # the shutdown pin
+    # the shutdown pin, active state is low, no pullups
     shutdown_button = Button(shutdown_pin,
                              pull_up=False,   # pin should be low until shutdown signalled
-                             hold_time=shutdown_pulse_minimum/1000)
+                             hold_time=shutdown_pulse_minimum/1000.0)
     # Rev A of the hat has the mcu_running pin connected to the 3.3V pin, so it
     # is always on whenever the Pi is powered. This has been corrected in
     # Rev B. This still works, but the Hat power monitor cannot know that the
@@ -29,8 +32,8 @@ def main(args):
 
 #    # the "i am running" pin
 #    running_device = gpiozero.DigitalOutputDevice(mcu_running_pin,
-#                                                  active_high=True,
-#                                                  initial_value=False)
+#                                                  active_high=False,
+#                                                  initial_value=True)
 #
 #    # set initial state
 #    running_device.on()
@@ -38,10 +41,10 @@ def main(args):
     sleep_interval = 1                             # start out with 1 second sleep
     while True:
         if shutdown_button.is_pressed():
-            sleep_interval = shutdown_wait_delay / 1000
+            sleep_interval = shutdown_wait_delay / 1000.0
             if shutdown_button.is_held():
                 print("Detected shutdown signal, powering off..")
-                os.system("/usr/bin/pkill -u debian opencpn")
+                os.system("/usr/bin/pkill -u {} opencpn".format(opencpn_user))
                 time.sleep(1)
                 # execute the shutdown command
                 os.system("/usr/bin/sudo /sbin/poweroff")

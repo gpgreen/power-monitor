@@ -153,7 +153,6 @@ main(void)
             LED2_SET_OFF;
             LED3_SET_OFF;
             LED4_SET_OFF;
-            LED5_SET_OFF;
 
             ENABLE_SET_OFF;
             SHUTDOWN_SET_ON;
@@ -165,7 +164,6 @@ main(void)
             LED2_SET_OFF;
             LED3_SET_OFF;
             LED4_SET_OFF;
-            LED5_SET_OFF;
 
             if (button_pressed())
                 machine_state = SignaledOn;
@@ -175,7 +173,6 @@ main(void)
             LED1_SET_OFF;
             LED3_SET_OFF;
             LED4_SET_OFF;
-            LED5_SET_OFF;
 
             ENABLE_SET_ON;
 
@@ -189,7 +186,6 @@ main(void)
             LED1_SET_OFF;
             LED2_SET_OFF;
             LED4_SET_OFF;
-            LED5_SET_OFF;
 
             if (button_pressed())
                 machine_state = SignaledOff;
@@ -202,7 +198,6 @@ main(void)
             LED1_SET_OFF;
             LED2_SET_OFF;
             LED3_SET_OFF;
-            LED5_SET_OFF;
 
             SHUTDOWN_SET_OFF;
 
@@ -210,7 +205,6 @@ main(void)
                 machine_state = MCUOff;
             break;
         case MCUOff:
-            LED5_SET_ON;
             LED1_SET_OFF;
             LED2_SET_OFF;
             LED3_SET_OFF;
