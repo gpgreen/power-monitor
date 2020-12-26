@@ -45,10 +45,6 @@
 #define ENABLE_DIR DDRD
 #define ENABLE 4
 
-#define LED2 5
-#define LED3 6
-#define LED4 7
-
 // PortC
 #define RESET 6
 
@@ -58,9 +54,8 @@
 #define SHUTDOWN_DIR DDRB
 #define SHUTDOWN 6
 
-#define LED1 7
-#define LED5 0
-#define LED6 1
+#define SPI_PORT PORTB
+#define SPI_DIR DDRB
 #define MISO 4
 #define MOSI 3
 #define SCK 5
@@ -84,6 +79,21 @@
 #define ENABLE_SET_ON ENABLE_PORT |= _BV(ENABLE)
 #define ENABLE_SET_OFF ENABLE_PORT &= ~(_BV(ENABLE))
 
+/*----------------------------------------------------------------
+ * USE_LED is set if we hav LED's set on unused ports for
+ * debugging power state
+ -----------------------------------------------------------------*/
+#ifdef USE_LED
+
+// PortD LED's
+#define LED2 5
+#define LED3 6
+#define LED4 7
+// PortB LED's
+#define LED1 7
+#define LED5 0
+#define LED6 1
+
 #define TOGGLE_LED1 \
     {if (bit_is_set(PORTB, LED1)) PORTB&=~(_BV(LED1)); else PORTB|=_BV(LED1);}
 #define TOGGLE_LED5 \
@@ -104,5 +114,7 @@
 #define LED4_SET_OFF PORTD &= ~(_BV(LED4))
 #define LED5_SET_OFF PORTB &= ~(_BV(LED5))
 #define LED6_SET_OFF PORTB &= ~(_BV(LED6))
+
+#endif
 
 #endif /* PROJECT_H_ */

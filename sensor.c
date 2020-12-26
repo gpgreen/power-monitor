@@ -52,13 +52,13 @@ sensor_init(void)
 {
     // setup PINS for input, RESET is already set as input and pull up on
     // due to fuse setting
-    DDRB &= ~(_BV(MOSI)|_BV(SCK)|_BV(CS));
+    SPI_DIR &= ~(_BV(MOSI)|_BV(SCK)|_BV(CS));
 
     // set pullups on input pins
-    PORTB |= (_BV(MOSI)|_BV(SCK)|_BV(CS));
+    SPI_PORT |= (_BV(MOSI)|_BV(SCK)|_BV(CS));
 
     // PORTB setup PINS for output
-    DDRB |= _BV(MISO);
+    SPI_DIR |= _BV(MISO);
 
     // PORTC setup PINS for input
     DDRC &= ~(_BV(PC0)|_BV(PC1)|_BV(PC2)|_BV(PC3)|_BV(PC4)|_BV(PC5));
@@ -84,8 +84,8 @@ sensor_pre_power_down(void)
     PRR |= (_BV(PRADC)|_BV(PRSPI));
 
     // MISO to input, pull-up on
-    DDRB &= ~(_BV(MISO));
-    PORTB |= _BV(MISO);
+    SPI_DIR &= ~(_BV(MISO));
+    SPI_PORT |= _BV(MISO);
 
     // turn on pull ups on adc ports
     PORTC |= (_BV(PC0)|_BV(PC1)|_BV(PC2)|_BV(PC3)|_BV(PC4)|_BV(PC5));
@@ -102,8 +102,8 @@ sensor_post_power_down(void)
     adc_finished = 0;
     
     // MISO to output, pull-up off
-    PORTB &= ~(_BV(MISO));
-    DDRB |= _BV(MISO);
+    SPI_PORT &= ~(_BV(MISO));
+    SPI_DIR |= _BV(MISO);
 
     // turn off pull ups on ADC ports
     PORTC &= ~(_BV(PC0)|_BV(PC1)|_BV(PC2)|_BV(PC3)|_BV(PC4)|_BV(PC5));
@@ -234,5 +234,7 @@ ISR(SPI_STC_vect)
         spi_state = 0; // third byte recvd, end of transfer
         break;
     }
+#ifdef USE_LED
     TOGGLE_LED5;
+#endif
 }

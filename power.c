@@ -82,12 +82,22 @@ init(void)
 
     // SHUTDOWN, output, no pullup
     SHUTDOWN_DIR |= _BV(SHUTDOWN);
-    
+
+#ifdef USE_LED
     // PORTD setup PINS for output
     DDRD |= (_BV(LED2)|_BV(LED3)|_BV(LED4));
-
     // PORTB setup PINS for output
     DDRB |= (_BV(LED1)|_BV(LED5)|_BV(LED6));
+    // set unused ports as input and pull-up on
+    DDRD &= ~(_BV(0)|_BV(1));
+    PORTD |= (_BV(0)|_BV(1));
+#else
+    // set unused ports as input and pull-up on
+    DDRD &= ~(_BV(0)|_BV(1)|_BV(5)|_BV(6)|_BV(7));
+    PORTD |= (_BV(0)|_BV(1)|_BV(5)|_BV(6)|_BV(7));
+    DDRB &= ~(_BV(0)|_BV(1)|_BV(7));
+    PORTB |= (_BV(0)|_BV(1)|_BV(7));
+#endif
     
     // enable is set low
     ENABLE_SET_OFF;
@@ -155,44 +165,48 @@ main(void)
         
         switch (machine_state) {
         case Start:
+#ifdef USE_LED
             LED1_SET_OFF;
             LED2_SET_OFF;
             LED3_SET_OFF;
             LED4_SET_OFF;
-
+#endif
             ENABLE_SET_OFF;
             SHUTDOWN_SET_ON;
-
             machine_state = WaitSignalOn;
             break;
         case WaitSignalOn:
+#ifdef USE_LED
             LED1_SET_ON;
             LED2_SET_OFF;
             LED3_SET_OFF;
             LED4_SET_OFF;
-
+#endif
+            ENABLE_SET_OFF;
+            SHUTDOWN_SET_ON;
             if (button_pressed())
                 machine_state = SignaledOn;
             break;
         case SignaledOn:
+#ifdef USE_LED
             LED2_SET_ON;
             LED1_SET_OFF;
             LED3_SET_OFF;
             LED4_SET_OFF;
-
+#endif
             ENABLE_SET_ON;
-
             if (mcu_is_running())
                 machine_state = MCURunning;
             if (button_pressed())
                 machine_state = MCUOff;
             break;
         case MCURunning:
+#ifdef USE_LED
             LED3_SET_ON;
             LED1_SET_OFF;
             LED2_SET_OFF;
             LED4_SET_OFF;
-
+#endif
             if (button_pressed())
                 machine_state = SignaledOff;
             // if turned off via the desktop
@@ -200,48 +214,52 @@ main(void)
                 machine_state = MCUOff;
             break;
         case SignaledOff:
+#ifdef USE_LED
             LED4_SET_ON;
             LED1_SET_OFF;
             LED2_SET_OFF;
             LED3_SET_OFF;
-
+#endif
             SHUTDOWN_SET_OFF;
-
             if (!mcu_is_running())
                 machine_state = MCUOff;
             break;
         case MCUOff:
+#ifdef USE_LED
             LED1_SET_OFF;
             LED2_SET_OFF;
             LED3_SET_OFF;
             LED4_SET_OFF;
-
+#endif
             ENABLE_SET_OFF;
-            SHUTDOWN_SET_ON;
-
             machine_state = LowPowerMode;
             break;
         case LowPowerMode:
+#ifdef USE_LED
             LED1_SET_OFF;
             LED2_SET_OFF;
             LED3_SET_OFF;
             LED4_SET_OFF;
             LED5_SET_OFF;
             LED6_SET_OFF;
+#endif
 
             // enter Power-Down mode
             set_sleep_mode(SLEEP_MODE_PWR_DOWN);
+
             // set INTO interrupt
             EIMSK |= _BV(INT0);
+
             // SHUTDOWN pin to input and pull-up on
             SHUTDOWN_DIR &= ~(_BV(SHUTDOWN));
             SHUTDOWN_PORT |= _BV(SHUTDOWN);
-            
             sensor_pre_power_down();
+
+            // do the power down
             sleep_enable();
             sleep_mode();
-
             // woken up
+
             // turn off INT0 interrupt
             EIMSK &= ~(_BV(INT0));
             sensor_post_power_down();
@@ -274,7 +292,9 @@ ISR(TIMER0_OVF_vect)
     if (button_state == 1)
         tovflows++;
 
+#ifdef USE_LED
     TOGGLE_LED6;
+#endif
 }
 
 /*

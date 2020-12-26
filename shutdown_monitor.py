@@ -20,10 +20,11 @@ shutdown_pulse_minimum = 600              # milliseconds
 shutdown_wait_delay = 20                  # milliseconds
 
 def main(args):
-    # the shutdown pin, active state is high, no pullups
+    # the shutdown pin, active state is low, no pullups
     shutdown_button = gpiozero.Button(shutdown_pin,
-                                pull_up=False,
-                                hold_time=shutdown_pulse_minimum/1000.0)
+                                      pull_up=None,
+                                      active_state=False,
+                                      hold_time=shutdown_pulse_minimum/1000.0)
     # Rev A of the hat has the mcu_running pin connected to the 3.3V pin, so it
     # is always on whenever the Pi is powered. This has been corrected in
     # Rev B. This still works, but the Hat power monitor cannot know that the
@@ -40,9 +41,9 @@ def main(args):
 
     sleep_interval = 1                             # start out with 1 second sleep
     while True:
-        if shutdown_button.is_pressed():
+        if shutdown_button.is_pressed:
             sleep_interval = shutdown_wait_delay / 1000.0
-            if shutdown_button.is_held():
+            if shutdown_button.is_held:
                 print("Detected shutdown signal, powering off..")
                 os.system("/usr/bin/pkill -u {} opencpn".format(opencpn_user))
                 time.sleep(1)
