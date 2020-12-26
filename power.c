@@ -5,10 +5,10 @@
  * This device will monitor a momentary pushbutton. If the button
  * is pushed, the device will enable a switching power supply.
  * This will turn on the Raspberry Pi. Once it is running, the Pi will
- * pull a pin low and hold it there to show it is running. If the
- * button is pushed again, this device will pull a pin high that is monitored
+ * pull a pin hi and hold it there to show it is running. If the
+ * button is pushed again, this device will pull a pin low that is monitored
  * by the Pi to signal a shutdown. Once the Pi has powered down
- * the pin that it has been holding low will go high due to pullup. This
+ * the pin that it has been holding hi will go low. This
  * allows this device to turn off the switching power supply.
  *
  * Device
@@ -71,17 +71,23 @@ volatile uint8_t tovflows;
 void
 init(void)
 {
+    // MCU_RUNNING, input, no pullup
+    MCU_RUNNING_DIR &= ~(_BV(MCU_RUNNING));
+
+    // BUTTON, input, no pullup
+    BUTTON_DIR &= ~(_BV(BUTTON));
+
+    // ENABLE, output, no pullup
+    ENABLE_DIR |= _BV(ENABLE);
+
+    // SHUTDOWN, output, no pullup
+    SHUTDOWN_DIR |= _BV(SHUTDOWN);
+    
     // PORTD setup PINS for output
-    DDRD |= (_BV(ENABLE)|_BV(LED2)|_BV(LED3)|_BV(LED4));
+    DDRD |= (_BV(LED2)|_BV(LED3)|_BV(LED4));
 
     // PORTB setup PINS for output
-    DDRB |= (_BV(SHUTDOWN)|_BV(LED1)|_BV(LED5)|_BV(LED6));
-    
-    // setup PINS for input, RESET is already set as input and pull up on
-    // due to fuse setting
-    DDRD &= ~(_BV(BUTTON)|_BV(MCU_RUNNING));
-    // set pull up on MCU_RUNNING
-    PORTD |= _BV(MCU_RUNNING);
+    DDRB |= (_BV(LED1)|_BV(LED5)|_BV(LED6));
     
     // enable is set low
     ENABLE_SET_OFF;
@@ -97,7 +103,7 @@ init(void)
 inline
 int mcu_is_running(void)
 {
-    return MCU_RUNNING_OFF;
+    return MCU_RUNNING_ON;
 }
 
 inline
@@ -227,6 +233,10 @@ main(void)
             set_sleep_mode(SLEEP_MODE_PWR_DOWN);
             // set INTO interrupt
             EIMSK |= _BV(INT0);
+            // SHUTDOWN pin to input and pull-up on
+            SHUTDOWN_DIR &= ~(_BV(SHUTDOWN));
+            SHUTDOWN_PORT |= _BV(SHUTDOWN);
+            
             sensor_pre_power_down();
             sleep_enable();
             sleep_mode();
@@ -235,6 +245,10 @@ main(void)
             // turn off INT0 interrupt
             EIMSK &= ~(_BV(INT0));
             sensor_post_power_down();
+            // SHUTDOWN pin pull up off, to output
+            SHUTDOWN_PORT &= ~(_BV(SHUTDOWN));
+            SHUTDOWN_DIR |= _BV(SHUTDOWN);
+            
             machine_state = WaitSignalOn;
             break;
         default:

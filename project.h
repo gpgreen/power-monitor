@@ -30,9 +30,21 @@
 // Define pin labels
 
 // PortD
+#define MCU_RUNNING_PORT PORTD
+#define MCU_RUNNING_PIN PIND
+#define MCU_RUNNING_DIR DDRD
 #define MCU_RUNNING 3
+
+#define BUTTON_PORT PORTD
+#define BUTTON_PIN PIND
+#define BUTTON_DIR DDRD
 #define BUTTON 2
+
+#define ENABLE_PORT PORTD
+#define ENABLE_PIN PIND
+#define ENABLE_DIR DDRD
 #define ENABLE 4
+
 #define LED2 5
 #define LED3 6
 #define LED4 7
@@ -41,7 +53,11 @@
 #define RESET 6
 
 // PortB
+#define SHUTDOWN_PORT PORTB
+#define SHUTDOWN_PIN PINB
+#define SHUTDOWN_DIR DDRB
 #define SHUTDOWN 6
+
 #define LED1 7
 #define LED5 0
 #define LED6 1
@@ -53,20 +69,20 @@
 /*----------------------------------------------------------------*/
 // Define pin macros
 
-#define MCU_RUNNING_ON bit_is_set(PIND, MCU_RUNNING)
-#define MCU_RUNNING_OFF bit_is_clear(PIND, MCU_RUNNING)
+#define MCU_RUNNING_ON bit_is_set(MCU_RUNNING_PIN, MCU_RUNNING)
+#define MCU_RUNNING_OFF bit_is_clear(MCU_RUNNING_PIN, MCU_RUNNING)
 
 #define CS_ON bit_is_set(PINB, CS)
 #define CS_OFF bit_is_clear(PINB, CS)
 
-#define BUTTON_ON bit_is_set(PIND, BUTTON)
-#define BUTTON_OFF bit_is_clear(PIND, BUTTON)
+#define BUTTON_ON bit_is_set(BUTTON_PIN, BUTTON)
+#define BUTTON_OFF bit_is_clear(BUTTON_PIN, BUTTON)
 
-#define SHUTDOWN_SET_ON PORTB |= _BV(SHUTDOWN)
-#define SHUTDOWN_SET_OFF PORTB &= ~(_BV(SHUTDOWN))
+#define SHUTDOWN_SET_ON SHUTDOWN_PORT |= _BV(SHUTDOWN)
+#define SHUTDOWN_SET_OFF SHUTDOWN_PORT &= ~(_BV(SHUTDOWN))
 
-#define ENABLE_SET_ON PORTD |= _BV(ENABLE)
-#define ENABLE_SET_OFF PORTD &= ~(_BV(ENABLE))
+#define ENABLE_SET_ON ENABLE_PORT |= _BV(ENABLE)
+#define ENABLE_SET_OFF ENABLE_PORT &= ~(_BV(ENABLE))
 
 #define TOGGLE_LED1 \
     {if (bit_is_set(PORTB, LED1)) PORTB&=~(_BV(LED1)); else PORTB|=_BV(LED1);}

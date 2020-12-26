@@ -12,31 +12,31 @@ import time
 import os
 
 # which user is running OpenCPN, so we can shut it down
-opencpn_user = "debian"
+opencpn_user = "pi"
 
 shutdown_pin = 22
-#mcu_running_pin = 16
+mcu_running_pin = 23
 shutdown_pulse_minimum = 600              # milliseconds
 shutdown_wait_delay = 20                  # milliseconds
 
 def main(args):
-    # the shutdown pin, active state is low, no pullups
-    shutdown_button = Button(shutdown_pin,
-                             pull_up=False,   # pin should be low until shutdown signalled
-                             hold_time=shutdown_pulse_minimum/1000.0)
+    # the shutdown pin, active state is high, no pullups
+    shutdown_button = gpiozero.Button(shutdown_pin,
+                                pull_up=False,
+                                hold_time=shutdown_pulse_minimum/1000.0)
     # Rev A of the hat has the mcu_running pin connected to the 3.3V pin, so it
     # is always on whenever the Pi is powered. This has been corrected in
     # Rev B. This still works, but the Hat power monitor cannot know that the
     # Pi is in the multi user state, which is when this script is intended
     # to start
 
-#    # the "i am running" pin
-#    running_device = gpiozero.DigitalOutputDevice(mcu_running_pin,
-#                                                  active_high=False,
-#                                                  initial_value=True)
-#
-#    # set initial state
-#    running_device.on()
+    # the "i am running" pin
+    running_device = gpiozero.DigitalOutputDevice(mcu_running_pin,
+                                                  active_high=True,
+                                                  initial_value=True)
+
+    # set initial state
+    running_device.on()
 
     sleep_interval = 1                             # start out with 1 second sleep
     while True:
