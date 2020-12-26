@@ -105,8 +105,8 @@ init(void)
     // shutdown is set high
     SHUTDOWN_SET_ON;
     
-    // timer set to CK/8, overflow interrupt enabled
-    TCCR0B = _BV(CS01);
+    // timer set to CK/256, overflow interrupt enabled
+    TCCR0B = _BV(CS02);
     TIMSK0 = _BV(TOIE0);
 }
 
@@ -148,15 +148,15 @@ main(void)
     // main loop
     while(1)
     {
-        // check if button down, mask length is 2.048ms
+        // check if button down, mask length is 66ms
         if (button_state == 0 && button_mask == 0x00) {
             button_state = 1;
             tovflows = 0;
             // has it been down for long enough
         } else if (button_state == 1) {
             if (button_mask == 0x0FF) {
-                // delay long enough, each overflow = 256us, this is 25.6ms
-                if (tovflows >= F_CPU / 8 / 256 / 100) {
+                // delay long enough, each overflow = 8ms, this is 200ms
+                if (tovflows >= 26) {
                     buttonpress = 1;
                 }
                 button_state = 0;
