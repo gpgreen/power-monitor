@@ -95,8 +95,8 @@ init(void)
     // set unused ports as input and pull-up on
     DDRD &= ~(_BV(0)|_BV(1)|_BV(5)|_BV(6)|_BV(7));
     PORTD |= (_BV(0)|_BV(1)|_BV(5)|_BV(6)|_BV(7));
-    DDRB &= ~(_BV(0)|_BV(1)|_BV(7));
-    PORTB |= (_BV(0)|_BV(1)|_BV(7));
+    DDRB &= ~(_BV(0)|_BV(1));
+    PORTB |= (_BV(0)|_BV(1));
 #endif
     
     // enable is set low

@@ -54,6 +54,11 @@
 #define SHUTDOWN_DIR DDRB
 #define SHUTDOWN 6
 
+#define EEPROM_PORT PORTB
+#define EEPROM_PIN PINB
+#define EEPROM_DIR DDRB
+#define EEPROM 7
+
 #define SPI_PORT PORTB
 #define SPI_DIR DDRB
 #define MISO 4

@@ -17,6 +17,8 @@
  * 0x02 = adc channels reading
  *   second byte contains which channels are activated
  *   third byte is zero
+ * 0x03 = toggle EEPROM pin
+ *   second and third byte 0
  * 0x10-0x14 = retrieve adc value on the channel [address - 16], ie address 0x10 is adc channel 0
  *
  * SPI protocol is implemented using a state machine, transitions happen during
@@ -47,6 +49,9 @@ int current_channel;
 // array of adc values
 uint16_t adc_values[MAX_ADC_PINS];
 
+// toggling of eeprom
+volatile uint8_t toggle_eeprom;
+
 void
 sensor_init(void)
 {
@@ -62,6 +67,9 @@ sensor_init(void)
 
     // PORTC setup PINS for input
     DDRC &= ~(_BV(PC0)|_BV(PC1)|_BV(PC2)|_BV(PC3)|_BV(PC4)|_BV(PC5));
+
+    // EEPROM to input, no pullup
+    EEPROM_DIR &= ~_BV(EEPROM);
     
     // start the ADC, and enable interrupt, scale clock by 8
     ADCSRA = _BV(ADEN)|_BV(ADIE)|_BV(ADPS1)|_BV(ADPS0);
@@ -117,6 +125,21 @@ sensor_post_power_down(void)
 void
 sensor_state_machine(void)
 {
+    // toggle eeprom if chosen
+    if (toggle_eeprom)
+    {
+        if (bit_is_clear(EEPROM_PIN, EEPROM))
+        {
+            // set to input
+            EEPROM_DIR &= ~_BV(EEPROM);
+        } else {
+            // set to output, set low
+            EEPROM_DIR |= _BV(EEPROM);
+            EEPROM_PORT &= _BV(EEPROM);
+        }
+        toggle_eeprom = 0;
+    }
+    
     // if we now have a set of channels to look at,
     // set the current_channel and initiate measurement
     uint8_t curchannels = adc_channels;
@@ -217,9 +240,10 @@ ISR(SPI_STC_vect)
         {
             SPDR = adc_channels;
             send2 = 0;
-        } else {
+        } else if (addr == 0x3) {
             SPDR = 0;
             send2 = 0;
+            toggle_eeprom = 1;
         }
         spi_state = 1;
         break;
