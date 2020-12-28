@@ -20,4 +20,4 @@ This can also be done with the makefile target 'program', or `make program`
 
 ## Code
 
-![state machine for power monitoring](file:///StateMachine.png)
+![state machine for power monitoring](https://github.com/gpgreen/power-monitor/blob/main/StateMachine.png)
