@@ -70,7 +70,7 @@ OBJDIR = .
 VPATH =
 
 # List C source files here. (C dependencies are automatically generated.)
-SRC = $(TARGET).c sensor.c
+SRC = $(TARGET).c sensor.c spi.c
 
 
 # List C++ source files here. (C dependencies are automatically generated.)
