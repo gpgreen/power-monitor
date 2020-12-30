@@ -49,4 +49,4 @@ program`
 
 ![state machine for power monitoring](https://github.com/gpgreen/power-monitor/blob/main/StateMachine.png)
 
-Diagram made using ![gaphor](https://gaphor.readthedocs.io/en/latest/)
+Diagram made using [gaphor](https://gaphor.readthedocs.io/en/latest/)
