@@ -11,25 +11,34 @@ import sys
 import time
 import os
 
-# which user is running OpenCPN, so we can shut it down
-opencpn_user = "pi"
+# environment variables
+kpkill_delay = "OPENCPN_PKILL_DELAY"
+kpkill_user = "OPENCPN_USER"
 
+# raspberry pi gpio pin numbers and delay constants
 shutdown_pin = 22
 mcu_running_pin = 23
 shutdown_pulse_minimum = 600              # milliseconds
 shutdown_wait_delay = 20                  # milliseconds
 
 def main(args):
+    # get environment variable(s)
+    if os.environ.has_key(kpkill_delay):
+        opencpn_pkill_delay = int(os.environ[kpkill_delay])
+    else:
+        print("{} environment variable not defined, quitting".format(kpkill_delay))
+        sys.exit(1)
+    if os.environ.has_key(kpkill_user):
+        opencpn_user = os.environ[kpkill_user]
+    else:
+        print("{} environment variable not defined, quitting".format(kpkill_user))
+        sys.exit(1)
+    
     # the shutdown pin, active state is low, no pullups
     shutdown_button = gpiozero.Button(shutdown_pin,
                                       pull_up=None,
                                       active_state=False,
                                       hold_time=shutdown_pulse_minimum/1000.0)
-    # Rev A of the hat has the mcu_running pin connected to the 3.3V pin, so it
-    # is always on whenever the Pi is powered. This has been corrected in
-    # Rev B. This still works, but the Hat power monitor cannot know that the
-    # Pi is in the multi user state, which is when this script is intended
-    # to start
 
     # the "i am running" pin
     running_device = gpiozero.DigitalOutputDevice(mcu_running_pin,
@@ -46,7 +55,7 @@ def main(args):
             if shutdown_button.is_held:
                 print("Detected shutdown signal, powering off..")
                 os.system("/usr/bin/pkill -u {} opencpn".format(opencpn_user))
-                time.sleep(1)
+                time.sleep(opencpn_pkill_delay)
                 # execute the shutdown command
                 os.system("/usr/bin/sudo /sbin/poweroff")
                 sys.exit(0)

@@ -5,7 +5,9 @@ After=multi-user.target
 [Service]
 Type=Simple
 ExecStart=/usr/bin/shutdown_monitor.py
-RestartSec=1min
+Restart=no
+Environment="OPENCPN_PKILL_DELAY=2"
+Environment="OPENCPN_USER=pi"
 
 [Install]
 WantedBy=multi-user.target
