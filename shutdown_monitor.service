@@ -3,7 +3,7 @@ Description=Shutdown Monitor
 After=multi-user.target
 
 [Service]
-Type=Simple
+Type=simple
 ExecStart=/usr/bin/shutdown_monitor.py
 Restart=no
 Environment="OPENCPN_PKILL_DELAY=2"
