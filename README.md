@@ -47,6 +47,6 @@ program`
 
 ## Code
 
-![state machine for power monitoring](https://github.com/gpgreen/power-monitor/blob/main/StateMachine.png)
+![state machine for power monitoring](StateMachine.png)
 
 Diagram made using [gaphor](https://gaphor.readthedocs.io/en/latest/)
