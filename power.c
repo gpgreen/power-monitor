@@ -36,34 +36,19 @@
 #include <avr/io.h>
 #include <avr/interrupt.h>
 #include <avr/sleep.h>
+#include <util/atomic.h>
 
 #include "project.h"
+#include "power.h"
 #include "sensor.h"
 #include "spi.h"
 
-/*--------------------------------------------------------*/
-
-typedef enum {
-    Start,
-    WaitEntry,
-    Wait,
-    SignaledOnEntry,
-    SignaledOn,
-    MCURunningEntry,
-    MCURunning,
-    SignaledOffEntry,
-    SignaledOff,
-    MCUOffEntry,
-    MCUOff,
-    SleepPowerDown,
-    SleepPowerUp
-} StateMachine;
-
 /*--------------------------------------------------------
- globals
- --------------------------------------------------------*/
+  globals
+  --------------------------------------------------------*/
 
 StateMachine machine_state;
+StateMachine prev_state;
 
 // 1 when buttonpress detected, 0 otherwise
 uint8_t buttonpress;
@@ -76,6 +61,8 @@ volatile uint8_t button_mask;
 volatile uint8_t tovflows;
 // number of timer interrupts for wake up period
 volatile uint8_t wakeup_timer;
+// number of timer interrupts for idle period
+volatile uint8_t idle_timer;
 
 /*--------------------------------------------------------*/
 
@@ -162,6 +149,28 @@ int wake_up_expired(void)
 }
 
 /*--------------------------------------------------------*/
+// trigger when the idle period is over
+inline
+int idle_expired(void)
+{
+    // this is 750ms
+    if (idle_timer >= (uint8_t)(F_CPU/256/256/1.5))
+        return 1;
+    return 0;
+}
+
+/*--------------------------------------------------------*/
+// change state
+void
+change_state(StateMachine new_state)
+{
+    ATOMIC_BLOCK(ATOMIC_FORCEON) {
+        prev_state = machine_state;
+        machine_state = new_state;
+    }
+}
+
+/*--------------------------------------------------------*/
 
 int
 main(void)
@@ -172,8 +181,9 @@ main(void)
 
     init();
     
-    machine_state = Start;
+    machine_state = prev_state = Start;
     button_mask = 0xFF;
+    idle_timer = 0xFF;
     
 	// start interrupts
 	sei();
@@ -201,7 +211,7 @@ main(void)
         switch (machine_state) {
         case Start:
             wakeup_timer = 0;
-            machine_state = WaitEntry;
+            change_state(WaitEntry);
             break;
 /*--------------------------------------------------------*/
         case WaitEntry:
@@ -217,9 +227,9 @@ main(void)
             break;
         case Wait:
             if (button_pressed())
-                machine_state = SignaledOnEntry;
+                change_state(SignaledOnEntry);
             if (wake_up_expired())
-                machine_state = MCUOffEntry;
+                change_state(MCUOffEntry);
             break;
 /*--------------------------------------------------------*/
         case SignaledOnEntry:
@@ -229,15 +239,15 @@ main(void)
             LED3_SET_OFF;
             LED4_SET_OFF;
 #endif
-            wakeup_timer = -1;
+            wakeup_timer = 0xFF;
             ENABLE_SET_ON;
             machine_state = SignaledOn;
             break;
         case SignaledOn:
             if (mcu_is_running())
-                machine_state = MCURunningEntry;
+                change_state(MCURunningEntry);
             if (button_pressed())
-                machine_state = MCUOffEntry;
+                change_state(MCUOffEntry);
             break;
 /*--------------------------------------------------------*/
         case MCURunningEntry:
@@ -247,14 +257,50 @@ main(void)
             LED2_SET_OFF;
             LED4_SET_OFF;
 #endif
+            idle_timer = 0;
             machine_state = MCURunning;
             break;
         case MCURunning:
             if (button_pressed())
-                machine_state = SignaledOffEntry;
+            {
+                change_state(SignaledOffEntry);
+                idle_timer = 0xFF;
+            }
             // if turned off via the desktop
             if (!mcu_is_running())
-                machine_state = MCUOffEntry;
+            {
+                change_state(MCUOffEntry);
+                idle_timer = 0xFF;
+            }
+            if (idle_expired())
+            {
+                change_state(IdleEntry);
+                idle_timer = 0xFF;
+            }
+            break;
+/*--------------------------------------------------------*/
+        case IdleEntry:
+#ifdef USE_LED
+            LED1_SET_OFF;
+            LED2_SET_OFF;
+            LED3_SET_OFF;
+            LED4_SET_OFF;
+#endif
+            machine_state = Idle;
+            break;
+        case Idle:
+            // set INTO interrupt
+            EIMSK |= _BV(INT0);
+            // enter Power-Down mode
+            set_sleep_mode(SLEEP_MODE_IDLE);
+
+            // do the power down
+            sleep_enable();
+            sleep_mode();
+
+            // turn off INT0 interrupt
+            EIMSK &= ~(_BV(INT0));
+            change_state(MCURunningEntry);
             break;
 /*--------------------------------------------------------*/
         case SignaledOffEntry:
@@ -271,7 +317,7 @@ main(void)
             if (!mcu_is_running())
             {
                 SHUTDOWN_SET_ON;
-                machine_state = MCUOffEntry;
+                change_state(MCUOffEntry);
             }
             break;
 /*--------------------------------------------------------*/
@@ -283,7 +329,7 @@ main(void)
             LED4_SET_OFF;
 #endif
             ENABLE_SET_OFF;
-            machine_state = SleepPowerDown;
+            change_state(SleepPowerDown);
             break;
 /*--------------------------------------------------------*/
         case SleepPowerDown:
@@ -311,7 +357,7 @@ main(void)
             sleep_enable();
             sleep_mode();
             // woken up
-            machine_state = SleepPowerUp;
+            change_state(SleepPowerUp);
             // NO BREAK
             // fall through to next state, so we don't
             // call other state machines
@@ -325,11 +371,11 @@ main(void)
             SHUTDOWN_PORT &= ~(_BV(SHUTDOWN));
             SHUTDOWN_DIR |= _BV(SHUTDOWN);
             wakeup_timer = 0;
-            machine_state = WaitEntry;
+            change_state(WaitEntry);
             break;
 /*--------------------------------------------------------*/
         default:
-            machine_state = Start;
+            change_state(Start);
         }
 /*--------------------------------------------------------*/
         spi_state_machine();
@@ -352,8 +398,10 @@ ISR(TIMER0_OVF_vect)
         button_mask &= ~1;
     if (button_state == 1)
         tovflows++;
-    if (wakeup_timer >= 0)
+    if (wakeup_timer != 0xFF)
         wakeup_timer++;
+    if (idle_timer != 0xFF)
+        idle_timer++;
 #ifdef USE_LED
     TOGGLE_LED6;
 #endif

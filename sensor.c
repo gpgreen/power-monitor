@@ -8,6 +8,7 @@
 #include <util/atomic.h>
 
 #include "project.h"
+#include "power.h"
 #include "sensor.h"
 
 // adc channels
@@ -119,6 +120,8 @@ sensor_state_machine(void)
             ADCSRA |= _BV(ADSC);
         }
         adc_finished = 0;
+        if (prev_state == Idle || prev_state == IdleEntry)
+            change_state(IdleEntry);
     } else {
         // zero out channels not used
         for (int i=0; i<MAX_ADC_PINS; i++)

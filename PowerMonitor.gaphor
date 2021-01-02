@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<gaphor xmlns="http://gaphor.sourceforge.net/model" version="3.0" gaphor-version="2.0.1">
+<gaphor xmlns="http://gaphor.sourceforge.net/model" version="3.0" gaphor-version="2.1.1">
 <Package id="0bc24c5c-4881-11eb-af90-972e46eb4cf1">
 <name>
 <val>PowerMonitor</val>
@@ -84,10 +84,10 @@
 <val>(1.0, 0.0, 0.0, 1.0, 354.20550537109375, 837.2470092773438)</val>
 </matrix>
 <width>
-<val>98.0</val>
+<val>167.0</val>
 </width>
 <height>
-<val>30.0</val>
+<val>67.0</val>
 </height>
 <subject>
 <ref refid="1ea3260c-4881-11eb-af90-972e46eb4cf1"/>
@@ -227,7 +227,7 @@
 <val>0</val>
 </horizontal>
 <points>
-<val>[(0.0, 0.0), (160.94725613064236, 190.25273437499993)]</val>
+<val>[(0.0, 0.0), (160.94725613064236, 206.52392700195298)]</val>
 </points>
 <head-connection>
 <ref refid="1d682581-4881-11eb-af90-972e46eb4cf1"/>
@@ -264,7 +264,7 @@
 <ref refid="a4c8bc4c-4881-11eb-af90-972e46eb4cf1"/>
 </subject>
 <matrix>
-<val>(1.0, 0.0, 0.0, 1.0, 452.20550537109375, 851.1369873046875)</val>
+<val>(1.0, 0.0, 0.0, 1.0, 521.2055053710938, 868.2679602050782)</val>
 </matrix>
 <orthogonal>
 <val>0</val>
@@ -273,7 +273,7 @@
 <val>0</val>
 </horizontal>
 <points>
-<val>[(0.0, 0.0), (267.10125732421875, 5.001722656249854)]</val>
+<val>[(0.0, 0.0), (198.10125732421875, -12.129250244140849)]</val>
 </points>
 <head-connection>
 <ref refid="1ea3260d-4881-11eb-af90-972e46eb4cf1"/>
@@ -287,7 +287,7 @@
 <ref refid="aff25e66-4881-11eb-af90-972e46eb4cf1"/>
 </subject>
 <matrix>
-<val>(1.0, 0.0, 0.0, 1.0, 421.2156616210937, 837.2470092773438)</val>
+<val>(1.0, 0.0, 0.0, 1.0, 468.3962818379304, 837.2470092773438)</val>
 </matrix>
 <orthogonal>
 <val>0</val>
@@ -296,7 +296,7 @@
 <val>0</val>
 </horizontal>
 <points>
-<val>[(0.0, 0.0), (163.59878173828128, -206.48309487472352), (337.9829370117188, -387.00826416015616)]</val>
+<val>[(0.0, 0.0), (116.41816152144457, -206.48309487472352), (290.8023167948821, -387.00826416015616)]</val>
 </points>
 <head-connection>
 <ref refid="1ea3260d-4881-11eb-af90-972e46eb4cf1"/>
@@ -462,6 +462,89 @@
 <ref refid="3caa8bb7-4885-11eb-af90-972e46eb4cf1"/>
 </tail-connection>
 </item>
+<item id="c36fe2a1-4d2d-11eb-89fc-cbfbb77ea5fd" type="StateItem">
+<matrix>
+<val>(1.0, 0.0, 0.0, 1.0, 361.32586669921875, 1065.7046508789062)</val>
+</matrix>
+<width>
+<val>171.0</val>
+</width>
+<height>
+<val>84.0</val>
+</height>
+<subject>
+<ref refid="c36fe2a0-4d2d-11eb-89fc-cbfbb77ea5fd"/>
+</subject>
+</item>
+<item id="d858c53c-4d2d-11eb-89fc-cbfbb77ea5fd" type="TransitionItem">
+<subject>
+<ref refid="d9cfe2b6-4d2d-11eb-89fc-cbfbb77ea5fd"/>
+</subject>
+<matrix>
+<val>(1.0, 0.0, 0.0, 1.0, 433.7761535644531, 904.2470092773438)</val>
+</matrix>
+<orthogonal>
+<val>0</val>
+</orthogonal>
+<horizontal>
+<val>0</val>
+</horizontal>
+<points>
+<val>[(0.0, 0.0), (-72.45028686523438, 76.65277099609375), (6.034513892197026, 161.4576416015625)]</val>
+</points>
+<head-connection>
+<ref refid="1ea3260d-4881-11eb-af90-972e46eb4cf1"/>
+</head-connection>
+<tail-connection>
+<ref refid="c36fe2a1-4d2d-11eb-89fc-cbfbb77ea5fd"/>
+</tail-connection>
+</item>
+<item id="dbd2a6fd-4d2d-11eb-89fc-cbfbb77ea5fd" type="TransitionItem">
+<subject>
+<ref refid="e7c2297e-4d2d-11eb-89fc-cbfbb77ea5fd"/>
+</subject>
+<matrix>
+<val>(1.0, 0.0, 0.0, 1.0, 438.9311582983994, 1065.7046508789062)</val>
+</matrix>
+<orthogonal>
+<val>0</val>
+</orthogonal>
+<horizontal>
+<val>0</val>
+</horizontal>
+<points>
+<val>[(0.0, 0.0), (87.8039491234756, -83.597900390625), (16.28372344287135, -161.4576416015625)]</val>
+</points>
+<head-connection>
+<ref refid="c36fe2a1-4d2d-11eb-89fc-cbfbb77ea5fd"/>
+</head-connection>
+<tail-connection>
+<ref refid="1ea3260d-4881-11eb-af90-972e46eb4cf1"/>
+</tail-connection>
+</item>
+<item id="6a40b57a-4d36-11eb-89fc-cbfbb77ea5fd" type="TransitionItem">
+<subject>
+<ref refid="6eae61de-4d36-11eb-89fc-cbfbb77ea5fd"/>
+</subject>
+<matrix>
+<val>(1.0, 0.0, 0.0, 1.0, 387.8076171875, 904.2470092773438)</val>
+</matrix>
+<orthogonal>
+<val>0</val>
+</orthogonal>
+<horizontal>
+<val>0</val>
+</horizontal>
+<points>
+<val>[(0.0, 0.0), (-252.55517578125, 78.54229736328125), (49.788818359375, 161.4576416015625)]</val>
+</points>
+<head-connection>
+<ref refid="1ea3260d-4881-11eb-af90-972e46eb4cf1"/>
+</head-connection>
+<tail-connection>
+<ref refid="c36fe2a1-4d2d-11eb-89fc-cbfbb77ea5fd"/>
+</tail-connection>
+</item>
 </canvas>
 </Diagram>
 <StyleSheet id="0bc24c5e-4881-11eb-af90-972e46eb4cf1">
@@ -516,6 +599,7 @@ diagram {
 <ref refid="0112fa76-4882-11eb-af90-972e46eb4cf1"/>
 <ref refid="16d41ec8-4885-11eb-af90-972e46eb4cf1"/>
 <ref refid="3caa8bb6-4885-11eb-af90-972e46eb4cf1"/>
+<ref refid="c36fe2a0-4d2d-11eb-89fc-cbfbb77ea5fd"/>
 </reflist>
 </subvertex>
 </Region>
@@ -642,9 +726,16 @@ diagram {
 <container>
 <ref refid="13942d6d-4881-11eb-af90-972e46eb4cf1"/>
 </container>
+<entry>
+<ref refid="5205feb4-4d2e-11eb-89fc-cbfbb77ea5fd"/>
+</entry>
+<exit>
+<ref refid="3f32f096-4d31-11eb-89fc-cbfbb77ea5fd"/>
+</exit>
 <incoming>
 <reflist>
 <ref refid="940f984e-4881-11eb-af90-972e46eb4cf1"/>
+<ref refid="e7c2297e-4d2d-11eb-89fc-cbfbb77ea5fd"/>
 </reflist>
 </incoming>
 <name>
@@ -654,6 +745,8 @@ diagram {
 <reflist>
 <ref refid="a4c8bc4c-4881-11eb-af90-972e46eb4cf1"/>
 <ref refid="aff25e66-4881-11eb-af90-972e46eb4cf1"/>
+<ref refid="d9cfe2b6-4d2d-11eb-89fc-cbfbb77ea5fd"/>
+<ref refid="6eae61de-4d36-11eb-89fc-cbfbb77ea5fd"/>
 </reflist>
 </outgoing>
 <presentation>
@@ -1213,4 +1306,146 @@ diagram {
 <val>Shutdown Inactive</val>
 </name>
 </Activity>
+<State id="c36fe2a0-4d2d-11eb-89fc-cbfbb77ea5fd">
+<container>
+<ref refid="13942d6d-4881-11eb-af90-972e46eb4cf1"/>
+</container>
+<doActivity>
+<ref refid="41556398-4d2e-11eb-89fc-cbfbb77ea5fd"/>
+</doActivity>
+<entry>
+<ref refid="34052eb2-4d2e-11eb-89fc-cbfbb77ea5fd"/>
+</entry>
+<exit>
+<ref refid="366031ca-4d2e-11eb-89fc-cbfbb77ea5fd"/>
+</exit>
+<incoming>
+<reflist>
+<ref refid="d9cfe2b6-4d2d-11eb-89fc-cbfbb77ea5fd"/>
+<ref refid="6eae61de-4d36-11eb-89fc-cbfbb77ea5fd"/>
+</reflist>
+</incoming>
+<name>
+<val>Idle</val>
+</name>
+<outgoing>
+<reflist>
+<ref refid="e7c2297e-4d2d-11eb-89fc-cbfbb77ea5fd"/>
+</reflist>
+</outgoing>
+<presentation>
+<reflist>
+<ref refid="c36fe2a1-4d2d-11eb-89fc-cbfbb77ea5fd"/>
+</reflist>
+</presentation>
+</State>
+<Transition id="d9cfe2b6-4d2d-11eb-89fc-cbfbb77ea5fd">
+<container>
+<ref refid="13942d6d-4881-11eb-af90-972e46eb4cf1"/>
+</container>
+<guard>
+<ref refid="d9cfe2b7-4d2d-11eb-89fc-cbfbb77ea5fd"/>
+</guard>
+<name>
+<val></val>
+</name>
+<presentation>
+<reflist>
+<ref refid="d858c53c-4d2d-11eb-89fc-cbfbb77ea5fd"/>
+</reflist>
+</presentation>
+<source>
+<ref refid="1ea3260c-4881-11eb-af90-972e46eb4cf1"/>
+</source>
+<target>
+<ref refid="c36fe2a0-4d2d-11eb-89fc-cbfbb77ea5fd"/>
+</target>
+</Transition>
+<Constraint id="d9cfe2b7-4d2d-11eb-89fc-cbfbb77ea5fd">
+<specification>
+<val>idle timer expired</val>
+</specification>
+<transition>
+<ref refid="d9cfe2b6-4d2d-11eb-89fc-cbfbb77ea5fd"/>
+</transition>
+</Constraint>
+<Transition id="e7c2297e-4d2d-11eb-89fc-cbfbb77ea5fd">
+<container>
+<ref refid="13942d6d-4881-11eb-af90-972e46eb4cf1"/>
+</container>
+<guard>
+<ref refid="e7c2297f-4d2d-11eb-89fc-cbfbb77ea5fd"/>
+</guard>
+<presentation>
+<reflist>
+<ref refid="dbd2a6fd-4d2d-11eb-89fc-cbfbb77ea5fd"/>
+</reflist>
+</presentation>
+<source>
+<ref refid="c36fe2a0-4d2d-11eb-89fc-cbfbb77ea5fd"/>
+</source>
+<target>
+<ref refid="1ea3260c-4881-11eb-af90-972e46eb4cf1"/>
+</target>
+</Transition>
+<Constraint id="e7c2297f-4d2d-11eb-89fc-cbfbb77ea5fd">
+<specification>
+<val>external interrupt</val>
+</specification>
+<transition>
+<ref refid="e7c2297e-4d2d-11eb-89fc-cbfbb77ea5fd"/>
+</transition>
+</Constraint>
+<Activity id="34052eb2-4d2e-11eb-89fc-cbfbb77ea5fd">
+<name>
+<val>Enable INT0</val>
+</name>
+</Activity>
+<Activity id="366031ca-4d2e-11eb-89fc-cbfbb77ea5fd">
+<name>
+<val>Disable INT0</val>
+</name>
+</Activity>
+<Activity id="41556398-4d2e-11eb-89fc-cbfbb77ea5fd">
+<name>
+<val>ADC Measurement</val>
+</name>
+</Activity>
+<Activity id="5205feb4-4d2e-11eb-89fc-cbfbb77ea5fd">
+<name>
+<val>Start Idle Timer</val>
+</name>
+</Activity>
+<Activity id="3f32f096-4d31-11eb-89fc-cbfbb77ea5fd">
+<name>
+<val>Stop Idle Timer</val>
+</name>
+</Activity>
+<Transition id="6eae61de-4d36-11eb-89fc-cbfbb77ea5fd">
+<container>
+<ref refid="13942d6d-4881-11eb-af90-972e46eb4cf1"/>
+</container>
+<guard>
+<ref refid="6eae61df-4d36-11eb-89fc-cbfbb77ea5fd"/>
+</guard>
+<presentation>
+<reflist>
+<ref refid="6a40b57a-4d36-11eb-89fc-cbfbb77ea5fd"/>
+</reflist>
+</presentation>
+<source>
+<ref refid="1ea3260c-4881-11eb-af90-972e46eb4cf1"/>
+</source>
+<target>
+<ref refid="c36fe2a0-4d2d-11eb-89fc-cbfbb77ea5fd"/>
+</target>
+</Transition>
+<Constraint id="6eae61df-4d36-11eb-89fc-cbfbb77ea5fd">
+<specification>
+<val>adc finished in Idle</val>
+</specification>
+<transition>
+<ref refid="6eae61de-4d36-11eb-89fc-cbfbb77ea5fd"/>
+</transition>
+</Constraint>
 </gaphor>
