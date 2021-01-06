@@ -7,7 +7,6 @@
 #include <avr/interrupt.h>
 #include <util/atomic.h>
 
-#include "project.h"
 #include "power.h"
 #include "sensor.h"
 
