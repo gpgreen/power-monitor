@@ -21,8 +21,8 @@ typedef enum {
     SignaledOff,
     MCUOffEntry,
     MCUOff,
-    SleepPowerDown,
-    SleepPowerUp
+    PowerDownEntry,
+    PowerDown
 } StateMachine;
 
 /*--------------------------------------------------------

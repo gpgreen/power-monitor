@@ -107,20 +107,6 @@
 <ref refid="3d31b430-4881-11eb-af90-972e46eb4cf1"/>
 </subject>
 </item>
-<item id="469bce0f-4881-11eb-af90-972e46eb4cf1" type="StateItem">
-<matrix>
-<val>(1.0, 0.0, 0.0, 1.0, 716.7414111328129, 185.34609394615077)</val>
-</matrix>
-<width>
-<val>153.0</val>
-</width>
-<height>
-<val>84.0</val>
-</height>
-<subject>
-<ref refid="469bce0e-4881-11eb-af90-972e46eb4cf1"/>
-</subject>
-</item>
 <item id="60f16ac3-4881-11eb-af90-972e46eb4cf1" type="TransitionItem">
 <subject>
 <ref refid="0e8ef9b6-4882-11eb-af90-972e46eb4cf1"/>
@@ -342,13 +328,13 @@
 <val>0</val>
 </horizontal>
 <points>
-<val>[(0.0, 0.0), (17.508174164871093, -130.89265117103685)]</val>
+<val>[(0.0, 0.0), (-123.95874889742936, -128.3344388907634)]</val>
 </points>
 <head-connection>
 <ref refid="3d31b431-4881-11eb-af90-972e46eb4cf1"/>
 </head-connection>
 <tail-connection>
-<ref refid="469bce0f-4881-11eb-af90-972e46eb4cf1"/>
+<ref refid="3caa8bb7-4885-11eb-af90-972e46eb4cf1"/>
 </tail-connection>
 </item>
 <item id="0112fa77-4882-11eb-af90-972e46eb4cf1" type="PseudostateItem">
@@ -365,49 +351,12 @@
 <ref refid="0112fa76-4882-11eb-af90-972e46eb4cf1"/>
 </subject>
 </item>
-<item id="16d41ec9-4885-11eb-af90-972e46eb4cf1" type="PseudostateItem">
-<matrix>
-<val>(1.0, 0.0, 0.0, 1.0, 623.6700439453125, 91.05925793117945)</val>
-</matrix>
-<width>
-<val>10.0</val>
-</width>
-<height>
-<val>10.0</val>
-</height>
-<subject>
-<ref refid="16d41ec8-4885-11eb-af90-972e46eb4cf1"/>
-</subject>
-</item>
-<item id="3050f6d6-4885-11eb-af90-972e46eb4cf1" type="TransitionItem">
-<subject>
-<ref refid="7d0d0d8a-4885-11eb-af90-972e46eb4cf1"/>
-</subject>
-<matrix>
-<val>(1.0, 0.0, 0.0, 1.0, 780.2605749932657, 185.34609394615077)</val>
-</matrix>
-<orthogonal>
-<val>0</val>
-</orthogonal>
-<horizontal>
-<val>0</val>
-</horizontal>
-<points>
-<val>[(0.0, 0.0), (-146.59053104795316, -84.28683601497133)]</val>
-</points>
-<head-connection>
-<ref refid="469bce0f-4881-11eb-af90-972e46eb4cf1"/>
-</head-connection>
-<tail-connection>
-<ref refid="16d41ec9-4885-11eb-af90-972e46eb4cf1"/>
-</tail-connection>
-</item>
 <item id="3caa8bb7-4885-11eb-af90-972e46eb4cf1" type="StateItem">
 <matrix>
-<val>(1.0, 0.0, 0.0, 1.0, 394.37692871093725, 185.34609394615077)</val>
+<val>(1.0, 0.0, 0.0, 1.0, 463.95908203124975, 187.9043062264242)</val>
 </matrix>
 <width>
-<val>186.0</val>
+<val>291.0</val>
 </width>
 <height>
 <val>84.0</val>
@@ -421,7 +370,7 @@
 <ref refid="4b1eb0d0-4885-11eb-af90-972e46eb4cf1"/>
 </subject>
 <matrix>
-<val>(1.0, 0.0, 0.0, 1.0, 476.66364355468755, 269.34609394615075)</val>
+<val>(1.0, 0.0, 0.0, 1.0, 592.6979746093753, 271.9043062264242)</val>
 </matrix>
 <orthogonal>
 <val>0</val>
@@ -430,36 +379,13 @@
 <val>0</val>
 </horizontal>
 <points>
-<val>[(0.0, 0.0), (-139.10103613281257, 118.22758159095866)]</val>
+<val>[(0.0, 0.0), (-255.13536718750026, 115.66936931068523)]</val>
 </points>
 <head-connection>
 <ref refid="3caa8bb7-4885-11eb-af90-972e46eb4cf1"/>
 </head-connection>
 <tail-connection>
 <ref refid="1a62061d-4881-11eb-af90-972e46eb4cf1"/>
-</tail-connection>
-</item>
-<item id="90c99a46-488a-11eb-af90-972e46eb4cf1" type="TransitionItem">
-<subject>
-<ref refid="921d4ae6-488a-11eb-af90-972e46eb4cf1"/>
-</subject>
-<matrix>
-<val>(1.0, 0.0, 0.0, 1.0, 633.6700439453125, 98.9702603464951)</val>
-</matrix>
-<orthogonal>
-<val>0</val>
-</orthogonal>
-<horizontal>
-<val>0</val>
-</horizontal>
-<points>
-<val>[(0.0, 0.0), (-98.18775390625001, 26.71920642428924), (-132.2811376953125, 86.37583359965568)]</val>
-</points>
-<head-connection>
-<ref refid="16d41ec9-4885-11eb-af90-972e46eb4cf1"/>
-</head-connection>
-<tail-connection>
-<ref refid="3caa8bb7-4885-11eb-af90-972e46eb4cf1"/>
 </tail-connection>
 </item>
 <item id="c36fe2a1-4d2d-11eb-89fc-cbfbb77ea5fd" type="StateItem">
@@ -595,9 +521,7 @@ diagram {
 <ref refid="1d682580-4881-11eb-af90-972e46eb4cf1"/>
 <ref refid="1ea3260c-4881-11eb-af90-972e46eb4cf1"/>
 <ref refid="3d31b430-4881-11eb-af90-972e46eb4cf1"/>
-<ref refid="469bce0e-4881-11eb-af90-972e46eb4cf1"/>
 <ref refid="0112fa76-4882-11eb-af90-972e46eb4cf1"/>
-<ref refid="16d41ec8-4885-11eb-af90-972e46eb4cf1"/>
 <ref refid="3caa8bb6-4885-11eb-af90-972e46eb4cf1"/>
 <ref refid="c36fe2a0-4d2d-11eb-89fc-cbfbb77ea5fd"/>
 </reflist>
@@ -781,38 +705,6 @@ diagram {
 <presentation>
 <reflist>
 <ref refid="3d31b431-4881-11eb-af90-972e46eb4cf1"/>
-</reflist>
-</presentation>
-</State>
-<State id="469bce0e-4881-11eb-af90-972e46eb4cf1">
-<container>
-<ref refid="13942d6d-4881-11eb-af90-972e46eb4cf1"/>
-</container>
-<doActivity>
-<ref refid="a5e161da-4884-11eb-af90-972e46eb4cf1"/>
-</doActivity>
-<entry>
-<ref refid="9d5222fc-4884-11eb-af90-972e46eb4cf1"/>
-</entry>
-<exit>
-<ref refid="a0fcd082-4884-11eb-af90-972e46eb4cf1"/>
-</exit>
-<incoming>
-<reflist>
-<ref refid="c81bcaa4-4881-11eb-af90-972e46eb4cf1"/>
-</reflist>
-</incoming>
-<name>
-<val>SleepPowerDown</val>
-</name>
-<outgoing>
-<reflist>
-<ref refid="7d0d0d8a-4885-11eb-af90-972e46eb4cf1"/>
-</reflist>
-</outgoing>
-<presentation>
-<reflist>
-<ref refid="469bce0f-4881-11eb-af90-972e46eb4cf1"/>
 </reflist>
 </presentation>
 </State>
@@ -1045,7 +937,7 @@ diagram {
 <ref refid="3d31b430-4881-11eb-af90-972e46eb4cf1"/>
 </source>
 <target>
-<ref refid="469bce0e-4881-11eb-af90-972e46eb4cf1"/>
+<ref refid="3caa8bb6-4885-11eb-af90-972e46eb4cf1"/>
 </target>
 </Transition>
 <Constraint id="c81bcaa5-4881-11eb-af90-972e46eb4cf1">
@@ -1133,47 +1025,6 @@ diagram {
 <val>Enable Off</val>
 </name>
 </Activity>
-<Activity id="9d5222fc-4884-11eb-af90-972e46eb4cf1">
-<name>
-<val>Stop Modules</val>
-</name>
-</Activity>
-<Activity id="a0fcd082-4884-11eb-af90-972e46eb4cf1">
-<name>
-<val>Sleep</val>
-</name>
-</Activity>
-<Activity id="a5e161da-4884-11eb-af90-972e46eb4cf1">
-<name>
-<val></val>
-</name>
-</Activity>
-<Pseudostate id="16d41ec8-4885-11eb-af90-972e46eb4cf1">
-<container>
-<ref refid="13942d6d-4881-11eb-af90-972e46eb4cf1"/>
-</container>
-<incoming>
-<reflist>
-<ref refid="7d0d0d8a-4885-11eb-af90-972e46eb4cf1"/>
-</reflist>
-</incoming>
-<kind>
-<val>shallowHistory</val>
-</kind>
-<name>
-<val>AVR Power Down Mode</val>
-</name>
-<outgoing>
-<reflist>
-<ref refid="921d4ae6-488a-11eb-af90-972e46eb4cf1"/>
-</reflist>
-</outgoing>
-<presentation>
-<reflist>
-<ref refid="16d41ec9-4885-11eb-af90-972e46eb4cf1"/>
-</reflist>
-</presentation>
-</Pseudostate>
 <State id="3caa8bb6-4885-11eb-af90-972e46eb4cf1">
 <container>
 <ref refid="13942d6d-4881-11eb-af90-972e46eb4cf1"/>
@@ -1189,11 +1040,11 @@ diagram {
 </exit>
 <incoming>
 <reflist>
-<ref refid="921d4ae6-488a-11eb-af90-972e46eb4cf1"/>
+<ref refid="c81bcaa4-4881-11eb-af90-972e46eb4cf1"/>
 </reflist>
 </incoming>
 <name>
-<val>SleepPowerUp</val>
+<val>PowerDown</val>
 </name>
 <outgoing>
 <reflist>
@@ -1232,36 +1083,12 @@ diagram {
 </Constraint>
 <Activity id="6e4bddee-4885-11eb-af90-972e46eb4cf1">
 <name>
-<val>Wake up AVR</val>
+<val>Stop Modules</val>
 </name>
 </Activity>
-<Transition id="7d0d0d8a-4885-11eb-af90-972e46eb4cf1">
-<container>
-<ref refid="13942d6d-4881-11eb-af90-972e46eb4cf1"/>
-</container>
-<guard>
-<ref refid="7d0d0d8b-4885-11eb-af90-972e46eb4cf1"/>
-</guard>
-<presentation>
-<reflist>
-<ref refid="3050f6d6-4885-11eb-af90-972e46eb4cf1"/>
-</reflist>
-</presentation>
-<source>
-<ref refid="469bce0e-4881-11eb-af90-972e46eb4cf1"/>
-</source>
-<target>
-<ref refid="16d41ec8-4885-11eb-af90-972e46eb4cf1"/>
-</target>
-</Transition>
-<Constraint id="7d0d0d8b-4885-11eb-af90-972e46eb4cf1">
-<transition>
-<ref refid="7d0d0d8a-4885-11eb-af90-972e46eb4cf1"/>
-</transition>
-</Constraint>
 <Activity id="066e391e-4886-11eb-af90-972e46eb4cf1">
 <name>
-<val>Start Wakeup Timer</val>
+<val>Start Modules, Start Wakeup Timer</val>
 </name>
 </Activity>
 <Activity id="ac1455c4-4886-11eb-af90-972e46eb4cf1">
@@ -1271,36 +1098,9 @@ diagram {
 </Activity>
 <Activity id="552a2efe-4887-11eb-af90-972e46eb4cf1">
 <name>
-<val>Start Modules</val>
+<val>Sleep</val>
 </name>
 </Activity>
-<Transition id="921d4ae6-488a-11eb-af90-972e46eb4cf1">
-<container>
-<ref refid="13942d6d-4881-11eb-af90-972e46eb4cf1"/>
-</container>
-<guard>
-<ref refid="921d4ae7-488a-11eb-af90-972e46eb4cf1"/>
-</guard>
-<presentation>
-<reflist>
-<ref refid="90c99a46-488a-11eb-af90-972e46eb4cf1"/>
-</reflist>
-</presentation>
-<source>
-<ref refid="16d41ec8-4885-11eb-af90-972e46eb4cf1"/>
-</source>
-<target>
-<ref refid="3caa8bb6-4885-11eb-af90-972e46eb4cf1"/>
-</target>
-</Transition>
-<Constraint id="921d4ae7-488a-11eb-af90-972e46eb4cf1">
-<specification>
-<val>button Interrupt (INT0)</val>
-</specification>
-<transition>
-<ref refid="921d4ae6-488a-11eb-af90-972e46eb4cf1"/>
-</transition>
-</Constraint>
 <Activity id="7a819ef4-488b-11eb-af90-972e46eb4cf1">
 <name>
 <val>Shutdown Inactive</val>

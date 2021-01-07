@@ -2,14 +2,15 @@
  * power-monitor
  * Copyright 2020 Greg Green <ggreen@bit-builder.com>
  *
- * This device will monitor a momentary pushbutton. If the button
- * is pushed, the device will enable a switching power supply.
- * This will turn on the Raspberry Pi. Once it is running, the Pi will
- * pull a pin hi and hold it there to show it is running. If the
- * button is pushed again, this device will pull a pin low that is monitored
- * by the Pi to signal a shutdown. Once the Pi has powered down
- * the pin that it has been holding hi will go low. This
- * allows this device to turn off the switching power supply.
+ * This device will monitor a momentary pushbutton. If the button is
+ * pushed, the device will enable a switching power supply.  This will
+ * turn on the Raspberry Pi. Once it is running, the Pi will pull a
+ * pin hi (MCU_RUNNING) and hold it there to show it is running. If
+ * the button is pushed again, this device will pull a pin hi
+ * (SHUTDOWN) that is monitored by the Pi to signal a shutdown. Once
+ * the Pi has powered down the pin (MCU_RUNNING) that it has been
+ * holding hi will go low. This allows this device to turn off the
+ * switching power supply.
  *
  * Device
  * ------
@@ -107,8 +108,8 @@ init(void)
     // enable inactive is low
     ENABLE_SET_OFF;
 
-    // shutdown inactive is high
-    SHUTDOWN_SET_ON;
+    // shutdown inactive is low
+    SHUTDOWN_SET_OFF;
 
     // the other components
     sensor_init();
@@ -222,7 +223,7 @@ main(void)
             LED4_SET_OFF;
 #endif
             ENABLE_SET_OFF;
-            SHUTDOWN_SET_ON;
+            SHUTDOWN_SET_OFF;
             machine_state = Wait;
             break;
         case Wait:
@@ -310,13 +311,13 @@ main(void)
             LED2_SET_OFF;
             LED3_SET_OFF;
 #endif
-            SHUTDOWN_SET_OFF;
+            SHUTDOWN_SET_ON;
             machine_state = SignaledOff;
             break;
         case SignaledOff:
             if (!mcu_is_running())
             {
-                SHUTDOWN_SET_ON;
+                SHUTDOWN_SET_OFF;
                 change_state(MCUOffEntry);
             }
             break;
@@ -329,10 +330,10 @@ main(void)
             LED4_SET_OFF;
 #endif
             ENABLE_SET_OFF;
-            change_state(SleepPowerDown);
+            change_state(PowerDownEntry);
             break;
 /*--------------------------------------------------------*/
-        case SleepPowerDown:
+        case PowerDownEntry:
 #ifdef USE_LED
             LED1_SET_OFF;
             LED2_SET_OFF;
@@ -357,12 +358,12 @@ main(void)
             sleep_enable();
             sleep_mode();
             // woken up
-            change_state(SleepPowerUp);
+            change_state(PowerDown);
             // NO BREAK
             // fall through to next state, so we don't
             // call other state machines
 /*--------------------------------------------------------*/
-        case SleepPowerUp:
+        case PowerDown:
             // turn off INT0 interrupt
             EIMSK &= ~(_BV(INT0));
             spi_post_power_down();

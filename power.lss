@@ -11,19 +11,19 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   ALLOC
   3 .stab         000019a4  00000000  00000000  00000704  2**2
                   CONTENTS, READONLY, DEBUGGING
-  4 .stabstr      00000f88  00000000  00000000  000020a8  2**0
+  4 .stabstr      00000f85  00000000  00000000  000020a8  2**0
                   CONTENTS, READONLY, DEBUGGING
-  5 .comment      00000011  00000000  00000000  00003030  2**0
+  5 .comment      00000011  00000000  00000000  0000302d  2**0
                   CONTENTS, READONLY
-  6 .note.gnu.avr.deviceinfo 00000040  00000000  00000000  00003044  2**2
+  6 .note.gnu.avr.deviceinfo 00000040  00000000  00000000  00003040  2**2
                   CONTENTS, READONLY
-  7 .debug_info   000005f4  00000000  00000000  00003084  2**0
+  7 .debug_info   000005f4  00000000  00000000  00003080  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_abbrev 000005a2  00000000  00000000  00003678  2**0
+  8 .debug_abbrev 000005a2  00000000  00000000  00003674  2**0
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_line   0000001a  00000000  00000000  00003c1a  2**0
+  9 .debug_line   0000001a  00000000  00000000  00003c16  2**0
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_str    00000208  00000000  00000000  00003c34  2**0
+ 10 .debug_str    00000208  00000000  00000000  00003c30  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -163,9 +163,9 @@ init(void)
     ENABLE_SET_OFF;
   e2:	5c 98       	cbi	0x0b, 4	; 11
 
-    // shutdown inactive is high
-    SHUTDOWN_SET_ON;
-  e4:	2e 9a       	sbi	0x05, 6	; 5
+    // shutdown inactive is low
+    SHUTDOWN_SET_OFF;
+  e4:	2e 98       	cbi	0x05, 6	; 5
 
     // the other components
     sensor_init();
@@ -910,7 +910,7 @@ spi_state_machine(void)
             LED2_SET_OFF;
             LED3_SET_OFF;
 #endif
-            SHUTDOWN_SET_OFF;
+            SHUTDOWN_SET_ON;
             machine_state = SignaledOff;
  494:	1a e0       	ldi	r17, 0x0A	; 10
             LED1_SET_OFF;
@@ -947,7 +947,7 @@ spi_state_machine(void)
             LED4_SET_OFF;
 #endif
             ENABLE_SET_OFF;
-            SHUTDOWN_SET_ON;
+            SHUTDOWN_SET_OFF;
             machine_state = Wait;
  4a2:	22 e0       	ldi	r18, 0x02	; 2
  4a4:	d2 2e       	mov	r13, r18
@@ -1018,8 +1018,8 @@ spi_state_machine(void)
 #endif
             ENABLE_SET_OFF;
  4fe:	5c 98       	cbi	0x0b, 4	; 11
-            SHUTDOWN_SET_ON;
- 500:	2e 9a       	sbi	0x05, 6	; 5
+            SHUTDOWN_SET_OFF;
+ 500:	2e 98       	cbi	0x05, 6	; 5
             machine_state = Wait;
  502:	d0 92 0a 01 	sts	0x010A, r13	; 0x80010a <machine_state>
             break;
@@ -1035,7 +1035,7 @@ int button_pressed(void)
  50e:	29 f0       	breq	.+10     	; 0x51a <main+0xa0>
         buttonpress = 0;
  510:	10 92 06 01 	sts	0x0106, r1	; 0x800106 <buttonpress>
-            SHUTDOWN_SET_ON;
+            SHUTDOWN_SET_OFF;
             machine_state = Wait;
             break;
         case Wait:
@@ -1220,8 +1220,8 @@ int idle_expired(void)
             LED3_SET_OFF;
  5cc:	5e 98       	cbi	0x0b, 6	; 11
 #endif
-            SHUTDOWN_SET_OFF;
- 5ce:	2e 98       	cbi	0x05, 6	; 5
+            SHUTDOWN_SET_ON;
+ 5ce:	2e 9a       	sbi	0x05, 6	; 5
             machine_state = SignaledOff;
  5d0:	10 93 0a 01 	sts	0x010A, r17	; 0x80010a <machine_state>
             break;
@@ -1231,8 +1231,8 @@ int idle_expired(void)
  5d6:	4b 99       	sbic	0x09, 3	; 9
  5d8:	35 c0       	rjmp	.+106    	; 0x644 <main+0x1ca>
             {
-                SHUTDOWN_SET_ON;
- 5da:	2e 9a       	sbi	0x05, 6	; 5
+                SHUTDOWN_SET_OFF;
+ 5da:	2e 98       	cbi	0x05, 6	; 5
  5dc:	38 c0       	rjmp	.+112    	; 0x64e <main+0x1d4>
             }
             break;
@@ -1250,12 +1250,12 @@ int idle_expired(void)
 #endif
             ENABLE_SET_OFF;
  5e6:	5c 98       	cbi	0x0b, 4	; 11
-            change_state(SleepPowerDown);
+            change_state(PowerDownEntry);
  5e8:	8d e0       	ldi	r24, 0x0D	; 13
  5ea:	2a c0       	rjmp	.+84     	; 0x640 <main+0x1c6>
             break;
 /*--------------------------------------------------------*/
-        case SleepPowerDown:
+        case PowerDownEntry:
 #ifdef USE_LED
             LED1_SET_OFF;
  5ec:	2f 98       	cbi	0x05, 7	; 5
@@ -1305,13 +1305,13 @@ int idle_expired(void)
  61e:	8e 7f       	andi	r24, 0xFE	; 254
  620:	83 bf       	out	0x33, r24	; 51
             // woken up
-            change_state(SleepPowerUp);
+            change_state(PowerDown);
  622:	8e e0       	ldi	r24, 0x0E	; 14
  624:	0e 94 77 00 	call	0xee	; 0xee <change_state>
             // fall through to next state, so we don't
             // call other state machines
 /*--------------------------------------------------------*/
-        case SleepPowerUp:
+        case PowerDown:
             // turn off INT0 interrupt
             EIMSK &= ~(_BV(INT0));
  628:	e8 98       	cbi	0x1d, 0	; 29

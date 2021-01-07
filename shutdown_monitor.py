@@ -12,8 +12,8 @@ import time
 import os
 
 # environment variables
-kpkill_delay = "OPENCPN_PKILL_DELAY"
-kpkill_user = "OPENCPN_USER"
+k_pkill_delay = "OPENCPN_PKILL_DELAY"
+k_pkill_user = "OPENCPN_USER"
 
 # raspberry pi gpio pin numbers and delay constants
 shutdown_pin = 22
@@ -23,21 +23,21 @@ shutdown_wait_delay = 20                  # milliseconds
 
 def main(args):
     # get environment variable(s)
-    if os.environ.has_key(kpkill_delay):
-        opencpn_pkill_delay = int(os.environ[kpkill_delay])
+    if os.environ.has_key(k_pkill_delay):
+        opencpn_pkill_delay = int(os.environ[k_pkill_delay])
     else:
-        print("{} environment variable not defined, quitting".format(kpkill_delay))
+        print("{} environment variable not defined, quitting".format(k_pkill_delay))
         sys.exit(1)
-    if os.environ.has_key(kpkill_user):
-        opencpn_user = os.environ[kpkill_user]
+    if os.environ.has_key(k_pkill_user):
+        opencpn_user = os.environ[k_pkill_user]
     else:
-        print("{} environment variable not defined, quitting".format(kpkill_user))
+        print("{} environment variable not defined, quitting".format(k_pkill_user))
         sys.exit(1)
     
-    # the shutdown pin, active state is low, no pullups
+    # the shutdown pin, active state is high
     shutdown_button = gpiozero.Button(shutdown_pin,
                                       pull_up=None,
-                                      active_state=False,
+                                      active_state=True,
                                       hold_time=shutdown_pulse_minimum/1000.0)
 
     # the "i am running" pin
