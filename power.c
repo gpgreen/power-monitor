@@ -66,10 +66,10 @@ volatile uint8_t button_mask;
 volatile uint8_t tovflows;
 
 // number of timer interrupts for wake up period
-volatile uint8_t wakeup_timer;
+volatile int8_t wakeup_timer;
 
 // number of timer interrupts for idle period
-volatile uint8_t idle_timer;
+volatile int8_t idle_timer;
 
 // flag for INT0
 volatile uint8_t int0_event;
@@ -234,7 +234,7 @@ main(void)
     
     machine_state = prev_state = Start;
     button_mask = 0xFF;
-    idle_timer = 0xFF;
+    idle_timer = -1;
     WakeupEvent evt = Unknown;
     
 	// start interrupts
@@ -250,6 +250,8 @@ main(void)
             tovflows = 0;
             // has it been down for long enough
         } else if (button_state == 1) {
+            // reset idle timer during button detection
+            idle_timer = 0;
             if (button_mask == 0x0FF) {
                 // is delay long enough, wait 200ms
                 if (tovflows >= (F_CPU/256/256/5)) {
@@ -291,7 +293,7 @@ main(void)
             LED3_SET_OFF;
             LED4_SET_OFF;
 #endif
-            wakeup_timer = 0xFF;
+            wakeup_timer = -1;
             ENABLE_SET_ON;
             change_state(SignaledOn);
             break;
@@ -316,18 +318,18 @@ main(void)
             if (button_pressed())
             {
                 change_state(SignaledOffEntry);
-                idle_timer = 0xFF;
+                idle_timer = -1;
             }
             // if turned off via the desktop
             if (!mcu_is_running())
             {
                 change_state(MCUOffEntry);
-                idle_timer = 0xFF;
+                idle_timer = -1;
             }
             if (idle_expired())
             {
                 change_state(IdleEntry);
-                idle_timer = 0xFF;
+                idle_timer = -1;
             }
             break;
 /*--------------------------------------------------------*/
@@ -460,9 +462,9 @@ ISR(TIMER0_OVF_vect)
         button_mask &= ~1;
     if (button_state == 1)
         tovflows++;
-    if (wakeup_timer != 0xFF)
+    if (wakeup_timer >= 0)
         wakeup_timer++;
-    if (idle_timer != 0xFF)
+    if (idle_timer >= 0)
         idle_timer++;
 #ifdef USE_LED
     TOGGLE_LED6;
