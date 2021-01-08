@@ -16,8 +16,12 @@
 
 // array of adc values
 extern uint16_t adc_values[MAX_ADC_PINS];
+
 // the mask of channels in use
 extern volatile uint8_t adc_channels;
+
+// adc finished interrupt
+extern volatile uint8_t adc_complete_event;
 
 extern void sensor_init(void);
 extern void sensor_pre_power_down(void);

@@ -7,17 +7,19 @@
 #include <avr/interrupt.h>
 #include <util/atomic.h>
 
-#include "power.h"
 #include "sensor.h"
 
 // adc channels
-volatile uint8_t adc_finished;
 volatile uint8_t adc_channels;
+
 // the channel being measured
 int current_channel;
 
 // array of adc values
 uint16_t adc_values[MAX_ADC_PINS];
+
+// flag for adc interrupt
+volatile uint8_t adc_complete_event;
 
 void
 sensor_init(void)
@@ -25,12 +27,13 @@ sensor_init(void)
     // PORTC setup PINS for input
     DDRC &= ~(_BV(PC0)|_BV(PC1)|_BV(PC2)|_BV(PC3)|_BV(PC4)|_BV(PC5));
 
+    // turn off analog comparator
+    ACSR |= _BV(ACD);
+    
     // start the ADC, and enable interrupt, scale clock by 8
     ADCSRA = _BV(ADEN)|_BV(ADIE)|_BV(ADPS1)|_BV(ADPS0);
     // at start, no channels are in use
-    adc_channels = 0;           /* the channels enabled mask */
     current_channel = -1;       /* channel currently measured */
-    adc_finished = 0;
 }
 
 void
@@ -54,7 +57,6 @@ sensor_post_power_down(void)
     // initialize the ADC, and enable interrupt, scale clock by 8
     ADCSRA = _BV(ADEN)|_BV(ADIE)|_BV(ADPS1)|_BV(ADPS0);
     current_channel = -1;
-    adc_finished = 0;
     
     // turn off pull ups on ADC ports
     PORTC &= ~(_BV(PC0)|_BV(PC1)|_BV(PC2)|_BV(PC3)|_BV(PC4)|_BV(PC5));
@@ -86,7 +88,7 @@ sensor_state_machine(void)
     }
 
     // adc measurement finished, get the next channel
-    if (adc_finished)
+    if (adc_complete_event)
     {
         // if no channels are requested, then finish
         if (curchannels == 0) {
@@ -118,9 +120,7 @@ sensor_state_machine(void)
             ADMUX = current_channel;
             ADCSRA |= _BV(ADSC);
         }
-        adc_finished = 0;
-        if (prev_state == Idle || prev_state == IdleEntry)
-            change_state(IdleEntry);
+        adc_complete_event = 0;
     } else {
         // zero out channels not used
         for (int i=0; i<MAX_ADC_PINS; i++)
@@ -139,5 +139,5 @@ ISR(ADC_vect)
     low = ADCL;
     high = ADCH;
     adc_values[current_channel] = (high << 8) | low;
-    adc_finished = 1;
+    adc_complete_event = 1;
 }

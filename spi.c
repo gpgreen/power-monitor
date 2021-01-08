@@ -30,7 +30,6 @@
  *
  */
 
-#include <stdint.h>
 #include <avr/io.h>
 #include <avr/interrupt.h>
 #include <util/atomic.h>
@@ -41,6 +40,9 @@
 
 // toggling of eeprom
 volatile uint8_t toggle_eeprom;
+
+// stc interrupt happened
+volatile uint8_t spi_stc_event;
 
 void
 spi_init(void)
@@ -103,6 +105,8 @@ spi_state_machine(void)
         }
         toggle_eeprom = 0;
     }
+    // turn off interrupt flag
+    spi_stc_event = 0;
 }
 
 /*
@@ -149,4 +153,5 @@ ISR(SPI_STC_vect)
 #ifdef USE_LED
     TOGGLE_LED5;
 #endif
+    spi_stc_event = 1;
 }

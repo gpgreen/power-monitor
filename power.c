@@ -37,6 +37,7 @@
 #include <avr/io.h>
 #include <avr/interrupt.h>
 #include <avr/sleep.h>
+#include <avr/wdt.h>
 #include <util/atomic.h>
 
 #include "project.h"
@@ -53,17 +54,25 @@ StateMachine prev_state;
 
 // 1 when buttonpress detected, 0 otherwise
 uint8_t buttonpress;
+
 // 0 = up, 1 = down detected, waiting for delay
 uint8_t button_state;
+
 // button state mask updated by timer interrupt
 // will be 0xFF when button up, 0x00 when down (debounced)
 volatile uint8_t button_mask;
+
 // number of timer interrupt while button is down
 volatile uint8_t tovflows;
+
 // number of timer interrupts for wake up period
 volatile uint8_t wakeup_timer;
+
 // number of timer interrupts for idle period
 volatile uint8_t idle_timer;
+
+// flag for INT0
+volatile uint8_t int0_event;
 
 /*--------------------------------------------------------*/
 
@@ -154,10 +163,26 @@ int wake_up_expired(void)
 inline
 int idle_expired(void)
 {
-    // this is 750ms
-    if (idle_timer >= (uint8_t)(F_CPU/256/256/1.5))
+    // this is 375ms
+    if (idle_timer >= (uint8_t)(F_CPU/256/256/3))
         return 1;
     return 0;
+}
+
+/*--------------------------------------------------------*/
+// determine interrupt source, no need for atomic
+// as these are in priority order, if a higher priority
+// happens, then it will get chosen
+inline
+WakeupEvent get_wakeup_event(void)
+{
+    if (int0_event)
+        return ButtonDown;
+    if (spi_stc_event)
+        return SPItxfer;
+    if (adc_complete_event)
+        return ADCcomplete;
+    return Unknown;
 }
 
 /*--------------------------------------------------------*/
@@ -166,13 +191,38 @@ void
 change_state(StateMachine new_state)
 {
     ATOMIC_BLOCK(ATOMIC_FORCEON) {
-        prev_state = machine_state;
+        switch (machine_state) {
+        case WaitEntry:
+        case SignaledOnEntry:
+        case MCURunningEntry:
+        case IdleEntry:
+        case SignaledOffEntry:
+        case PowerDownEntry:
+            break;
+        default:
+            prev_state = machine_state;
+        }
         machine_state = new_state;
     }
 }
 
 /*--------------------------------------------------------*/
+// saved value of MCUSR register
+uint8_t mcusr_mirror __attribute__ ((section (".noinit")));
 
+// turn off watchdog, get original value of MCUSR first
+void get_mcusr(void) \
+    __attribute__((naked)) \
+    __attribute__((section(".init3")));
+
+void get_mcusr(void)
+{
+    mcusr_mirror = MCUSR;
+    MCUSR = 0;
+    wdt_disable();
+}
+
+/*--------------------------------------------------------*/
 int
 main(void)
 {
@@ -185,6 +235,7 @@ main(void)
     machine_state = prev_state = Start;
     button_mask = 0xFF;
     idle_timer = 0xFF;
+    WakeupEvent evt = Unknown;
     
 	// start interrupts
 	sei();
@@ -224,7 +275,7 @@ main(void)
 #endif
             ENABLE_SET_OFF;
             SHUTDOWN_SET_OFF;
-            machine_state = Wait;
+            change_state(Wait);
             break;
         case Wait:
             if (button_pressed())
@@ -242,7 +293,7 @@ main(void)
 #endif
             wakeup_timer = 0xFF;
             ENABLE_SET_ON;
-            machine_state = SignaledOn;
+            change_state(SignaledOn);
             break;
         case SignaledOn:
             if (mcu_is_running())
@@ -259,7 +310,7 @@ main(void)
             LED4_SET_OFF;
 #endif
             idle_timer = 0;
-            machine_state = MCURunning;
+            change_state(MCURunning);
             break;
         case MCURunning:
             if (button_pressed())
@@ -287,21 +338,23 @@ main(void)
             LED3_SET_OFF;
             LED4_SET_OFF;
 #endif
-            machine_state = Idle;
-            break;
-        case Idle:
             // set INTO interrupt
             EIMSK |= _BV(INT0);
-            // enter Power-Down mode
+            // enter Idle mode
             set_sleep_mode(SLEEP_MODE_IDLE);
-
-            // do the power down
             sleep_enable();
             sleep_mode();
-
+            // get wakeup source
+            evt = get_wakeup_event();
+            change_state(IdleExit);
+            break;
+        case IdleExit:
             // turn off INT0 interrupt
             EIMSK &= ~(_BV(INT0));
-            change_state(MCURunningEntry);
+            if (evt == ButtonDown || !mcu_is_running())
+                change_state(MCURunningEntry);
+            else
+                change_state(IdleEntry);
             break;
 /*--------------------------------------------------------*/
         case SignaledOffEntry:
@@ -312,7 +365,7 @@ main(void)
             LED3_SET_OFF;
 #endif
             SHUTDOWN_SET_ON;
-            machine_state = SignaledOff;
+            change_state(SignaledOff);
             break;
         case SignaledOff:
             if (!mcu_is_running())
@@ -348,24 +401,30 @@ main(void)
             // SHUTDOWN pin to input and pull-up on
             SHUTDOWN_DIR &= ~(_BV(SHUTDOWN));
             SHUTDOWN_PORT |= _BV(SHUTDOWN);
+
+            // modules power off
             sensor_pre_power_down();
             spi_pre_power_down();
             
             // set INTO interrupt
             EIMSK |= _BV(INT0);
 
-            // do the power down
-            sleep_enable();
-            sleep_mode();
-            // woken up
-            change_state(PowerDown);
-            // NO BREAK
-            // fall through to next state, so we don't
-            // call other state machines
+            // do the power down, if no INT0 interrupt
+            cli();
+            if (!int0_event) {
+                sleep_enable();
+                sei();
+                sleep_cpu();
+                sleep_disable();
+            }
+            sei();
+            change_state(PowerDownExit);
+            // NO BREAK, fall through to PowerDownExit
 /*--------------------------------------------------------*/
-        case PowerDown:
+        case PowerDownExit:
             // turn off INT0 interrupt
             EIMSK &= ~(_BV(INT0));
+            
             spi_post_power_down();
             sensor_post_power_down();
             // SHUTDOWN pin pull up off, to output
@@ -381,6 +440,8 @@ main(void)
 /*--------------------------------------------------------*/
         spi_state_machine();
         sensor_state_machine();
+
+        int0_event = 0;
     }
     return 0;
 }
@@ -414,5 +475,5 @@ ISR(TIMER0_OVF_vect)
  */
 ISR(INT0_vect)
 {
-    // does nothing but wake up the cpu
+    int0_event = 1;
 }
