@@ -4,16 +4,6 @@
  *
  * Hardware Changes
  * ----------------
- * Rev B
- * CS moves from PB2 to PD1
- * LED1 attached to PB0
- * LED removed from SHUTDOWN
- * SHUTDOWN added pulldown
- * MCU_RUNNING moved from PD3 to PB1
- * MCU_RUNNING added pulldown
- * LC circuit added to AVCC
- * Optional 12V ADC measurement to ADC7
- *
  * Rev A
  * Original
  *
@@ -67,8 +57,8 @@
 #define PROJECT_H_
 
 // MCU part, the Chart Plotter Hat uses the 32pin version
-#define USE_28PIN 1
-//#define USE_32PIN 1
+//#define USE_28PIN 1
+#define USE_32PIN 1
 
 /*----------------------------------------------------------------*/
 // Define pin labels
