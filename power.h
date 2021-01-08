@@ -31,6 +31,7 @@ typedef enum {
 
 typedef enum {
     ButtonEvt,
+    CSLowEvt,
     SPItxfer,
     ADCcomplete,
     Unknown

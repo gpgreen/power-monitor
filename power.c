@@ -68,6 +68,9 @@ volatile int8_t idle_timer;
 // flag for INT0
 volatile uint8_t int0_event;
 
+// flag for INT1
+volatile uint8_t int1_event;
+
 /*--------------------------------------------------------*/
 
 void
@@ -94,18 +97,20 @@ init(void)
 
 #ifdef USE_LED
     // PORTD setup PINS for output
-    DDRD |= (_BV(LED2)|_BV(LED3)|_BV(LED4));
+    DDRD |= (_BV(LED2)|_BV(LED3)|_BV(LED4)|_BV(LED6));
     // PORTB setup PINS for output
-    DDRB |= (_BV(LED1)|_BV(LED5)|_BV(LED6));
+    DDRB |= (_BV(LED1)|_BV(LED5));
     // set unused ports as input and pull-up on
-    DDRD &= ~(_BV(0)|_BV(1));
-    PORTD |= (_BV(0)|_BV(1));
+    DDRD &= ~(_BV(0));
+    PORTD |= (_BV(0));
+    DDRB &= ~(_BV(2));
+    PORTB |= (_BV(2));
 #else
     // set unused ports as input and pull-up on
     DDRD &= ~(_BV(0)|_BV(1)|_BV(5)|_BV(6)|_BV(7));
     PORTD |= (_BV(0)|_BV(1)|_BV(5)|_BV(6)|_BV(7));
-    DDRB &= ~(_BV(0)|_BV(1));
-    PORTB |= (_BV(0)|_BV(1));
+    DDRB &= ~(_BV(2));
+    PORTB |= (_BV(2));
 #endif
     
     // enable inactive is low
@@ -455,6 +460,7 @@ main(void)
         sensor_state_machine();
 
         int0_event = 0;
+        int1_event = 0;
     }
     return 0;
 }
@@ -489,4 +495,13 @@ ISR(TIMER0_OVF_vect)
 ISR(INT0_vect)
 {
     int0_event = 1;
+}
+
+/*
+ * INT1 interrupt
+ * interrupt flag cleared by hardware
+ */
+ISR(INT1_vect)
+{
+    int1_event = 1;
 }

@@ -117,7 +117,7 @@ CSTANDARD = -std=gnu99
 
 
 # Place -D or -U options here for C sources
-CDEFS = -DF_CPU=$(F_CPU)UL -DUSE_LED
+CDEFS = -DF_CPU=$(F_CPU)UL
 
 
 # Place -D or -U options here for ASM sources
