@@ -11,6 +11,8 @@ typedef enum {
     Start,
     WaitEntry,
     Wait,
+    ButtonPress,
+    ButtonRelease,
     SignaledOnEntry,
     SignaledOn,
     MCURunningEntry,
@@ -28,7 +30,7 @@ typedef enum {
 /*--------------------------------------------------------*/
 
 typedef enum {
-    ButtonDown,
+    ButtonEvt,
     SPItxfer,
     ADCcomplete,
     Unknown

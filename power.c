@@ -52,18 +52,12 @@
 StateMachine machine_state;
 StateMachine prev_state;
 
-// 1 when buttonpress detected, 0 otherwise
-uint8_t buttonpress;
-
-// 0 = up, 1 = down detected, waiting for delay
-uint8_t button_state;
-
 // button state mask updated by timer interrupt
 // will be 0xFF when button up, 0x00 when down (debounced)
 volatile uint8_t button_mask;
 
 // number of timer interrupt while button is down
-volatile uint8_t tovflows;
+volatile int8_t button_timer;
 
 // number of timer interrupts for wake up period
 volatile int8_t wakeup_timer;
@@ -136,15 +130,19 @@ int mcu_is_running(void)
 }
 
 /*--------------------------------------------------------*/
-// trigger when button pressed and released
+// trigger when button pressed
 inline
 int button_pressed(void)
 {
-    if (buttonpress) {
-        buttonpress = 0;
-        return 1;
-    }
-    return 0;
+    return button_mask == 0x00;
+}
+
+/*--------------------------------------------------------*/
+// trigger when button released
+inline
+int button_released(void)
+{
+    return button_mask == 0xFF;
 }
 
 /*--------------------------------------------------------*/
@@ -177,7 +175,7 @@ inline
 WakeupEvent get_wakeup_event(void)
 {
     if (int0_event)
-        return ButtonDown;
+        return ButtonEvt;
     if (spi_stc_event)
         return SPItxfer;
     if (adc_complete_event)
@@ -198,6 +196,8 @@ change_state(StateMachine new_state)
         case IdleEntry:
         case SignaledOffEntry:
         case PowerDownEntry:
+        case ButtonPress:
+        case ButtonRelease:
             break;
         default:
             prev_state = machine_state;
@@ -234,7 +234,9 @@ main(void)
     
     machine_state = prev_state = Start;
     button_mask = 0xFF;
+    wakeup_timer = -1;
     idle_timer = -1;
+    button_timer = -1;
     WakeupEvent evt = Unknown;
     
 	// start interrupts
@@ -243,24 +245,6 @@ main(void)
     // main loop
     while(1)
     {
-/*--------------------------------------------------------*/
-        // check if button down, mask length is 66ms
-        if (button_mask == 0x00 && button_state == 0) {
-            button_state = 1;
-            tovflows = 0;
-            // has it been down for long enough
-        } else if (button_state == 1) {
-            // reset idle timer during button detection
-            idle_timer = 0;
-            if (button_mask == 0x0FF) {
-                // is delay long enough, wait 200ms
-                if (tovflows >= (F_CPU/256/256/5)) {
-                    buttonpress = 1;
-                }
-                button_state = 0;
-            }
-        }
-        
 /*--------------------------------------------------------*/
         switch (machine_state) {
         case Start:
@@ -281,9 +265,36 @@ main(void)
             break;
         case Wait:
             if (button_pressed())
-                change_state(SignaledOnEntry);
+                change_state(ButtonPress);
             if (wake_up_expired())
                 change_state(MCUOffEntry);
+            break;
+/*--------------------------------------------------------*/
+        case ButtonPress:
+            button_timer = 0;
+            change_state(ButtonRelease);
+            break;
+        case ButtonRelease:
+            if (button_released()) {
+                // is delay long enough, wait 200ms
+                if (button_timer >= (F_CPU/256/256/5)) {
+                    if (prev_state == Wait)
+                        change_state(SignaledOnEntry);
+                    else if (prev_state == SignaledOn)
+                        change_state(MCUOffEntry);
+                    else if (prev_state == MCURunning)
+                        change_state(SignaledOffEntry);
+                } else {
+                    // delay too short
+                    if (prev_state == Wait)
+                        change_state(WaitEntry);
+                    else if (prev_state == SignaledOn)
+                        change_state(SignaledOnEntry);
+                    else if (prev_state == MCURunning)
+                        change_state(MCURunningEntry);
+                }
+                button_timer = -1;
+            }
             break;
 /*--------------------------------------------------------*/
         case SignaledOnEntry:
@@ -301,7 +312,7 @@ main(void)
             if (mcu_is_running())
                 change_state(MCURunningEntry);
             if (button_pressed())
-                change_state(MCUOffEntry);
+                change_state(ButtonPress);
             break;
 /*--------------------------------------------------------*/
         case MCURunningEntry:
@@ -317,7 +328,7 @@ main(void)
         case MCURunning:
             if (button_pressed())
             {
-                change_state(SignaledOffEntry);
+                change_state(ButtonPress);
                 idle_timer = -1;
             }
             // if turned off via the desktop
@@ -353,7 +364,7 @@ main(void)
         case IdleExit:
             // turn off INT0 interrupt
             EIMSK &= ~(_BV(INT0));
-            if (evt == ButtonDown || !mcu_is_running())
+            if (evt == ButtonEvt || !mcu_is_running())
                 change_state(MCURunningEntry);
             else
                 change_state(IdleEntry);
@@ -460,8 +471,8 @@ ISR(TIMER0_OVF_vect)
         button_mask |= 1;
     else
         button_mask &= ~1;
-    if (button_state == 1)
-        tovflows++;
+    if (button_timer >= 0)
+        button_timer++;
     if (wakeup_timer >= 0)
         wakeup_timer++;
     if (idle_timer >= 0)
