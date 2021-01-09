@@ -101,16 +101,12 @@ init(void)
     // PORTB setup PINS for output
     DDRB |= (_BV(LED1)|_BV(LED5));
     // set unused ports as input and pull-up on
-    DDRD &= ~(_BV(0));
-    PORTD |= (_BV(0));
-    DDRB &= ~(_BV(2));
-    PORTB |= (_BV(2));
+    DDRD &= ~(_BV(0)|_BV(3));
+    PORTD |= (_BV(0)|_BV(3));
 #else
     // set unused ports as input and pull-up on
-    DDRD &= ~(_BV(0)|_BV(1)|_BV(5)|_BV(6)|_BV(7));
-    PORTD |= (_BV(0)|_BV(1)|_BV(5)|_BV(6)|_BV(7));
-    DDRB &= ~(_BV(2));
-    PORTB |= (_BV(2));
+    DDRD &= ~(_BV(0)|_BV(1)|_BV(3)|_BV(5)|_BV(6)|_BV(7));
+    PORTD |= (_BV(0)|_BV(1)|_BV(3)|_BV(5)|_BV(6)|_BV(7));
 #endif
     
     // enable inactive is low
@@ -198,7 +194,7 @@ change_state(StateMachine new_state)
         case WaitEntry:
         case SignaledOnEntry:
         case MCURunningEntry:
-        case IdleEntry:
+        case ADCNoiseEntry:
         case SignaledOffEntry:
         case PowerDownEntry:
         case ButtonPress:
@@ -344,12 +340,12 @@ main(void)
             }
             if (idle_expired())
             {
-                change_state(IdleEntry);
+                change_state(ADCNoiseEntry);
                 idle_timer = -1;
             }
             break;
 /*--------------------------------------------------------*/
-        case IdleEntry:
+        case ADCNoiseEntry:
 #ifdef USE_LED
             LED1_SET_OFF;
             LED2_SET_OFF;
@@ -358,21 +354,21 @@ main(void)
 #endif
             // set INTO interrupt
             EIMSK |= _BV(INT0);
-            // enter Idle mode
-            set_sleep_mode(SLEEP_MODE_IDLE);
+            // enter Sleep mode
+            set_sleep_mode(SLEEP_MODE_ADC);
             sleep_enable();
             sleep_mode();
             // get wakeup source
             evt = get_wakeup_event();
-            change_state(IdleExit);
+            change_state(ADCNoiseExit);
             break;
-        case IdleExit:
+        case ADCNoiseExit:
             // turn off INT0 interrupt
             EIMSK &= ~(_BV(INT0));
             if (evt == ButtonEvt || !mcu_is_running())
                 change_state(MCURunningEntry);
             else
-                change_state(IdleEntry);
+                change_state(ADCNoiseEntry);
             break;
 /*--------------------------------------------------------*/
         case SignaledOffEntry:

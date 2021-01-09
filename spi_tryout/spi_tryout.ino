@@ -50,10 +50,10 @@ void loop() {
   
   String str = Serial.readString();
   checkInput(str);
+  writeRegister(0x2, 0x00, 0x00);
+  delay(10);
   for (int i=0; i<6; i++)
   {
-    writeRegister(0x2, 0x00, 0x00);
-    delay(20);
     // get channel(s)
     writeRegister(0x10+i, 0x00, 0x00);
     delay(10);

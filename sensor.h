@@ -26,6 +26,8 @@ extern volatile uint8_t adc_complete_event;
 extern void sensor_init(void);
 extern void sensor_pre_power_down(void);
 extern void sensor_post_power_down(void);
+extern void sensor_pre_adc_noise(void);
+extern void sensor_post_adc_noise(void);
 extern void sensor_state_machine(void);
 
 #endif /* SENSOR_H_ */

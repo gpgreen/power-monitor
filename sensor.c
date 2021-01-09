@@ -27,11 +27,15 @@ sensor_init(void)
     // PORTC setup PINS for input
     DDRC &= ~(_BV(PC0)|_BV(PC1)|_BV(PC2)|_BV(PC3)|_BV(PC4)|_BV(PC5));
 
-    // turn off analog comparator
+    // turn off analog comparator and digital input buffer
     ACSR |= _BV(ACD);
-    
-    // start the ADC, and enable interrupt, scale clock by 8
-    ADCSRA = _BV(ADEN)|_BV(ADIE)|_BV(ADPS1)|_BV(ADPS0);
+    DIDR1 |= _BV(AIN1D)|_BV(AIN0D);
+
+    // turn off digital input buffers
+    DIDR0 |= _BV(ADC5D)|_BV(ADC4D)|_BV(ADC3D)|_BV(ADC2D)|_BV(ADC0D);
+
+    // start the ADC, and enable interrupt, scale clock by 32
+    ADCSRA = _BV(ADEN)|_BV(ADIE)|_BV(ADPS2)|_BV(ADPS0);
     // at start, no channels are in use
     current_channel = -1;       /* channel currently measured */
 }
@@ -55,7 +59,7 @@ sensor_post_power_down(void)
     // startup adc
     PRR &= ~(_BV(PRADC));
     // initialize the ADC, and enable interrupt, scale clock by 8
-    ADCSRA = _BV(ADEN)|_BV(ADIE)|_BV(ADPS1)|_BV(ADPS0);
+    ADCSRA = _BV(ADEN)|_BV(ADIE)|_BV(ADPS2)|_BV(ADPS0);
     current_channel = -1;
     
     // turn off pull ups on ADC ports
@@ -81,7 +85,7 @@ sensor_state_machine(void)
                 break;
             }
         }
-        ADMUX = current_channel;
+        ADMUX = current_channel | _BV(REFS0);
 
         // start a new conversion
         ADCSRA |= _BV(ADSC);
@@ -116,8 +120,8 @@ sensor_state_machine(void)
                 i = 0;
                 goto find_channel;
             }
-            // start new conversion
-            ADMUX = current_channel;
+            // start new conversion, with AVCC as reference
+            ADMUX = current_channel | _BV(REFS0);
             ADCSRA |= _BV(ADSC);
         }
         adc_complete_event = 0;

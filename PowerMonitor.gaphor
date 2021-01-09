@@ -214,7 +214,7 @@
 <val>0</val>
 </horizontal>
 <points>
-<val>[(0.0, 0.0), (181.43116152531985, -71.68139809737977), (340.81531679875735, -323.0204101562499)]</val>
+<val>[(0.0, 0.0), (213.36537539250736, -92.2581787109375), (340.81531679875735, -323.0204101562499)]</val>
 </points>
 <head-connection>
 <ref refid="1ea3260d-4881-11eb-af90-972e46eb4cf1"/>
@@ -322,7 +322,7 @@
 </item>
 <item id="c36fe2a1-4d2d-11eb-89fc-cbfbb77ea5fd" type="StateItem">
 <matrix>
-<val>(1.0, 0.0, 0.0, 1.0, 207.32810804578997, 911.9490356445312)</val>
+<val>(1.0, 0.0, 0.0, 1.0, 224.32810804578997, 912.8583984375)</val>
 </matrix>
 <width>
 <val>271.0</val>
@@ -348,7 +348,7 @@
 <val>0</val>
 </horizontal>
 <points>
-<val>[(0.0, 0.0), (-119.96858045789935, 43.86660046047632), (-22.54126944193024, 125.50372314453125)]</val>
+<val>[(0.0, 0.0), (-115.3786756727431, 48.638656616210824), (-5.54126944193024, 126.4130859375)]</val>
 </points>
 <head-connection>
 <ref refid="1ea3260d-4881-11eb-af90-972e46eb4cf1"/>
@@ -359,7 +359,7 @@
 </item>
 <item id="cba92eef-513e-11eb-876e-7b8892f5d62e" type="PseudostateItem">
 <matrix>
-<val>(1.0, 0.0, 0.0, 1.0, 142.8050537109375, 849.959716796875)</val>
+<val>(1.0, 0.0, 0.0, 1.0, 93.7684326171875, 949.8583984375)</val>
 </matrix>
 <width>
 <val>10.0</val>
@@ -376,7 +376,7 @@
 <ref refid="d4c21478-513e-11eb-876e-7b8892f5d62e"/>
 </subject>
 <matrix>
-<val>(1.0, 0.0, 0.0, 1.0, 207.32810804578997, 956.5343627929688)</val>
+<val>(1.0, 0.0, 0.0, 1.0, 224.32810804578997, 957.4437255859375)</val>
 </matrix>
 <orthogonal>
 <val>0</val>
@@ -385,7 +385,7 @@
 <val>0</val>
 </horizontal>
 <points>
-<val>[(0.0, 0.0), (-54.523054334852475, -100.57708740234375)]</val>
+<val>[(0.0, 0.0), (-120.55967542860247, -1.5877685546875)]</val>
 </points>
 <head-connection>
 <ref refid="c36fe2a1-4d2d-11eb-89fc-cbfbb77ea5fd"/>
@@ -399,7 +399,7 @@
 <ref refid="d7af8418-513e-11eb-876e-7b8892f5d62e"/>
 </subject>
 <matrix>
-<val>(1.0, 0.0, 0.0, 1.0, 152.8050537109375, 859.0458984375)</val>
+<val>(1.0, 0.0, 0.0, 1.0, 103.7684326171875, 958.944580078125)</val>
 </matrix>
 <orthogonal>
 <val>0</val>
@@ -408,7 +408,7 @@
 <val>0</val>
 </horizontal>
 <points>
-<val>[(0.0, 0.0), (54.523054334852475, 67.07867431640625)]</val>
+<val>[(0.0, 0.0), (120.55967542860247, -31.91064453125)]</val>
 </points>
 <head-connection>
 <ref refid="cba92eef-513e-11eb-876e-7b8892f5d62e"/>
@@ -672,26 +672,12 @@
 <ref refid="215f0c86-5158-11eb-876e-7b8892f5d62e"/>
 </tail-connection>
 </item>
-<item id="5c361c86-5158-11eb-876e-7b8892f5d62e" type="StateItem">
-<matrix>
-<val>(1.0, 0.0, 0.0, 1.0, 444.96966552734375, 824.959716796875)</val>
-</matrix>
-<width>
-<val>95.0</val>
-</width>
-<height>
-<val>30.0</val>
-</height>
+<item id="69527f06-5158-11eb-876e-7b8892f5d62e" type="TransitionItem">
 <subject>
-<ref refid="5c361c85-5158-11eb-876e-7b8892f5d62e"/>
-</subject>
-</item>
-<item id="65d64727-5158-11eb-876e-7b8892f5d62e" type="TransitionItem">
-<subject>
-<ref refid="67ab9b7e-5158-11eb-876e-7b8892f5d62e"/>
+<ref refid="e7f07360-5246-11eb-8730-1f61cead129e"/>
 </subject>
 <matrix>
-<val>(1.0, 0.0, 0.0, 1.0, 340.97166273329, 911.9490356445312)</val>
+<val>(1.0, 0.0, 0.0, 1.0, 347.93682861328125, 912.8583984375)</val>
 </matrix>
 <orthogonal>
 <val>0</val>
@@ -700,33 +686,10 @@
 <val>0</val>
 </horizontal>
 <points>
-<val>[(0.0, 0.0), (152.40095689561628, -56.98931884765625)]</val>
+<val>[(0.0, 0.0), (115.78532850477399, -67.31146240234375), (10.858381483289975, -126.4130859375)]</val>
 </points>
 <head-connection>
 <ref refid="c36fe2a1-4d2d-11eb-89fc-cbfbb77ea5fd"/>
-</head-connection>
-<tail-connection>
-<ref refid="5c361c86-5158-11eb-876e-7b8892f5d62e"/>
-</tail-connection>
-</item>
-<item id="69527f06-5158-11eb-876e-7b8892f5d62e" type="TransitionItem">
-<subject>
-<ref refid="6ab53b0e-5158-11eb-876e-7b8892f5d62e"/>
-</subject>
-<matrix>
-<val>(1.0, 0.0, 0.0, 1.0, 491.16986083984375, 824.959716796875)</val>
-</matrix>
-<orthogonal>
-<val>0</val>
-</orthogonal>
-<horizontal>
-<val>0</val>
-</horizontal>
-<points>
-<val>[(0.0, 0.0), (-132.37465074327253, -38.514404296875)]</val>
-</points>
-<head-connection>
-<ref refid="5c361c86-5158-11eb-876e-7b8892f5d62e"/>
 </head-connection>
 <tail-connection>
 <ref refid="1ea3260d-4881-11eb-af90-972e46eb4cf1"/>
@@ -994,7 +957,6 @@ diagram {
 <ref refid="215f0c85-5158-11eb-876e-7b8892f5d62e"/>
 <ref refid="700cef52-5158-11eb-876e-7b8892f5d62e"/>
 <ref refid="7f1b4552-5158-11eb-876e-7b8892f5d62e"/>
-<ref refid="5c361c85-5158-11eb-876e-7b8892f5d62e"/>
 <ref refid="9c9abee2-5159-11eb-876e-7b8892f5d62e"/>
 </reflist>
 </subvertex>
@@ -1136,8 +1098,8 @@ diagram {
 <incoming>
 <reflist>
 <ref refid="940f984e-4881-11eb-af90-972e46eb4cf1"/>
-<ref refid="6ab53b0e-5158-11eb-876e-7b8892f5d62e"/>
 <ref refid="acdcfd90-5159-11eb-876e-7b8892f5d62e"/>
+<ref refid="e7f07360-5246-11eb-8730-1f61cead129e"/>
 </reflist>
 </incoming>
 <name>
@@ -1500,7 +1462,7 @@ diagram {
 <outgoing>
 <reflist>
 <ref refid="d4c21478-513e-11eb-876e-7b8892f5d62e"/>
-<ref refid="67ab9b7e-5158-11eb-876e-7b8892f5d62e"/>
+<ref refid="e7f07360-5246-11eb-8730-1f61cead129e"/>
 </reflist>
 </outgoing>
 <presentation>
@@ -2060,77 +2022,6 @@ diagram {
 <ref refid="9a22c0a0-5158-11eb-876e-7b8892f5d62e"/>
 </transition>
 </Constraint>
-<State id="5c361c85-5158-11eb-876e-7b8892f5d62e">
-<container>
-<ref refid="13942d6d-4881-11eb-af90-972e46eb4cf1"/>
-</container>
-<incoming>
-<reflist>
-<ref refid="67ab9b7e-5158-11eb-876e-7b8892f5d62e"/>
-</reflist>
-</incoming>
-<name>
-<val>ButtonDown</val>
-</name>
-<outgoing>
-<reflist>
-<ref refid="6ab53b0e-5158-11eb-876e-7b8892f5d62e"/>
-</reflist>
-</outgoing>
-<presentation>
-<reflist>
-<ref refid="5c361c86-5158-11eb-876e-7b8892f5d62e"/>
-</reflist>
-</presentation>
-</State>
-<Transition id="67ab9b7e-5158-11eb-876e-7b8892f5d62e">
-<container>
-<ref refid="13942d6d-4881-11eb-af90-972e46eb4cf1"/>
-</container>
-<guard>
-<ref refid="67ab9b7f-5158-11eb-876e-7b8892f5d62e"/>
-</guard>
-<presentation>
-<reflist>
-<ref refid="65d64727-5158-11eb-876e-7b8892f5d62e"/>
-</reflist>
-</presentation>
-<source>
-<ref refid="c36fe2a0-4d2d-11eb-89fc-cbfbb77ea5fd"/>
-</source>
-<target>
-<ref refid="5c361c85-5158-11eb-876e-7b8892f5d62e"/>
-</target>
-</Transition>
-<Constraint id="67ab9b7f-5158-11eb-876e-7b8892f5d62e">
-<transition>
-<ref refid="67ab9b7e-5158-11eb-876e-7b8892f5d62e"/>
-</transition>
-</Constraint>
-<Transition id="6ab53b0e-5158-11eb-876e-7b8892f5d62e">
-<container>
-<ref refid="13942d6d-4881-11eb-af90-972e46eb4cf1"/>
-</container>
-<guard>
-<ref refid="6ab53b0f-5158-11eb-876e-7b8892f5d62e"/>
-</guard>
-<presentation>
-<reflist>
-<ref refid="69527f06-5158-11eb-876e-7b8892f5d62e"/>
-</reflist>
-</presentation>
-<source>
-<ref refid="5c361c85-5158-11eb-876e-7b8892f5d62e"/>
-</source>
-<target>
-<ref refid="1ea3260c-4881-11eb-af90-972e46eb4cf1"/>
-</target>
-</Transition>
-<Constraint id="6ab53b0f-5158-11eb-876e-7b8892f5d62e">
-<transition>
-<ref refid="6ab53b0e-5158-11eb-876e-7b8892f5d62e"/>
-</transition>
-</Constraint>
 <State id="9c9abee2-5159-11eb-876e-7b8892f5d62e">
 <container>
 <ref refid="13942d6d-4881-11eb-af90-972e46eb4cf1"/>
@@ -2252,6 +2143,33 @@ diagram {
 <Constraint id="034ade0d-5161-11eb-876e-7b8892f5d62e">
 <transition>
 <ref refid="034ade0c-5161-11eb-876e-7b8892f5d62e"/>
+</transition>
+</Constraint>
+<Transition id="e7f07360-5246-11eb-8730-1f61cead129e">
+<container>
+<ref refid="13942d6d-4881-11eb-af90-972e46eb4cf1"/>
+</container>
+<guard>
+<ref refid="e7f07361-5246-11eb-8730-1f61cead129e"/>
+</guard>
+<presentation>
+<reflist>
+<ref refid="69527f06-5158-11eb-876e-7b8892f5d62e"/>
+</reflist>
+</presentation>
+<source>
+<ref refid="c36fe2a0-4d2d-11eb-89fc-cbfbb77ea5fd"/>
+</source>
+<target>
+<ref refid="1ea3260c-4881-11eb-af90-972e46eb4cf1"/>
+</target>
+</Transition>
+<Constraint id="e7f07361-5246-11eb-8730-1f61cead129e">
+<specification>
+<val>ButtonEvent, mcu not running</val>
+</specification>
+<transition>
+<ref refid="e7f07360-5246-11eb-8730-1f61cead129e"/>
 </transition>
 </Constraint>
 </gaphor>

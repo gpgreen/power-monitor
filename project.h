@@ -5,7 +5,6 @@
  * Hardware Changes
  * ----------------
  * Rev B
- * CS moves from PB2 to PD3
  * LED1 attached to PB0
  * LED removed from SHUTDOWN
  * SHUTDOWN added pulldown
@@ -27,7 +26,7 @@
  *            -|2  PD0        PC4 27|-ADC4    
  *        LED6-|3  PD1        PC3 26|-ADC3    
  *      BUTTON-|4  PD2        PC2 25|-ADC2    
- *          CS-|5  PD3        PC1 24|-ADC1    
+ *            -|5  PD3        PC1 24|-ADC1    
  *      ENABLE-|6  PD4        PC0 23|-ADC0    
  *         VCC-|7                 22|-GND     
  *         GND-|8                 21|-AREF    
@@ -35,7 +34,7 @@
  *        LED5-|10 PB7        PB5 19|-SCK     
  *        LED4-|11 PD5        PB4 18|-MISO    
  *        LED3-|12 PD6        PB3 17|-MOSI    
- *        LED2-|13 PD7        PB2 16|-
+ *        LED2-|13 PD7        PB2 16|-CS
  *        LED1-|14 PB0        PB1 15|-MCU_RUNNING
  *             |                    |         
  *             +--------------------+         
@@ -45,7 +44,7 @@
  *             |                          |        
  *            -|4  VCC              PB0 12|-LED1   
  *            -|18 AVCC             PB1 13|-MCU_RUNNING
- *            -|20 AREF             PB2 14|-
+ *            -|20 AREF             PB2 14|-CS
  *            -|3  GND              PB3 15|-MOSI   
  *             |                    PB4 16|-MISO   
  *          A6-|19 ADC6             PB5 17|-SCK    
@@ -54,7 +53,7 @@
  *            -|30 PD0                    |        
  *            -|31 PD1              PC0 23|-A0     
  *      BUTTON-|32 PD2              PC1 24|-A1     
- *          CS-|1  PD3              PC2 25|-A2     
+ *            -|1  PD3              PC2 25|-A2     
  *          EN-|2  PD4              PC3 26|-A3     
  *            -|9  PD5              PC4 27|-A4     
  *            -|10 PD6              PC5 28|-A5     
@@ -112,10 +111,10 @@
 #define MOSI 3
 #define SCK 5
 
-#define SPICS_PORT PORTD
-#define SPICS_PIN PIND
-#define SPICS_DIR DDRD
-#define CS 3
+#define CS_PORT PORTB
+#define CS_PIN PINB
+#define CS_DIR DDRB
+#define CS 2
 
 /*----------------------------------------------------------------*/
 // Define pin macros
@@ -123,8 +122,8 @@
 #define MCU_RUNNING_ON bit_is_set(MCU_RUNNING_PIN, MCU_RUNNING)
 #define MCU_RUNNING_OFF bit_is_clear(MCU_RUNNING_PIN, MCU_RUNNING)
 
-#define CS_ON bit_is_set(SPICS_PIN, CS)
-#define CS_OFF bit_is_clear(SPICS_PIN, CS)
+#define CS_ON bit_is_set(CS_PIN, CS)
+#define CS_OFF bit_is_clear(CS_PIN, CS)
 
 #define BUTTON_ON bit_is_set(BUTTON_PIN, BUTTON)
 #define BUTTON_OFF bit_is_clear(BUTTON_PIN, BUTTON)

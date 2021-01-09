@@ -44,16 +44,21 @@ volatile uint8_t toggle_eeprom;
 // stc interrupt happened
 volatile uint8_t spi_stc_event;
 
+// pcint0 interrupt happened
+volatile uint8_t pcint0_event;
+
 void
 spi_init(void)
 {
     // setup PINS for input, RESET is already set as input and pull up on
     // due to fuse setting
-    SPI_DIR &= ~(_BV(MOSI)|_BV(SCK)|_BV(CS));
-
+    SPI_DIR &= ~(_BV(MOSI)|_BV(SCK));
+    CS_DIR &= ~(_BV(CS));
+    
     // set pullups on input pins
-    SPI_PORT |= (_BV(MOSI)|_BV(SCK)|_BV(CS));
-
+    SPI_PORT |= (_BV(MOSI)|_BV(SCK));
+    CS_PORT |= _BV(CS);
+    
     // PORTB setup PINS for output
     SPI_DIR |= _BV(MISO);
 
@@ -68,6 +73,7 @@ void
 spi_pre_power_down(void)
 {
     // shutdown modules
+    SPCR = 0;
     PRR |= _BV(PRSPI);
 
     // MISO to input, pull-up on
@@ -81,6 +87,31 @@ spi_post_power_down(void)
     // MISO to output, pull-up off
     SPI_PORT &= ~(_BV(MISO));
     SPI_DIR |= _BV(MISO);
+
+    // turn on SPI
+    PRR &= ~(_BV(PRSPI));
+    // enable SPI, enable interrupt
+    SPCR = _BV(SPE)|_BV(SPIE);
+}
+
+void
+spi_pre_adc_noise(void)
+{
+    // turn on interrupt PCINT2
+    PCMSK0 |= _BV(PCINT2);
+    PCICR |= _BV(PCIE0);
+    
+    // shutdown modules
+    SPCR = 0;
+    PRR |= _BV(PRSPI);
+}
+
+void
+spi_post_adc_noise(void)
+{
+    // turn off interrupt PCINT2
+    PCICR &= ~(_BV(PCIE0));
+    PCMSK0 &= ~(_BV(PCINT2));
 
     // turn on SPI
     PRR &= ~(_BV(PRSPI));
@@ -107,6 +138,7 @@ spi_state_machine(void)
     }
     // turn off interrupt flag
     spi_stc_event = 0;
+    pcint0_event = 0;
 }
 
 /*
@@ -120,6 +152,9 @@ ISR(SPI_STC_vect)
     static uint8_t addr = 0;
     static int spi_state = 0;
 
+    if (CS_ON)
+        goto skip_state_machine;
+    
     switch (spi_state)
     {
     case 0: // first byte recvd, send second
@@ -150,8 +185,18 @@ ISR(SPI_STC_vect)
         spi_state = 0; // third byte recvd, end of transfer
         break;
     }
+skip_state_machine:
 #ifdef USE_LED
     TOGGLE_LED5;
 #endif
     spi_stc_event = 1;
+}
+
+/*
+ * Pin Change Interrupt 0
+ * when the CS pin is driven low, this should trigger
+ */
+ISR(PCINT0_vect)
+{
+    pcint0_event = 1;
 }

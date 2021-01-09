@@ -3,38 +3,38 @@ power.elf:     file format elf32-avr
 
 Sections:
 Idx Name          Size      VMA       LMA       File off  Algn
-  0 .data         00000000  00800100  000006fa  0000078e  2**0
+  0 .data         00000000  00800100  000007ae  00000842  2**0
                   CONTENTS, ALLOC, LOAD, DATA
-  1 .text         000006fa  00000000  00000000  00000094  2**1
+  1 .text         000007ae  00000000  00000000  00000094  2**1
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
-  2 .bss          0000001e  00800100  00800100  0000078e  2**0
+  2 .bss          0000001f  00800100  00800100  00000842  2**0
                   ALLOC
-  3 .noinit       00000001  0080011e  0080011e  0000078e  2**0
+  3 .noinit       00000001  0080011f  0080011f  00000842  2**0
                   ALLOC
-  4 .stab         00001b24  00000000  00000000  00000790  2**2
+  4 .stab         00001c68  00000000  00000000  00000844  2**2
                   CONTENTS, READONLY, DEBUGGING
-  5 .stabstr      0000106d  00000000  00000000  000022b4  2**0
+  5 .stabstr      000010ef  00000000  00000000  000024ac  2**0
                   CONTENTS, READONLY, DEBUGGING
-  6 .comment      00000011  00000000  00000000  00003321  2**0
+  6 .comment      00000011  00000000  00000000  0000359b  2**0
                   CONTENTS, READONLY
-  7 .note.gnu.avr.deviceinfo 00000040  00000000  00000000  00003334  2**2
+  7 .note.gnu.avr.deviceinfo 00000040  00000000  00000000  000035ac  2**2
                   CONTENTS, READONLY
-  8 .debug_info   000005f4  00000000  00000000  00003374  2**0
+  8 .debug_info   000005f4  00000000  00000000  000035ec  2**0
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_abbrev 000005a2  00000000  00000000  00003968  2**0
+  9 .debug_abbrev 000005a2  00000000  00000000  00003be0  2**0
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_line   0000001a  00000000  00000000  00003f0a  2**0
+ 10 .debug_line   0000001a  00000000  00000000  00004182  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_str    00000208  00000000  00000000  00003f24  2**0
+ 11 .debug_str    00000208  00000000  00000000  0000419c  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
 
 00000000 <__vectors>:
    0:	0c 94 54 00 	jmp	0xa8	; 0xa8 <__ctors_end>
-   4:	0c 94 e5 00 	jmp	0x1ca	; 0x1ca <__vector_1>
-   8:	0c 94 75 00 	jmp	0xea	; 0xea <__bad_interrupt>
-   c:	0c 94 75 00 	jmp	0xea	; 0xea <__bad_interrupt>
+   4:	0c 94 e7 00 	jmp	0x1ce	; 0x1ce <__vector_1>
+   8:	0c 94 f6 00 	jmp	0x1ec	; 0x1ec <__vector_2>
+   c:	0c 94 ad 02 	jmp	0x55a	; 0x55a <__vector_3>
   10:	0c 94 75 00 	jmp	0xea	; 0xea <__bad_interrupt>
   14:	0c 94 75 00 	jmp	0xea	; 0xea <__bad_interrupt>
   18:	0c 94 75 00 	jmp	0xea	; 0xea <__bad_interrupt>
@@ -47,48 +47,48 @@ Disassembly of section .text:
   34:	0c 94 75 00 	jmp	0xea	; 0xea <__bad_interrupt>
   38:	0c 94 75 00 	jmp	0xea	; 0xea <__bad_interrupt>
   3c:	0c 94 75 00 	jmp	0xea	; 0xea <__bad_interrupt>
-  40:	0c 94 a9 00 	jmp	0x152	; 0x152 <__vector_16>
-  44:	0c 94 fd 01 	jmp	0x3fa	; 0x3fa <__vector_17>
+  40:	0c 94 ab 00 	jmp	0x156	; 0x156 <__vector_16>
+  44:	0c 94 43 02 	jmp	0x486	; 0x486 <__vector_17>
   48:	0c 94 75 00 	jmp	0xea	; 0xea <__bad_interrupt>
   4c:	0c 94 75 00 	jmp	0xea	; 0xea <__bad_interrupt>
   50:	0c 94 75 00 	jmp	0xea	; 0xea <__bad_interrupt>
-  54:	0c 94 a8 01 	jmp	0x350	; 0x350 <__vector_21>
+  54:	0c 94 c6 01 	jmp	0x38c	; 0x38c <__vector_21>
   58:	0c 94 75 00 	jmp	0xea	; 0xea <__bad_interrupt>
   5c:	0c 94 75 00 	jmp	0xea	; 0xea <__bad_interrupt>
   60:	0c 94 75 00 	jmp	0xea	; 0xea <__bad_interrupt>
   64:	0c 94 75 00 	jmp	0xea	; 0xea <__bad_interrupt>
-  68:	a5 00       	.word	0x00a5	; ????
-  6a:	a3 00       	.word	0x00a3	; ????
-  6c:	a5 00       	.word	0x00a5	; ????
-  6e:	a5 00       	.word	0x00a5	; ????
-  70:	a5 00       	.word	0x00a5	; ????
-  72:	a3 00       	.word	0x00a3	; ????
-  74:	a5 00       	.word	0x00a5	; ????
-  76:	a3 00       	.word	0x00a3	; ????
-  78:	a5 00       	.word	0x00a5	; ????
-  7a:	a3 00       	.word	0x00a3	; ????
-  7c:	a5 00       	.word	0x00a5	; ????
-  7e:	a3 00       	.word	0x00a3	; ????
-  80:	a3 00       	.word	0x00a3	; ????
-  82:	a3 00       	.word	0x00a3	; ????
-  84:	a5 00       	.word	0x00a5	; ????
-  86:	5f 03       	fmul	r21, r23
-  88:	84 02       	muls	r24, r20
-  8a:	8c 02       	muls	r24, r28
-  8c:	99 02       	muls	r25, r25
-  8e:	9d 02       	muls	r25, r29
-  90:	c2 02       	muls	r28, r18
-  92:	cb 02       	muls	r28, r27
-  94:	d6 02       	muls	r29, r22
-  96:	de 02       	muls	r29, r30
-  98:	f4 02       	muls	r31, r20
-  9a:	1b 03       	fmul	r17, r19
-  9c:	24 03       	mulsu	r18, r20
-  9e:	2b 03       	fmul	r18, r19
-  a0:	2f 03       	fmul	r18, r23
-  a2:	2f 03       	fmul	r18, r23
-  a4:	36 03       	mulsu	r19, r22
-  a6:	58 03       	fmul	r21, r16
+  68:	a7 00       	.word	0x00a7	; ????
+  6a:	a5 00       	.word	0x00a5	; ????
+  6c:	a7 00       	.word	0x00a7	; ????
+  6e:	a7 00       	.word	0x00a7	; ????
+  70:	a7 00       	.word	0x00a7	; ????
+  72:	a5 00       	.word	0x00a5	; ????
+  74:	a7 00       	.word	0x00a7	; ????
+  76:	a5 00       	.word	0x00a5	; ????
+  78:	a7 00       	.word	0x00a7	; ????
+  7a:	a5 00       	.word	0x00a5	; ????
+  7c:	a7 00       	.word	0x00a7	; ????
+  7e:	a5 00       	.word	0x00a5	; ????
+  80:	a5 00       	.word	0x00a5	; ????
+  82:	a5 00       	.word	0x00a5	; ????
+  84:	a7 00       	.word	0x00a7	; ????
+  86:	b7 03       	fmuls	r19, r23
+  88:	db 02       	muls	r29, r27
+  8a:	e3 02       	muls	r30, r19
+  8c:	f0 02       	muls	r31, r16
+  8e:	f4 02       	muls	r31, r20
+  90:	19 03       	fmul	r17, r17
+  92:	22 03       	mulsu	r18, r18
+  94:	2d 03       	fmul	r18, r21
+  96:	35 03       	mulsu	r19, r21
+  98:	4b 03       	fmul	r20, r19
+  9a:	73 03       	mulsu	r23, r19
+  9c:	7c 03       	fmul	r23, r20
+  9e:	83 03       	fmuls	r16, r19
+  a0:	87 03       	fmuls	r16, r23
+  a2:	87 03       	fmuls	r16, r23
+  a4:	8e 03       	fmulsu	r16, r22
+  a6:	b0 03       	fmuls	r19, r16
 
 000000a8 <__ctors_end>:
   a8:	11 24       	eor	r1, r1
@@ -100,7 +100,7 @@ Disassembly of section .text:
 
 000000b4 <get_mcusr>:
   b4:	84 b7       	in	r24, 0x34	; 52
-  b6:	80 93 1e 01 	sts	0x011E, r24	; 0x80011e <__bss_end>
+  b6:	80 93 1f 01 	sts	0x011F, r24	; 0x80011f <__bss_end>
   ba:	14 be       	out	0x34, r1	; 52
   bc:	0f b6       	in	r0, 0x3f	; 63
   be:	f8 94       	cli
@@ -121,11 +121,11 @@ Disassembly of section .text:
   da:	1d 92       	st	X+, r1
 
 000000dc <.do_clear_bss_start>:
-  dc:	ae 31       	cpi	r26, 0x1E	; 30
+  dc:	af 31       	cpi	r26, 0x1F	; 31
   de:	b2 07       	cpc	r27, r18
   e0:	e1 f7       	brne	.-8      	; 0xda <.do_clear_bss_loop>
-  e2:	0e 94 65 02 	call	0x4ca	; 0x4ca <main>
-  e6:	0c 94 7b 03 	jmp	0x6f6	; 0x6f6 <_exit>
+  e2:	0e 94 bc 02 	call	0x578	; 0x578 <main>
+  e6:	0c 94 d5 03 	jmp	0x7aa	; 0x7aa <_exit>
 
 000000ea <__bad_interrupt>:
   ea:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
@@ -179,344 +179,323 @@ init(void)
  112:	81 68       	ori	r24, 0x81	; 129
  114:	84 b9       	out	0x04, r24	; 4
     // set unused ports as input and pull-up on
-    DDRD &= ~(_BV(0));
- 116:	50 98       	cbi	0x0a, 0	; 10
-    PORTD |= (_BV(0));
- 118:	58 9a       	sbi	0x0b, 0	; 11
-    DDRB &= ~(_BV(2));
- 11a:	22 98       	cbi	0x04, 2	; 4
-    PORTB |= (_BV(2));
- 11c:	2a 9a       	sbi	0x05, 2	; 5
-    DDRB &= ~(_BV(2));
-    PORTB |= (_BV(2));
+    DDRD &= ~(_BV(0)|_BV(3));
+ 116:	8a b1       	in	r24, 0x0a	; 10
+ 118:	86 7f       	andi	r24, 0xF6	; 246
+ 11a:	8a b9       	out	0x0a, r24	; 10
+    PORTD |= (_BV(0)|_BV(3));
+ 11c:	8b b1       	in	r24, 0x0b	; 11
+ 11e:	89 60       	ori	r24, 0x09	; 9
+ 120:	8b b9       	out	0x0b, r24	; 11
+    DDRD &= ~(_BV(0)|_BV(1)|_BV(3)|_BV(5)|_BV(6)|_BV(7));
+    PORTD |= (_BV(0)|_BV(1)|_BV(3)|_BV(5)|_BV(6)|_BV(7));
 #endif
     
     // enable inactive is low
     ENABLE_SET_OFF;
- 11e:	5c 98       	cbi	0x0b, 4	; 11
+ 122:	5c 98       	cbi	0x0b, 4	; 11
 
     // shutdown inactive is low
     SHUTDOWN_SET_OFF;
- 120:	2e 98       	cbi	0x05, 6	; 5
+ 124:	2e 98       	cbi	0x05, 6	; 5
 
     // the other components
     sensor_init();
- 122:	0e 94 f4 00 	call	0x1e8	; 0x1e8 <sensor_init>
+ 126:	0e 94 05 01 	call	0x20a	; 0x20a <sensor_init>
     spi_init();
- 126:	0c 94 cf 01 	jmp	0x39e	; 0x39e <spi_init>
+ 12a:	0c 94 ed 01 	jmp	0x3da	; 0x3da <spi_init>
 
-0000012a <change_state>:
+0000012e <change_state>:
     return 1;
 }
 
 static __inline__ uint8_t __iCliRetVal(void)
 {
     cli();
- 12a:	f8 94       	cli
+ 12e:	f8 94       	cli
 // change state
 void
 change_state(StateMachine new_state)
 {
     ATOMIC_BLOCK(ATOMIC_FORCEON) {
         switch (machine_state) {
- 12c:	90 91 07 01 	lds	r25, 0x0107	; 0x800107 <machine_state>
- 130:	49 2f       	mov	r20, r25
- 132:	50 e0       	ldi	r21, 0x00	; 0
- 134:	fa 01       	movw	r30, r20
- 136:	31 97       	sbiw	r30, 0x01	; 1
- 138:	ef 30       	cpi	r30, 0x0F	; 15
- 13a:	f1 05       	cpc	r31, r1
- 13c:	20 f4       	brcc	.+8      	; 0x146 <change_state+0x1c>
- 13e:	ec 5c       	subi	r30, 0xCC	; 204
- 140:	ff 4f       	sbci	r31, 0xFF	; 255
- 142:	0c 94 75 03 	jmp	0x6ea	; 0x6ea <__tablejump2__>
+ 130:	90 91 07 01 	lds	r25, 0x0107	; 0x800107 <machine_state>
+ 134:	49 2f       	mov	r20, r25
+ 136:	50 e0       	ldi	r21, 0x00	; 0
+ 138:	fa 01       	movw	r30, r20
+ 13a:	31 97       	sbiw	r30, 0x01	; 1
+ 13c:	ef 30       	cpi	r30, 0x0F	; 15
+ 13e:	f1 05       	cpc	r31, r1
+ 140:	20 f4       	brcc	.+8      	; 0x14a <change_state+0x1c>
+ 142:	ec 5c       	subi	r30, 0xCC	; 204
+ 144:	ff 4f       	sbci	r31, 0xFF	; 255
+ 146:	0c 94 cf 03 	jmp	0x79e	; 0x79e <__tablejump2__>
         case PowerDownEntry:
         case ButtonPress:
         case ButtonRelease:
             break;
         default:
             prev_state = machine_state;
- 146:	90 93 04 01 	sts	0x0104, r25	; 0x800104 <prev_state>
+ 14a:	90 93 04 01 	sts	0x0104, r25	; 0x800104 <prev_state>
         }
         machine_state = new_state;
- 14a:	80 93 07 01 	sts	0x0107, r24	; 0x800107 <machine_state>
+ 14e:	80 93 07 01 	sts	0x0107, r24	; 0x800107 <machine_state>
     return 1;
 }
 
 static __inline__ void __iSeiParam(const uint8_t *__s)
 {
     sei();
- 14e:	78 94       	sei
+ 152:	78 94       	sei
     __asm__ volatile ("" ::: "memory");
- 150:	08 95       	ret
+ 154:	08 95       	ret
 
-00000152 <__vector_16>:
+00000156 <__vector_16>:
 /*
  * Timer0 overflow interrupt
  * interrupt flag cleared by hardware
  */
 ISR(TIMER0_OVF_vect)
 {
- 152:	1f 92       	push	r1
- 154:	0f 92       	push	r0
- 156:	0f b6       	in	r0, 0x3f	; 63
+ 156:	1f 92       	push	r1
  158:	0f 92       	push	r0
- 15a:	11 24       	eor	r1, r1
- 15c:	8f 93       	push	r24
+ 15a:	0f b6       	in	r0, 0x3f	; 63
+ 15c:	0f 92       	push	r0
+ 15e:	11 24       	eor	r1, r1
+ 160:	8f 93       	push	r24
     button_mask <<= 1;
- 15e:	80 91 05 01 	lds	r24, 0x0105	; 0x800105 <button_mask>
- 162:	88 0f       	add	r24, r24
- 164:	80 93 05 01 	sts	0x0105, r24	; 0x800105 <button_mask>
+ 162:	80 91 05 01 	lds	r24, 0x0105	; 0x800105 <button_mask>
+ 166:	88 0f       	add	r24, r24
+ 168:	80 93 05 01 	sts	0x0105, r24	; 0x800105 <button_mask>
     if (BUTTON_ON)
- 168:	4a 9b       	sbis	0x09, 2	; 9
- 16a:	04 c0       	rjmp	.+8      	; 0x174 <__vector_16+0x22>
+ 16c:	4a 9b       	sbis	0x09, 2	; 9
+ 16e:	04 c0       	rjmp	.+8      	; 0x178 <__vector_16+0x22>
         button_mask |= 1;
- 16c:	80 91 05 01 	lds	r24, 0x0105	; 0x800105 <button_mask>
- 170:	81 60       	ori	r24, 0x01	; 1
- 172:	03 c0       	rjmp	.+6      	; 0x17a <__vector_16+0x28>
+ 170:	80 91 05 01 	lds	r24, 0x0105	; 0x800105 <button_mask>
+ 174:	81 60       	ori	r24, 0x01	; 1
+ 176:	03 c0       	rjmp	.+6      	; 0x17e <__vector_16+0x28>
     else
         button_mask &= ~1;
- 174:	80 91 05 01 	lds	r24, 0x0105	; 0x800105 <button_mask>
- 178:	8e 7f       	andi	r24, 0xFE	; 254
- 17a:	80 93 05 01 	sts	0x0105, r24	; 0x800105 <button_mask>
+ 178:	80 91 05 01 	lds	r24, 0x0105	; 0x800105 <button_mask>
+ 17c:	8e 7f       	andi	r24, 0xFE	; 254
+ 17e:	80 93 05 01 	sts	0x0105, r24	; 0x800105 <button_mask>
     if (button_timer >= 0)
- 17e:	80 91 0a 01 	lds	r24, 0x010A	; 0x80010a <button_timer>
- 182:	87 fd       	sbrc	r24, 7
- 184:	05 c0       	rjmp	.+10     	; 0x190 <__vector_16+0x3e>
+ 182:	80 91 0a 01 	lds	r24, 0x010A	; 0x80010a <button_timer>
+ 186:	87 fd       	sbrc	r24, 7
+ 188:	05 c0       	rjmp	.+10     	; 0x194 <__vector_16+0x3e>
         button_timer++;
- 186:	80 91 0a 01 	lds	r24, 0x010A	; 0x80010a <button_timer>
- 18a:	8f 5f       	subi	r24, 0xFF	; 255
- 18c:	80 93 0a 01 	sts	0x010A, r24	; 0x80010a <button_timer>
+ 18a:	80 91 0a 01 	lds	r24, 0x010A	; 0x80010a <button_timer>
+ 18e:	8f 5f       	subi	r24, 0xFF	; 255
+ 190:	80 93 0a 01 	sts	0x010A, r24	; 0x80010a <button_timer>
     if (wakeup_timer >= 0)
- 190:	80 91 06 01 	lds	r24, 0x0106	; 0x800106 <wakeup_timer>
- 194:	87 fd       	sbrc	r24, 7
- 196:	05 c0       	rjmp	.+10     	; 0x1a2 <__vector_16+0x50>
+ 194:	80 91 06 01 	lds	r24, 0x0106	; 0x800106 <wakeup_timer>
+ 198:	87 fd       	sbrc	r24, 7
+ 19a:	05 c0       	rjmp	.+10     	; 0x1a6 <__vector_16+0x50>
         wakeup_timer++;
- 198:	80 91 06 01 	lds	r24, 0x0106	; 0x800106 <wakeup_timer>
- 19c:	8f 5f       	subi	r24, 0xFF	; 255
- 19e:	80 93 06 01 	sts	0x0106, r24	; 0x800106 <wakeup_timer>
+ 19c:	80 91 06 01 	lds	r24, 0x0106	; 0x800106 <wakeup_timer>
+ 1a0:	8f 5f       	subi	r24, 0xFF	; 255
+ 1a2:	80 93 06 01 	sts	0x0106, r24	; 0x800106 <wakeup_timer>
     if (idle_timer >= 0)
- 1a2:	80 91 08 01 	lds	r24, 0x0108	; 0x800108 <idle_timer>
- 1a6:	87 fd       	sbrc	r24, 7
- 1a8:	05 c0       	rjmp	.+10     	; 0x1b4 <__vector_16+0x62>
+ 1a6:	80 91 08 01 	lds	r24, 0x0108	; 0x800108 <idle_timer>
+ 1aa:	87 fd       	sbrc	r24, 7
+ 1ac:	05 c0       	rjmp	.+10     	; 0x1b8 <__vector_16+0x62>
         idle_timer++;
- 1aa:	80 91 08 01 	lds	r24, 0x0108	; 0x800108 <idle_timer>
- 1ae:	8f 5f       	subi	r24, 0xFF	; 255
- 1b0:	80 93 08 01 	sts	0x0108, r24	; 0x800108 <idle_timer>
+ 1ae:	80 91 08 01 	lds	r24, 0x0108	; 0x800108 <idle_timer>
+ 1b2:	8f 5f       	subi	r24, 0xFF	; 255
+ 1b4:	80 93 08 01 	sts	0x0108, r24	; 0x800108 <idle_timer>
 #ifdef USE_LED
     TOGGLE_LED6;
- 1b4:	59 9b       	sbis	0x0b, 1	; 11
- 1b6:	02 c0       	rjmp	.+4      	; 0x1bc <__vector_16+0x6a>
- 1b8:	59 98       	cbi	0x0b, 1	; 11
- 1ba:	01 c0       	rjmp	.+2      	; 0x1be <__vector_16+0x6c>
- 1bc:	59 9a       	sbi	0x0b, 1	; 11
+ 1b8:	59 9b       	sbis	0x0b, 1	; 11
+ 1ba:	02 c0       	rjmp	.+4      	; 0x1c0 <__vector_16+0x6a>
+ 1bc:	59 98       	cbi	0x0b, 1	; 11
+ 1be:	01 c0       	rjmp	.+2      	; 0x1c2 <__vector_16+0x6c>
+ 1c0:	59 9a       	sbi	0x0b, 1	; 11
 #endif
 }
- 1be:	8f 91       	pop	r24
- 1c0:	0f 90       	pop	r0
- 1c2:	0f be       	out	0x3f, r0	; 63
+ 1c2:	8f 91       	pop	r24
  1c4:	0f 90       	pop	r0
- 1c6:	1f 90       	pop	r1
- 1c8:	18 95       	reti
+ 1c6:	0f be       	out	0x3f, r0	; 63
+ 1c8:	0f 90       	pop	r0
+ 1ca:	1f 90       	pop	r1
+ 1cc:	18 95       	reti
 
-000001ca <__vector_1>:
+000001ce <__vector_1>:
 /*
  * INT0 interrupt
  * interrupt flag cleared by hardware
  */
 ISR(INT0_vect)
 {
- 1ca:	1f 92       	push	r1
- 1cc:	0f 92       	push	r0
- 1ce:	0f b6       	in	r0, 0x3f	; 63
+ 1ce:	1f 92       	push	r1
  1d0:	0f 92       	push	r0
- 1d2:	11 24       	eor	r1, r1
- 1d4:	8f 93       	push	r24
+ 1d2:	0f b6       	in	r0, 0x3f	; 63
+ 1d4:	0f 92       	push	r0
+ 1d6:	11 24       	eor	r1, r1
+ 1d8:	8f 93       	push	r24
     int0_event = 1;
- 1d6:	81 e0       	ldi	r24, 0x01	; 1
- 1d8:	80 93 0b 01 	sts	0x010B, r24	; 0x80010b <int0_event>
+ 1da:	81 e0       	ldi	r24, 0x01	; 1
+ 1dc:	80 93 0b 01 	sts	0x010B, r24	; 0x80010b <int0_event>
 }
- 1dc:	8f 91       	pop	r24
- 1de:	0f 90       	pop	r0
- 1e0:	0f be       	out	0x3f, r0	; 63
+ 1e0:	8f 91       	pop	r24
  1e2:	0f 90       	pop	r0
- 1e4:	1f 90       	pop	r1
- 1e6:	18 95       	reti
+ 1e4:	0f be       	out	0x3f, r0	; 63
+ 1e6:	0f 90       	pop	r0
+ 1e8:	1f 90       	pop	r1
+ 1ea:	18 95       	reti
 
-000001e8 <sensor_init>:
+000001ec <__vector_2>:
+/*
+ * INT1 interrupt
+ * interrupt flag cleared by hardware
+ */
+ISR(INT1_vect)
+{
+ 1ec:	1f 92       	push	r1
+ 1ee:	0f 92       	push	r0
+ 1f0:	0f b6       	in	r0, 0x3f	; 63
+ 1f2:	0f 92       	push	r0
+ 1f4:	11 24       	eor	r1, r1
+ 1f6:	8f 93       	push	r24
+    int1_event = 1;
+ 1f8:	81 e0       	ldi	r24, 0x01	; 1
+ 1fa:	80 93 09 01 	sts	0x0109, r24	; 0x800109 <int1_event>
+}
+ 1fe:	8f 91       	pop	r24
+ 200:	0f 90       	pop	r0
+ 202:	0f be       	out	0x3f, r0	; 63
+ 204:	0f 90       	pop	r0
+ 206:	1f 90       	pop	r1
+ 208:	18 95       	reti
+
+0000020a <sensor_init>:
 
 void
 sensor_init(void)
 {
     // PORTC setup PINS for input
     DDRC &= ~(_BV(PC0)|_BV(PC1)|_BV(PC2)|_BV(PC3)|_BV(PC4)|_BV(PC5));
- 1e8:	87 b1       	in	r24, 0x07	; 7
- 1ea:	80 7c       	andi	r24, 0xC0	; 192
- 1ec:	87 b9       	out	0x07, r24	; 7
+ 20a:	87 b1       	in	r24, 0x07	; 7
+ 20c:	80 7c       	andi	r24, 0xC0	; 192
+ 20e:	87 b9       	out	0x07, r24	; 7
 
-    // turn off analog comparator
+    // turn off analog comparator and digital input buffer
     ACSR |= _BV(ACD);
- 1ee:	80 b7       	in	r24, 0x30	; 48
- 1f0:	80 68       	ori	r24, 0x80	; 128
- 1f2:	80 bf       	out	0x30, r24	; 48
-    
-    // start the ADC, and enable interrupt, scale clock by 8
-    ADCSRA = _BV(ADEN)|_BV(ADIE)|_BV(ADPS1)|_BV(ADPS0);
- 1f4:	8b e8       	ldi	r24, 0x8B	; 139
- 1f6:	80 93 7a 00 	sts	0x007A, r24	; 0x80007a <__DATA_REGION_ORIGIN__+0x1a>
+ 210:	80 b7       	in	r24, 0x30	; 48
+ 212:	80 68       	ori	r24, 0x80	; 128
+ 214:	80 bf       	out	0x30, r24	; 48
+    DIDR1 |= _BV(AIN1D)|_BV(AIN0D);
+ 216:	ef e7       	ldi	r30, 0x7F	; 127
+ 218:	f0 e0       	ldi	r31, 0x00	; 0
+ 21a:	80 81       	ld	r24, Z
+ 21c:	83 60       	ori	r24, 0x03	; 3
+ 21e:	80 83       	st	Z, r24
+
+    // turn off digital input buffers
+    DIDR0 |= _BV(ADC5D)|_BV(ADC4D)|_BV(ADC3D)|_BV(ADC2D)|_BV(ADC0D);
+ 220:	ee e7       	ldi	r30, 0x7E	; 126
+ 222:	f0 e0       	ldi	r31, 0x00	; 0
+ 224:	80 81       	ld	r24, Z
+ 226:	8d 63       	ori	r24, 0x3D	; 61
+ 228:	80 83       	st	Z, r24
+
+    // start the ADC, and enable interrupt, scale clock by 32
+    ADCSRA = _BV(ADEN)|_BV(ADIE)|_BV(ADPS2)|_BV(ADPS0);
+ 22a:	8d e8       	ldi	r24, 0x8D	; 141
+ 22c:	80 93 7a 00 	sts	0x007A, r24	; 0x80007a <__DATA_REGION_ORIGIN__+0x1a>
     // at start, no channels are in use
     current_channel = -1;       /* channel currently measured */
- 1fa:	8f ef       	ldi	r24, 0xFF	; 255
- 1fc:	9f ef       	ldi	r25, 0xFF	; 255
- 1fe:	90 93 0e 01 	sts	0x010E, r25	; 0x80010e <current_channel+0x1>
- 202:	80 93 0d 01 	sts	0x010D, r24	; 0x80010d <current_channel>
- 206:	08 95       	ret
+ 230:	8f ef       	ldi	r24, 0xFF	; 255
+ 232:	9f ef       	ldi	r25, 0xFF	; 255
+ 234:	90 93 0e 01 	sts	0x010E, r25	; 0x80010e <current_channel+0x1>
+ 238:	80 93 0d 01 	sts	0x010D, r24	; 0x80010d <current_channel>
+ 23c:	08 95       	ret
 
-00000208 <sensor_pre_power_down>:
+0000023e <sensor_pre_power_down>:
 
 void
 sensor_pre_power_down(void)
 {
     // turn off adc
     ADCSRA = 0;
- 208:	10 92 7a 00 	sts	0x007A, r1	; 0x80007a <__DATA_REGION_ORIGIN__+0x1a>
+ 23e:	10 92 7a 00 	sts	0x007A, r1	; 0x80007a <__DATA_REGION_ORIGIN__+0x1a>
 
     // shutdown modules
     PRR |= _BV(PRADC);
- 20c:	e4 e6       	ldi	r30, 0x64	; 100
- 20e:	f0 e0       	ldi	r31, 0x00	; 0
- 210:	80 81       	ld	r24, Z
- 212:	81 60       	ori	r24, 0x01	; 1
- 214:	80 83       	st	Z, r24
+ 242:	e4 e6       	ldi	r30, 0x64	; 100
+ 244:	f0 e0       	ldi	r31, 0x00	; 0
+ 246:	80 81       	ld	r24, Z
+ 248:	81 60       	ori	r24, 0x01	; 1
+ 24a:	80 83       	st	Z, r24
 
     // turn on pull ups on adc ports
     PORTC |= (_BV(PC0)|_BV(PC1)|_BV(PC2)|_BV(PC3)|_BV(PC4)|_BV(PC5));
- 216:	88 b1       	in	r24, 0x08	; 8
- 218:	8f 63       	ori	r24, 0x3F	; 63
- 21a:	88 b9       	out	0x08, r24	; 8
- 21c:	08 95       	ret
+ 24c:	88 b1       	in	r24, 0x08	; 8
+ 24e:	8f 63       	ori	r24, 0x3F	; 63
+ 250:	88 b9       	out	0x08, r24	; 8
+ 252:	08 95       	ret
 
-0000021e <sensor_post_power_down>:
+00000254 <sensor_post_power_down>:
 
 void
 sensor_post_power_down(void)
 {
     // startup adc
     PRR &= ~(_BV(PRADC));
- 21e:	e4 e6       	ldi	r30, 0x64	; 100
- 220:	f0 e0       	ldi	r31, 0x00	; 0
- 222:	80 81       	ld	r24, Z
- 224:	8e 7f       	andi	r24, 0xFE	; 254
- 226:	80 83       	st	Z, r24
+ 254:	e4 e6       	ldi	r30, 0x64	; 100
+ 256:	f0 e0       	ldi	r31, 0x00	; 0
+ 258:	80 81       	ld	r24, Z
+ 25a:	8e 7f       	andi	r24, 0xFE	; 254
+ 25c:	80 83       	st	Z, r24
     // initialize the ADC, and enable interrupt, scale clock by 8
-    ADCSRA = _BV(ADEN)|_BV(ADIE)|_BV(ADPS1)|_BV(ADPS0);
- 228:	8b e8       	ldi	r24, 0x8B	; 139
- 22a:	80 93 7a 00 	sts	0x007A, r24	; 0x80007a <__DATA_REGION_ORIGIN__+0x1a>
+    ADCSRA = _BV(ADEN)|_BV(ADIE)|_BV(ADPS2)|_BV(ADPS0);
+ 25e:	8d e8       	ldi	r24, 0x8D	; 141
+ 260:	80 93 7a 00 	sts	0x007A, r24	; 0x80007a <__DATA_REGION_ORIGIN__+0x1a>
     current_channel = -1;
- 22e:	8f ef       	ldi	r24, 0xFF	; 255
- 230:	9f ef       	ldi	r25, 0xFF	; 255
- 232:	90 93 0e 01 	sts	0x010E, r25	; 0x80010e <current_channel+0x1>
- 236:	80 93 0d 01 	sts	0x010D, r24	; 0x80010d <current_channel>
+ 264:	8f ef       	ldi	r24, 0xFF	; 255
+ 266:	9f ef       	ldi	r25, 0xFF	; 255
+ 268:	90 93 0e 01 	sts	0x010E, r25	; 0x80010e <current_channel+0x1>
+ 26c:	80 93 0d 01 	sts	0x010D, r24	; 0x80010d <current_channel>
     
     // turn off pull ups on ADC ports
     PORTC &= ~(_BV(PC0)|_BV(PC1)|_BV(PC2)|_BV(PC3)|_BV(PC4)|_BV(PC5));
- 23a:	88 b1       	in	r24, 0x08	; 8
- 23c:	80 7c       	andi	r24, 0xC0	; 192
- 23e:	88 b9       	out	0x08, r24	; 8
- 240:	08 95       	ret
+ 270:	88 b1       	in	r24, 0x08	; 8
+ 272:	80 7c       	andi	r24, 0xC0	; 192
+ 274:	88 b9       	out	0x08, r24	; 8
+ 276:	08 95       	ret
 
-00000242 <sensor_state_machine>:
+00000278 <sensor_state_machine>:
 void
 sensor_state_machine(void)
 {
     // if we now have a set of channels to look at,
     // set the current_channel and initiate measurement
     uint8_t curchannels = adc_channels;
- 242:	80 91 0c 01 	lds	r24, 0x010C	; 0x80010c <adc_channels>
+ 278:	80 91 0c 01 	lds	r24, 0x010C	; 0x80010c <adc_channels>
     if (curchannels > 0 && current_channel < 0)
- 246:	88 23       	and	r24, r24
- 248:	41 f1       	breq	.+80     	; 0x29a <sensor_state_machine+0x58>
- 24a:	20 91 0d 01 	lds	r18, 0x010D	; 0x80010d <current_channel>
- 24e:	30 91 0e 01 	lds	r19, 0x010E	; 0x80010e <current_channel+0x1>
- 252:	37 ff       	sbrs	r19, 7
- 254:	22 c0       	rjmp	.+68     	; 0x29a <sensor_state_machine+0x58>
- 256:	20 e0       	ldi	r18, 0x00	; 0
- 258:	30 e0       	ldi	r19, 0x00	; 0
+ 27c:	88 23       	and	r24, r24
+ 27e:	49 f1       	breq	.+82     	; 0x2d2 <sensor_state_machine+0x5a>
+ 280:	20 91 0d 01 	lds	r18, 0x010D	; 0x80010d <current_channel>
+ 284:	30 91 0e 01 	lds	r19, 0x010E	; 0x80010e <current_channel+0x1>
+ 288:	37 ff       	sbrs	r19, 7
+ 28a:	23 c0       	rjmp	.+70     	; 0x2d2 <sensor_state_machine+0x5a>
+ 28c:	20 e0       	ldi	r18, 0x00	; 0
+ 28e:	30 e0       	ldi	r19, 0x00	; 0
     {
         // find the first channel
         for (uint8_t i=0; i<MAX_ADC_PINS; i++)
         {
             if (curchannels & (1<<i))
- 25a:	48 2f       	mov	r20, r24
- 25c:	50 e0       	ldi	r21, 0x00	; 0
- 25e:	ba 01       	movw	r22, r20
- 260:	02 2e       	mov	r0, r18
- 262:	02 c0       	rjmp	.+4      	; 0x268 <sensor_state_machine+0x26>
- 264:	75 95       	asr	r23
- 266:	67 95       	ror	r22
- 268:	0a 94       	dec	r0
- 26a:	e2 f7       	brpl	.-8      	; 0x264 <sensor_state_machine+0x22>
- 26c:	60 ff       	sbrs	r22, 0
- 26e:	07 c0       	rjmp	.+14     	; 0x27e <sensor_state_machine+0x3c>
-    return 1;
-}
-
-static __inline__ uint8_t __iCliRetVal(void)
-{
-    cli();
- 270:	f8 94       	cli
-            {
-                ATOMIC_BLOCK(ATOMIC_FORCEON) {
-                    current_channel = i;
- 272:	20 93 0d 01 	sts	0x010D, r18	; 0x80010d <current_channel>
- 276:	30 93 0e 01 	sts	0x010E, r19	; 0x80010e <current_channel+0x1>
-    return 1;
-}
-
-static __inline__ void __iSeiParam(const uint8_t *__s)
-{
-    sei();
- 27a:	78 94       	sei
-                }
-                break;
- 27c:	05 c0       	rjmp	.+10     	; 0x288 <sensor_state_machine+0x46>
- 27e:	2f 5f       	subi	r18, 0xFF	; 255
- 280:	3f 4f       	sbci	r19, 0xFF	; 255
-    // set the current_channel and initiate measurement
-    uint8_t curchannels = adc_channels;
-    if (curchannels > 0 && current_channel < 0)
-    {
-        // find the first channel
-        for (uint8_t i=0; i<MAX_ADC_PINS; i++)
- 282:	26 30       	cpi	r18, 0x06	; 6
- 284:	31 05       	cpc	r19, r1
- 286:	59 f7       	brne	.-42     	; 0x25e <sensor_state_machine+0x1c>
-                    current_channel = i;
-                }
-                break;
-            }
-        }
-        ADMUX = current_channel;
- 288:	90 91 0d 01 	lds	r25, 0x010D	; 0x80010d <current_channel>
- 28c:	90 93 7c 00 	sts	0x007C, r25	; 0x80007c <__DATA_REGION_ORIGIN__+0x1c>
-
-        // start a new conversion
-        ADCSRA |= _BV(ADSC);
- 290:	90 91 7a 00 	lds	r25, 0x007A	; 0x80007a <__DATA_REGION_ORIGIN__+0x1a>
- 294:	90 64       	ori	r25, 0x40	; 64
- 296:	90 93 7a 00 	sts	0x007A, r25	; 0x80007a <__DATA_REGION_ORIGIN__+0x1a>
-    }
-
-    // adc measurement finished, get the next channel
-    if (adc_complete_event)
- 29a:	90 91 0f 01 	lds	r25, 0x010F	; 0x80010f <adc_complete_event>
- 29e:	99 23       	and	r25, r25
- 2a0:	d1 f1       	breq	.+116    	; 0x316 <sensor_state_machine+0xd4>
-    {
-        // if no channels are requested, then finish
-        if (curchannels == 0) {
- 2a2:	81 11       	cpse	r24, r1
- 2a4:	09 c0       	rjmp	.+18     	; 0x2b8 <sensor_state_machine+0x76>
+ 290:	48 2f       	mov	r20, r24
+ 292:	50 e0       	ldi	r21, 0x00	; 0
+ 294:	ba 01       	movw	r22, r20
+ 296:	02 2e       	mov	r0, r18
+ 298:	02 c0       	rjmp	.+4      	; 0x29e <sensor_state_machine+0x26>
+ 29a:	75 95       	asr	r23
+ 29c:	67 95       	ror	r22
+ 29e:	0a 94       	dec	r0
+ 2a0:	e2 f7       	brpl	.-8      	; 0x29a <sensor_state_machine+0x22>
+ 2a2:	60 ff       	sbrs	r22, 0
+ 2a4:	07 c0       	rjmp	.+14     	; 0x2b4 <sensor_state_machine+0x3c>
     return 1;
 }
 
@@ -524,974 +503,1177 @@ static __inline__ uint8_t __iCliRetVal(void)
 {
     cli();
  2a6:	f8 94       	cli
-            ATOMIC_BLOCK(ATOMIC_FORCEON) {
-                current_channel = -1;
- 2a8:	8f ef       	ldi	r24, 0xFF	; 255
- 2aa:	9f ef       	ldi	r25, 0xFF	; 255
- 2ac:	90 93 0e 01 	sts	0x010E, r25	; 0x80010e <current_channel+0x1>
- 2b0:	80 93 0d 01 	sts	0x010D, r24	; 0x80010d <current_channel>
+            {
+                ATOMIC_BLOCK(ATOMIC_FORCEON) {
+                    current_channel = i;
+ 2a8:	20 93 0d 01 	sts	0x010D, r18	; 0x80010d <current_channel>
+ 2ac:	30 93 0e 01 	sts	0x010E, r19	; 0x80010e <current_channel+0x1>
     return 1;
 }
 
 static __inline__ void __iSeiParam(const uint8_t *__s)
 {
     sei();
- 2b4:	78 94       	sei
-    __asm__ volatile ("" ::: "memory");
- 2b6:	2c c0       	rjmp	.+88     	; 0x310 <sensor_state_machine+0xce>
+ 2b0:	78 94       	sei
+                }
+                break;
+ 2b2:	05 c0       	rjmp	.+10     	; 0x2be <sensor_state_machine+0x46>
+ 2b4:	2f 5f       	subi	r18, 0xFF	; 255
+ 2b6:	3f 4f       	sbci	r19, 0xFF	; 255
+    // set the current_channel and initiate measurement
+    uint8_t curchannels = adc_channels;
+    if (curchannels > 0 && current_channel < 0)
+    {
+        // find the first channel
+        for (uint8_t i=0; i<MAX_ADC_PINS; i++)
+ 2b8:	26 30       	cpi	r18, 0x06	; 6
+ 2ba:	31 05       	cpc	r19, r1
+ 2bc:	59 f7       	brne	.-42     	; 0x294 <sensor_state_machine+0x1c>
+                    current_channel = i;
+                }
+                break;
             }
-        } else {
-            // get the next channel
-            uint8_t i = current_channel + 1;
- 2b8:	20 91 0d 01 	lds	r18, 0x010D	; 0x80010d <current_channel>
- 2bc:	2f 5f       	subi	r18, 0xFF	; 255
-        find_channel:
-            while (i < MAX_ADC_PINS)
-            {
-                if (curchannels & (1<<i)) {
- 2be:	90 e0       	ldi	r25, 0x00	; 0
-            }
-        } else {
-            // get the next channel
-            uint8_t i = current_channel + 1;
-        find_channel:
-            while (i < MAX_ADC_PINS)
- 2c0:	26 30       	cpi	r18, 0x06	; 6
- 2c2:	20 f5       	brcc	.+72     	; 0x30c <sensor_state_machine+0xca>
-            {
-                if (curchannels & (1<<i)) {
- 2c4:	42 2f       	mov	r20, r18
- 2c6:	50 e0       	ldi	r21, 0x00	; 0
- 2c8:	bc 01       	movw	r22, r24
- 2ca:	02 2e       	mov	r0, r18
- 2cc:	02 c0       	rjmp	.+4      	; 0x2d2 <sensor_state_machine+0x90>
- 2ce:	75 95       	asr	r23
- 2d0:	67 95       	ror	r22
- 2d2:	0a 94       	dec	r0
- 2d4:	e2 f7       	brpl	.-8      	; 0x2ce <sensor_state_machine+0x8c>
- 2d6:	60 ff       	sbrs	r22, 0
- 2d8:	10 c0       	rjmp	.+32     	; 0x2fa <sensor_state_machine+0xb8>
+        }
+        ADMUX = current_channel | _BV(REFS0);
+ 2be:	90 91 0d 01 	lds	r25, 0x010D	; 0x80010d <current_channel>
+ 2c2:	90 64       	ori	r25, 0x40	; 64
+ 2c4:	90 93 7c 00 	sts	0x007C, r25	; 0x80007c <__DATA_REGION_ORIGIN__+0x1c>
+
+        // start a new conversion
+        ADCSRA |= _BV(ADSC);
+ 2c8:	90 91 7a 00 	lds	r25, 0x007A	; 0x80007a <__DATA_REGION_ORIGIN__+0x1a>
+ 2cc:	90 64       	ori	r25, 0x40	; 64
+ 2ce:	90 93 7a 00 	sts	0x007A, r25	; 0x80007a <__DATA_REGION_ORIGIN__+0x1a>
+    }
+
+    // adc measurement finished, get the next channel
+    if (adc_complete_event)
+ 2d2:	90 91 0f 01 	lds	r25, 0x010F	; 0x80010f <adc_complete_event>
+ 2d6:	99 23       	and	r25, r25
+ 2d8:	09 f4       	brne	.+2      	; 0x2dc <sensor_state_machine+0x64>
+ 2da:	3b c0       	rjmp	.+118    	; 0x352 <sensor_state_machine+0xda>
+    {
+        // if no channels are requested, then finish
+        if (curchannels == 0) {
+ 2dc:	81 11       	cpse	r24, r1
+ 2de:	09 c0       	rjmp	.+18     	; 0x2f2 <sensor_state_machine+0x7a>
     return 1;
 }
 
 static __inline__ uint8_t __iCliRetVal(void)
 {
     cli();
- 2da:	f8 94       	cli
-                    ATOMIC_BLOCK(ATOMIC_FORCEON) {
-                        current_channel = i;
- 2dc:	50 93 0e 01 	sts	0x010E, r21	; 0x80010e <current_channel+0x1>
- 2e0:	40 93 0d 01 	sts	0x010D, r20	; 0x80010d <current_channel>
+ 2e0:	f8 94       	cli
+            ATOMIC_BLOCK(ATOMIC_FORCEON) {
+                current_channel = -1;
+ 2e2:	8f ef       	ldi	r24, 0xFF	; 255
+ 2e4:	9f ef       	ldi	r25, 0xFF	; 255
+ 2e6:	90 93 0e 01 	sts	0x010E, r25	; 0x80010e <current_channel+0x1>
+ 2ea:	80 93 0d 01 	sts	0x010D, r24	; 0x80010d <current_channel>
     return 1;
 }
 
 static __inline__ void __iSeiParam(const uint8_t *__s)
 {
     sei();
- 2e4:	78 94       	sei
+ 2ee:	78 94       	sei
+    __asm__ volatile ("" ::: "memory");
+ 2f0:	2d c0       	rjmp	.+90     	; 0x34c <sensor_state_machine+0xd4>
+            }
+        } else {
+            // get the next channel
+            uint8_t i = current_channel + 1;
+ 2f2:	20 91 0d 01 	lds	r18, 0x010D	; 0x80010d <current_channel>
+ 2f6:	2f 5f       	subi	r18, 0xFF	; 255
+        find_channel:
+            while (i < MAX_ADC_PINS)
+            {
+                if (curchannels & (1<<i)) {
+ 2f8:	90 e0       	ldi	r25, 0x00	; 0
+            }
+        } else {
+            // get the next channel
+            uint8_t i = current_channel + 1;
+        find_channel:
+            while (i < MAX_ADC_PINS)
+ 2fa:	26 30       	cpi	r18, 0x06	; 6
+ 2fc:	28 f5       	brcc	.+74     	; 0x348 <sensor_state_machine+0xd0>
+            {
+                if (curchannels & (1<<i)) {
+ 2fe:	42 2f       	mov	r20, r18
+ 300:	50 e0       	ldi	r21, 0x00	; 0
+ 302:	bc 01       	movw	r22, r24
+ 304:	02 2e       	mov	r0, r18
+ 306:	02 c0       	rjmp	.+4      	; 0x30c <sensor_state_machine+0x94>
+ 308:	75 95       	asr	r23
+ 30a:	67 95       	ror	r22
+ 30c:	0a 94       	dec	r0
+ 30e:	e2 f7       	brpl	.-8      	; 0x308 <sensor_state_machine+0x90>
+ 310:	60 ff       	sbrs	r22, 0
+ 312:	11 c0       	rjmp	.+34     	; 0x336 <sensor_state_machine+0xbe>
+    return 1;
+}
+
+static __inline__ uint8_t __iCliRetVal(void)
+{
+    cli();
+ 314:	f8 94       	cli
+                    ATOMIC_BLOCK(ATOMIC_FORCEON) {
+                        current_channel = i;
+ 316:	50 93 0e 01 	sts	0x010E, r21	; 0x80010e <current_channel+0x1>
+ 31a:	40 93 0d 01 	sts	0x010D, r20	; 0x80010d <current_channel>
+    return 1;
+}
+
+static __inline__ void __iSeiParam(const uint8_t *__s)
+{
+    sei();
+ 31e:	78 94       	sei
             if (i >= MAX_ADC_PINS) {
                 i = 0;
                 goto find_channel;
             }
-            // start new conversion
-            ADMUX = current_channel;
- 2e6:	80 91 0d 01 	lds	r24, 0x010D	; 0x80010d <current_channel>
- 2ea:	80 93 7c 00 	sts	0x007C, r24	; 0x80007c <__DATA_REGION_ORIGIN__+0x1c>
+            // start new conversion, with AVCC as reference
+            ADMUX = current_channel | _BV(REFS0);
+ 320:	80 91 0d 01 	lds	r24, 0x010D	; 0x80010d <current_channel>
+ 324:	80 64       	ori	r24, 0x40	; 64
+ 326:	80 93 7c 00 	sts	0x007C, r24	; 0x80007c <__DATA_REGION_ORIGIN__+0x1c>
             ADCSRA |= _BV(ADSC);
- 2ee:	80 91 7a 00 	lds	r24, 0x007A	; 0x80007a <__DATA_REGION_ORIGIN__+0x1a>
- 2f2:	80 64       	ori	r24, 0x40	; 64
- 2f4:	80 93 7a 00 	sts	0x007A, r24	; 0x80007a <__DATA_REGION_ORIGIN__+0x1a>
- 2f8:	0b c0       	rjmp	.+22     	; 0x310 <sensor_state_machine+0xce>
+ 32a:	80 91 7a 00 	lds	r24, 0x007A	; 0x80007a <__DATA_REGION_ORIGIN__+0x1a>
+ 32e:	80 64       	ori	r24, 0x40	; 64
+ 330:	80 93 7a 00 	sts	0x007A, r24	; 0x80007a <__DATA_REGION_ORIGIN__+0x1a>
+ 334:	0b c0       	rjmp	.+22     	; 0x34c <sensor_state_machine+0xd4>
                         current_channel = i;
                     }
                     break;
                 } else
                     // zero out channels not used
                     adc_values[i] = 0;
- 2fa:	44 0f       	add	r20, r20
- 2fc:	55 1f       	adc	r21, r21
- 2fe:	fa 01       	movw	r30, r20
- 300:	e0 5f       	subi	r30, 0xF0	; 240
- 302:	fe 4f       	sbci	r31, 0xFE	; 254
- 304:	11 82       	std	Z+1, r1	; 0x01
- 306:	10 82       	st	Z, r1
+ 336:	44 0f       	add	r20, r20
+ 338:	55 1f       	adc	r21, r21
+ 33a:	fa 01       	movw	r30, r20
+ 33c:	e0 5f       	subi	r30, 0xF0	; 240
+ 33e:	fe 4f       	sbci	r31, 0xFE	; 254
+ 340:	11 82       	std	Z+1, r1	; 0x01
+ 342:	10 82       	st	Z, r1
                 ++i;
- 308:	2f 5f       	subi	r18, 0xFF	; 255
- 30a:	da cf       	rjmp	.-76     	; 0x2c0 <sensor_state_machine+0x7e>
+ 344:	2f 5f       	subi	r18, 0xFF	; 255
+ 346:	d9 cf       	rjmp	.-78     	; 0x2fa <sensor_state_machine+0x82>
             }
             // roll back to 0 if needed
             if (i >= MAX_ADC_PINS) {
                 i = 0;
- 30c:	20 e0       	ldi	r18, 0x00	; 0
- 30e:	da cf       	rjmp	.-76     	; 0x2c4 <sensor_state_machine+0x82>
+ 348:	20 e0       	ldi	r18, 0x00	; 0
+ 34a:	d9 cf       	rjmp	.-78     	; 0x2fe <sensor_state_machine+0x86>
             }
-            // start new conversion
-            ADMUX = current_channel;
+            // start new conversion, with AVCC as reference
+            ADMUX = current_channel | _BV(REFS0);
             ADCSRA |= _BV(ADSC);
         }
         adc_complete_event = 0;
- 310:	10 92 0f 01 	sts	0x010F, r1	; 0x80010f <adc_complete_event>
- 314:	08 95       	ret
- 316:	e0 e1       	ldi	r30, 0x10	; 16
- 318:	f1 e0       	ldi	r31, 0x01	; 1
+ 34c:	10 92 0f 01 	sts	0x010F, r1	; 0x80010f <adc_complete_event>
+ 350:	08 95       	ret
+ 352:	e0 e1       	ldi	r30, 0x10	; 16
+ 354:	f1 e0       	ldi	r31, 0x01	; 1
         // start a new conversion
         ADCSRA |= _BV(ADSC);
     }
 
     // adc measurement finished, get the next channel
     if (adc_complete_event)
- 31a:	20 e0       	ldi	r18, 0x00	; 0
- 31c:	30 e0       	ldi	r19, 0x00	; 0
+ 356:	20 e0       	ldi	r18, 0x00	; 0
+ 358:	30 e0       	ldi	r19, 0x00	; 0
         }
         adc_complete_event = 0;
     } else {
         // zero out channels not used
         for (int i=0; i<MAX_ADC_PINS; i++)
             if ((curchannels & (1 << i)) != (1 << i))
- 31e:	61 e0       	ldi	r22, 0x01	; 1
- 320:	70 e0       	ldi	r23, 0x00	; 0
- 322:	90 e0       	ldi	r25, 0x00	; 0
- 324:	ab 01       	movw	r20, r22
- 326:	02 2e       	mov	r0, r18
- 328:	02 c0       	rjmp	.+4      	; 0x32e <sensor_state_machine+0xec>
- 32a:	44 0f       	add	r20, r20
- 32c:	55 1f       	adc	r21, r21
- 32e:	0a 94       	dec	r0
- 330:	e2 f7       	brpl	.-8      	; 0x32a <sensor_state_machine+0xe8>
- 332:	dc 01       	movw	r26, r24
- 334:	a4 23       	and	r26, r20
- 336:	b5 23       	and	r27, r21
- 338:	4a 17       	cp	r20, r26
- 33a:	5b 07       	cpc	r21, r27
- 33c:	11 f0       	breq	.+4      	; 0x342 <sensor_state_machine+0x100>
+ 35a:	61 e0       	ldi	r22, 0x01	; 1
+ 35c:	70 e0       	ldi	r23, 0x00	; 0
+ 35e:	90 e0       	ldi	r25, 0x00	; 0
+ 360:	ab 01       	movw	r20, r22
+ 362:	02 2e       	mov	r0, r18
+ 364:	02 c0       	rjmp	.+4      	; 0x36a <sensor_state_machine+0xf2>
+ 366:	44 0f       	add	r20, r20
+ 368:	55 1f       	adc	r21, r21
+ 36a:	0a 94       	dec	r0
+ 36c:	e2 f7       	brpl	.-8      	; 0x366 <sensor_state_machine+0xee>
+ 36e:	dc 01       	movw	r26, r24
+ 370:	a4 23       	and	r26, r20
+ 372:	b5 23       	and	r27, r21
+ 374:	4a 17       	cp	r20, r26
+ 376:	5b 07       	cpc	r21, r27
+ 378:	11 f0       	breq	.+4      	; 0x37e <sensor_state_machine+0x106>
                 adc_values[i] = 0;
- 33e:	11 82       	std	Z+1, r1	; 0x01
- 340:	10 82       	st	Z, r1
+ 37a:	11 82       	std	Z+1, r1	; 0x01
+ 37c:	10 82       	st	Z, r1
             ADCSRA |= _BV(ADSC);
         }
         adc_complete_event = 0;
     } else {
         // zero out channels not used
         for (int i=0; i<MAX_ADC_PINS; i++)
- 342:	2f 5f       	subi	r18, 0xFF	; 255
- 344:	3f 4f       	sbci	r19, 0xFF	; 255
- 346:	32 96       	adiw	r30, 0x02	; 2
- 348:	26 30       	cpi	r18, 0x06	; 6
- 34a:	31 05       	cpc	r19, r1
- 34c:	59 f7       	brne	.-42     	; 0x324 <sensor_state_machine+0xe2>
- 34e:	08 95       	ret
+ 37e:	2f 5f       	subi	r18, 0xFF	; 255
+ 380:	3f 4f       	sbci	r19, 0xFF	; 255
+ 382:	32 96       	adiw	r30, 0x02	; 2
+ 384:	26 30       	cpi	r18, 0x06	; 6
+ 386:	31 05       	cpc	r19, r1
+ 388:	59 f7       	brne	.-42     	; 0x360 <sensor_state_machine+0xe8>
+ 38a:	08 95       	ret
 
-00000350 <__vector_21>:
+0000038c <__vector_21>:
 /*
  * ADC complete interrupt
  * interrupt flag cleared by hardware
  */
 ISR(ADC_vect)
 {
- 350:	1f 92       	push	r1
- 352:	0f 92       	push	r0
- 354:	0f b6       	in	r0, 0x3f	; 63
- 356:	0f 92       	push	r0
- 358:	11 24       	eor	r1, r1
- 35a:	2f 93       	push	r18
- 35c:	8f 93       	push	r24
- 35e:	9f 93       	push	r25
- 360:	ef 93       	push	r30
- 362:	ff 93       	push	r31
+ 38c:	1f 92       	push	r1
+ 38e:	0f 92       	push	r0
+ 390:	0f b6       	in	r0, 0x3f	; 63
+ 392:	0f 92       	push	r0
+ 394:	11 24       	eor	r1, r1
+ 396:	2f 93       	push	r18
+ 398:	8f 93       	push	r24
+ 39a:	9f 93       	push	r25
+ 39c:	ef 93       	push	r30
+ 39e:	ff 93       	push	r31
     uint8_t low, high;
     low = ADCL;
- 364:	80 91 78 00 	lds	r24, 0x0078	; 0x800078 <__DATA_REGION_ORIGIN__+0x18>
+ 3a0:	80 91 78 00 	lds	r24, 0x0078	; 0x800078 <__DATA_REGION_ORIGIN__+0x18>
     high = ADCH;
- 368:	20 91 79 00 	lds	r18, 0x0079	; 0x800079 <__DATA_REGION_ORIGIN__+0x19>
+ 3a4:	20 91 79 00 	lds	r18, 0x0079	; 0x800079 <__DATA_REGION_ORIGIN__+0x19>
     adc_values[current_channel] = (high << 8) | low;
- 36c:	e0 91 0d 01 	lds	r30, 0x010D	; 0x80010d <current_channel>
- 370:	f0 91 0e 01 	lds	r31, 0x010E	; 0x80010e <current_channel+0x1>
- 374:	ee 0f       	add	r30, r30
- 376:	ff 1f       	adc	r31, r31
- 378:	e0 5f       	subi	r30, 0xF0	; 240
- 37a:	fe 4f       	sbci	r31, 0xFE	; 254
- 37c:	90 e0       	ldi	r25, 0x00	; 0
- 37e:	92 2b       	or	r25, r18
- 380:	91 83       	std	Z+1, r25	; 0x01
- 382:	80 83       	st	Z, r24
+ 3a8:	e0 91 0d 01 	lds	r30, 0x010D	; 0x80010d <current_channel>
+ 3ac:	f0 91 0e 01 	lds	r31, 0x010E	; 0x80010e <current_channel+0x1>
+ 3b0:	ee 0f       	add	r30, r30
+ 3b2:	ff 1f       	adc	r31, r31
+ 3b4:	e0 5f       	subi	r30, 0xF0	; 240
+ 3b6:	fe 4f       	sbci	r31, 0xFE	; 254
+ 3b8:	90 e0       	ldi	r25, 0x00	; 0
+ 3ba:	92 2b       	or	r25, r18
+ 3bc:	91 83       	std	Z+1, r25	; 0x01
+ 3be:	80 83       	st	Z, r24
     adc_complete_event = 1;
- 384:	81 e0       	ldi	r24, 0x01	; 1
- 386:	80 93 0f 01 	sts	0x010F, r24	; 0x80010f <adc_complete_event>
+ 3c0:	81 e0       	ldi	r24, 0x01	; 1
+ 3c2:	80 93 0f 01 	sts	0x010F, r24	; 0x80010f <adc_complete_event>
 }
- 38a:	ff 91       	pop	r31
- 38c:	ef 91       	pop	r30
- 38e:	9f 91       	pop	r25
- 390:	8f 91       	pop	r24
- 392:	2f 91       	pop	r18
- 394:	0f 90       	pop	r0
- 396:	0f be       	out	0x3f, r0	; 63
- 398:	0f 90       	pop	r0
- 39a:	1f 90       	pop	r1
- 39c:	18 95       	reti
+ 3c6:	ff 91       	pop	r31
+ 3c8:	ef 91       	pop	r30
+ 3ca:	9f 91       	pop	r25
+ 3cc:	8f 91       	pop	r24
+ 3ce:	2f 91       	pop	r18
+ 3d0:	0f 90       	pop	r0
+ 3d2:	0f be       	out	0x3f, r0	; 63
+ 3d4:	0f 90       	pop	r0
+ 3d6:	1f 90       	pop	r1
+ 3d8:	18 95       	reti
 
-0000039e <spi_init>:
+000003da <spi_init>:
 void
 spi_init(void)
 {
     // setup PINS for input, RESET is already set as input and pull up on
     // due to fuse setting
-    SPI_DIR &= ~(_BV(MOSI)|_BV(SCK)|_BV(CS));
- 39e:	84 b1       	in	r24, 0x04	; 4
- 3a0:	87 7d       	andi	r24, 0xD7	; 215
- 3a2:	84 b9       	out	0x04, r24	; 4
-
+    SPI_DIR &= ~(_BV(MOSI)|_BV(SCK));
+ 3da:	84 b1       	in	r24, 0x04	; 4
+ 3dc:	87 7d       	andi	r24, 0xD7	; 215
+ 3de:	84 b9       	out	0x04, r24	; 4
+    CS_DIR &= ~(_BV(CS));
+ 3e0:	22 98       	cbi	0x04, 2	; 4
+    
     // set pullups on input pins
-    SPI_PORT |= (_BV(MOSI)|_BV(SCK)|_BV(CS));
- 3a4:	85 b1       	in	r24, 0x05	; 5
- 3a6:	88 62       	ori	r24, 0x28	; 40
- 3a8:	85 b9       	out	0x05, r24	; 5
-
+    SPI_PORT |= (_BV(MOSI)|_BV(SCK));
+ 3e2:	85 b1       	in	r24, 0x05	; 5
+ 3e4:	88 62       	ori	r24, 0x28	; 40
+ 3e6:	85 b9       	out	0x05, r24	; 5
+    CS_PORT |= _BV(CS);
+ 3e8:	2a 9a       	sbi	0x05, 2	; 5
+    
     // PORTB setup PINS for output
     SPI_DIR |= _BV(MISO);
- 3aa:	24 9a       	sbi	0x04, 4	; 4
+ 3ea:	24 9a       	sbi	0x04, 4	; 4
 
     // EEPROM to input, no pullup
     EEPROM_DIR &= ~_BV(EEPROM);
- 3ac:	27 98       	cbi	0x04, 7	; 4
+ 3ec:	27 98       	cbi	0x04, 7	; 4
     
     // enabled SPI, enable interrupt
     SPCR = _BV(SPE)|_BV(SPIE);
- 3ae:	80 ec       	ldi	r24, 0xC0	; 192
- 3b0:	8c bd       	out	0x2c, r24	; 44
- 3b2:	08 95       	ret
+ 3ee:	80 ec       	ldi	r24, 0xC0	; 192
+ 3f0:	8c bd       	out	0x2c, r24	; 44
+ 3f2:	08 95       	ret
 
-000003b4 <spi_pre_power_down>:
+000003f4 <spi_pre_power_down>:
 
 void
 spi_pre_power_down(void)
 {
     // shutdown modules
+    SPCR = 0;
+ 3f4:	1c bc       	out	0x2c, r1	; 44
     PRR |= _BV(PRSPI);
- 3b4:	e4 e6       	ldi	r30, 0x64	; 100
- 3b6:	f0 e0       	ldi	r31, 0x00	; 0
- 3b8:	80 81       	ld	r24, Z
- 3ba:	84 60       	ori	r24, 0x04	; 4
- 3bc:	80 83       	st	Z, r24
+ 3f6:	e4 e6       	ldi	r30, 0x64	; 100
+ 3f8:	f0 e0       	ldi	r31, 0x00	; 0
+ 3fa:	80 81       	ld	r24, Z
+ 3fc:	84 60       	ori	r24, 0x04	; 4
+ 3fe:	80 83       	st	Z, r24
 
     // MISO to input, pull-up on
     SPI_DIR &= ~(_BV(MISO));
- 3be:	24 98       	cbi	0x04, 4	; 4
+ 400:	24 98       	cbi	0x04, 4	; 4
     SPI_PORT |= _BV(MISO);
- 3c0:	2c 9a       	sbi	0x05, 4	; 5
- 3c2:	08 95       	ret
+ 402:	2c 9a       	sbi	0x05, 4	; 5
+ 404:	08 95       	ret
 
-000003c4 <spi_post_power_down>:
+00000406 <spi_post_power_down>:
 
 void
 spi_post_power_down(void)
 {
     // MISO to output, pull-up off
     SPI_PORT &= ~(_BV(MISO));
- 3c4:	2c 98       	cbi	0x05, 4	; 5
+ 406:	2c 98       	cbi	0x05, 4	; 5
     SPI_DIR |= _BV(MISO);
- 3c6:	24 9a       	sbi	0x04, 4	; 4
+ 408:	24 9a       	sbi	0x04, 4	; 4
 
     // turn on SPI
     PRR &= ~(_BV(PRSPI));
- 3c8:	e4 e6       	ldi	r30, 0x64	; 100
- 3ca:	f0 e0       	ldi	r31, 0x00	; 0
- 3cc:	80 81       	ld	r24, Z
- 3ce:	8b 7f       	andi	r24, 0xFB	; 251
- 3d0:	80 83       	st	Z, r24
+ 40a:	e4 e6       	ldi	r30, 0x64	; 100
+ 40c:	f0 e0       	ldi	r31, 0x00	; 0
+ 40e:	80 81       	ld	r24, Z
+ 410:	8b 7f       	andi	r24, 0xFB	; 251
+ 412:	80 83       	st	Z, r24
     // enable SPI, enable interrupt
     SPCR = _BV(SPE)|_BV(SPIE);
- 3d2:	80 ec       	ldi	r24, 0xC0	; 192
- 3d4:	8c bd       	out	0x2c, r24	; 44
- 3d6:	08 95       	ret
+ 414:	80 ec       	ldi	r24, 0xC0	; 192
+ 416:	8c bd       	out	0x2c, r24	; 44
+ 418:	08 95       	ret
 
-000003d8 <spi_state_machine>:
+0000041a <spi_pre_adc_noise>:
+
+void
+spi_pre_adc_noise(void)
+{
+    // turn on interrupt PCINT2
+    PCMSK0 |= _BV(PCINT2);
+ 41a:	eb e6       	ldi	r30, 0x6B	; 107
+ 41c:	f0 e0       	ldi	r31, 0x00	; 0
+ 41e:	80 81       	ld	r24, Z
+ 420:	84 60       	ori	r24, 0x04	; 4
+ 422:	80 83       	st	Z, r24
+    PCICR |= _BV(PCIE0);
+ 424:	e8 e6       	ldi	r30, 0x68	; 104
+ 426:	f0 e0       	ldi	r31, 0x00	; 0
+ 428:	80 81       	ld	r24, Z
+ 42a:	81 60       	ori	r24, 0x01	; 1
+ 42c:	80 83       	st	Z, r24
+    
+    // shutdown modules
+    SPCR = 0;
+ 42e:	1c bc       	out	0x2c, r1	; 44
+    PRR |= _BV(PRSPI);
+ 430:	e4 e6       	ldi	r30, 0x64	; 100
+ 432:	f0 e0       	ldi	r31, 0x00	; 0
+ 434:	80 81       	ld	r24, Z
+ 436:	84 60       	ori	r24, 0x04	; 4
+ 438:	80 83       	st	Z, r24
+ 43a:	08 95       	ret
+
+0000043c <spi_post_adc_noise>:
+
+void
+spi_post_adc_noise(void)
+{
+    // turn off interrupt PCINT2
+    PCICR &= ~(_BV(PCIE0));
+ 43c:	e8 e6       	ldi	r30, 0x68	; 104
+ 43e:	f0 e0       	ldi	r31, 0x00	; 0
+ 440:	80 81       	ld	r24, Z
+ 442:	8e 7f       	andi	r24, 0xFE	; 254
+ 444:	80 83       	st	Z, r24
+    PCMSK0 &= ~(_BV(PCINT2));
+ 446:	eb e6       	ldi	r30, 0x6B	; 107
+ 448:	f0 e0       	ldi	r31, 0x00	; 0
+ 44a:	80 81       	ld	r24, Z
+ 44c:	8b 7f       	andi	r24, 0xFB	; 251
+ 44e:	80 83       	st	Z, r24
+
+    // turn on SPI
+    PRR &= ~(_BV(PRSPI));
+ 450:	e4 e6       	ldi	r30, 0x64	; 100
+ 452:	f0 e0       	ldi	r31, 0x00	; 0
+ 454:	80 81       	ld	r24, Z
+ 456:	8b 7f       	andi	r24, 0xFB	; 251
+ 458:	80 83       	st	Z, r24
+    // enable SPI, enable interrupt
+    SPCR = _BV(SPE)|_BV(SPIE);
+ 45a:	80 ec       	ldi	r24, 0xC0	; 192
+ 45c:	8c bd       	out	0x2c, r24	; 44
+ 45e:	08 95       	ret
+
+00000460 <spi_state_machine>:
 
 void
 spi_state_machine(void)
 {
     // toggle eeprom if chosen
     if (toggle_eeprom)
- 3d8:	80 91 1c 01 	lds	r24, 0x011C	; 0x80011c <toggle_eeprom>
- 3dc:	88 23       	and	r24, r24
- 3de:	51 f0       	breq	.+20     	; 0x3f4 <spi_state_machine+0x1c>
+ 460:	80 91 1c 01 	lds	r24, 0x011C	; 0x80011c <toggle_eeprom>
+ 464:	88 23       	and	r24, r24
+ 466:	51 f0       	breq	.+20     	; 0x47c <spi_state_machine+0x1c>
     {
         if (bit_is_clear(EEPROM_PIN, EEPROM))
- 3e0:	1f 99       	sbic	0x03, 7	; 3
- 3e2:	02 c0       	rjmp	.+4      	; 0x3e8 <spi_state_machine+0x10>
+ 468:	1f 99       	sbic	0x03, 7	; 3
+ 46a:	02 c0       	rjmp	.+4      	; 0x470 <spi_state_machine+0x10>
         {
             // set to input
             EEPROM_DIR &= ~_BV(EEPROM);
- 3e4:	27 98       	cbi	0x04, 7	; 4
- 3e6:	04 c0       	rjmp	.+8      	; 0x3f0 <spi_state_machine+0x18>
+ 46c:	27 98       	cbi	0x04, 7	; 4
+ 46e:	04 c0       	rjmp	.+8      	; 0x478 <spi_state_machine+0x18>
         } else {
             // set to output, set low
             EEPROM_DIR |= _BV(EEPROM);
- 3e8:	27 9a       	sbi	0x04, 7	; 4
+ 470:	27 9a       	sbi	0x04, 7	; 4
             EEPROM_PORT &= _BV(EEPROM);
- 3ea:	85 b1       	in	r24, 0x05	; 5
- 3ec:	80 78       	andi	r24, 0x80	; 128
- 3ee:	85 b9       	out	0x05, r24	; 5
+ 472:	85 b1       	in	r24, 0x05	; 5
+ 474:	80 78       	andi	r24, 0x80	; 128
+ 476:	85 b9       	out	0x05, r24	; 5
         }
         toggle_eeprom = 0;
- 3f0:	10 92 1c 01 	sts	0x011C, r1	; 0x80011c <toggle_eeprom>
+ 478:	10 92 1c 01 	sts	0x011C, r1	; 0x80011c <toggle_eeprom>
     }
     // turn off interrupt flag
     spi_stc_event = 0;
- 3f4:	10 92 1d 01 	sts	0x011D, r1	; 0x80011d <spi_stc_event>
- 3f8:	08 95       	ret
+ 47c:	10 92 1d 01 	sts	0x011D, r1	; 0x80011d <spi_stc_event>
+    pcint0_event = 0;
+ 480:	10 92 1e 01 	sts	0x011E, r1	; 0x80011e <pcint0_event>
+ 484:	08 95       	ret
 
-000003fa <__vector_17>:
- 3fa:	1f 92       	push	r1
- 3fc:	0f 92       	push	r0
- 3fe:	0f b6       	in	r0, 0x3f	; 63
- 400:	0f 92       	push	r0
- 402:	11 24       	eor	r1, r1
- 404:	8f 93       	push	r24
- 406:	9f 93       	push	r25
- 408:	ef 93       	push	r30
- 40a:	ff 93       	push	r31
- 40c:	ee b5       	in	r30, 0x2e	; 46
- 40e:	80 91 02 01 	lds	r24, 0x0102	; 0x800102 <spi_state.1658>
- 412:	90 91 03 01 	lds	r25, 0x0103	; 0x800103 <spi_state.1658+0x1>
- 416:	81 30       	cpi	r24, 0x01	; 1
- 418:	91 05       	cpc	r25, r1
- 41a:	89 f1       	breq	.+98     	; 0x47e <__LOCK_REGION_LENGTH__+0x7e>
- 41c:	82 30       	cpi	r24, 0x02	; 2
- 41e:	91 05       	cpc	r25, r1
- 420:	f1 f1       	breq	.+124    	; 0x49e <__LOCK_REGION_LENGTH__+0x9e>
- 422:	89 2b       	or	r24, r25
- 424:	09 f0       	breq	.+2      	; 0x428 <__LOCK_REGION_LENGTH__+0x28>
- 426:	40 c0       	rjmp	.+128    	; 0x4a8 <__LOCK_REGION_LENGTH__+0xa8>
- 428:	e0 93 01 01 	sts	0x0101, r30	; 0x800101 <addr.1657>
- 42c:	80 ef       	ldi	r24, 0xF0	; 240
- 42e:	8e 0f       	add	r24, r30
- 430:	86 30       	cpi	r24, 0x06	; 6
- 432:	90 f4       	brcc	.+36     	; 0x458 <__LOCK_REGION_LENGTH__+0x58>
- 434:	f0 e0       	ldi	r31, 0x00	; 0
- 436:	ee 0f       	add	r30, r30
- 438:	ff 1f       	adc	r31, r31
- 43a:	e0 51       	subi	r30, 0x10	; 16
- 43c:	ff 4f       	sbci	r31, 0xFF	; 255
- 43e:	80 81       	ld	r24, Z
- 440:	8e bd       	out	0x2e, r24	; 46
- 442:	e0 91 01 01 	lds	r30, 0x0101	; 0x800101 <addr.1657>
- 446:	f0 e0       	ldi	r31, 0x00	; 0
- 448:	ee 0f       	add	r30, r30
- 44a:	ff 1f       	adc	r31, r31
- 44c:	e0 51       	subi	r30, 0x10	; 16
- 44e:	ff 4f       	sbci	r31, 0xFF	; 255
- 450:	81 81       	ldd	r24, Z+1	; 0x01
- 452:	80 93 00 01 	sts	0x0100, r24	; 0x800100 <_edata>
- 456:	10 c0       	rjmp	.+32     	; 0x478 <__LOCK_REGION_LENGTH__+0x78>
- 458:	e2 30       	cpi	r30, 0x02	; 2
- 45a:	31 f4       	brne	.+12     	; 0x468 <__LOCK_REGION_LENGTH__+0x68>
- 45c:	80 91 0c 01 	lds	r24, 0x010C	; 0x80010c <adc_channels>
- 460:	8e bd       	out	0x2e, r24	; 46
- 462:	10 92 00 01 	sts	0x0100, r1	; 0x800100 <_edata>
- 466:	08 c0       	rjmp	.+16     	; 0x478 <__LOCK_REGION_LENGTH__+0x78>
- 468:	e3 30       	cpi	r30, 0x03	; 3
- 46a:	31 f4       	brne	.+12     	; 0x478 <__LOCK_REGION_LENGTH__+0x78>
- 46c:	1e bc       	out	0x2e, r1	; 46
- 46e:	10 92 00 01 	sts	0x0100, r1	; 0x800100 <_edata>
- 472:	81 e0       	ldi	r24, 0x01	; 1
- 474:	80 93 1c 01 	sts	0x011C, r24	; 0x80011c <toggle_eeprom>
- 478:	81 e0       	ldi	r24, 0x01	; 1
- 47a:	90 e0       	ldi	r25, 0x00	; 0
- 47c:	0b c0       	rjmp	.+22     	; 0x494 <__LOCK_REGION_LENGTH__+0x94>
- 47e:	80 91 00 01 	lds	r24, 0x0100	; 0x800100 <_edata>
- 482:	8e bd       	out	0x2e, r24	; 46
- 484:	80 91 01 01 	lds	r24, 0x0101	; 0x800101 <addr.1657>
- 488:	81 30       	cpi	r24, 0x01	; 1
- 48a:	11 f4       	brne	.+4      	; 0x490 <__LOCK_REGION_LENGTH__+0x90>
- 48c:	e0 93 0c 01 	sts	0x010C, r30	; 0x80010c <adc_channels>
- 490:	82 e0       	ldi	r24, 0x02	; 2
- 492:	90 e0       	ldi	r25, 0x00	; 0
- 494:	90 93 03 01 	sts	0x0103, r25	; 0x800103 <spi_state.1658+0x1>
- 498:	80 93 02 01 	sts	0x0102, r24	; 0x800102 <spi_state.1658>
- 49c:	05 c0       	rjmp	.+10     	; 0x4a8 <__LOCK_REGION_LENGTH__+0xa8>
- 49e:	1e bc       	out	0x2e, r1	; 46
- 4a0:	10 92 03 01 	sts	0x0103, r1	; 0x800103 <spi_state.1658+0x1>
- 4a4:	10 92 02 01 	sts	0x0102, r1	; 0x800102 <spi_state.1658>
- 4a8:	2f 9b       	sbis	0x05, 7	; 5
- 4aa:	02 c0       	rjmp	.+4      	; 0x4b0 <__LOCK_REGION_LENGTH__+0xb0>
- 4ac:	2f 98       	cbi	0x05, 7	; 5
- 4ae:	01 c0       	rjmp	.+2      	; 0x4b2 <__LOCK_REGION_LENGTH__+0xb2>
- 4b0:	2f 9a       	sbi	0x05, 7	; 5
- 4b2:	81 e0       	ldi	r24, 0x01	; 1
- 4b4:	80 93 1d 01 	sts	0x011D, r24	; 0x80011d <spi_stc_event>
- 4b8:	ff 91       	pop	r31
- 4ba:	ef 91       	pop	r30
- 4bc:	9f 91       	pop	r25
- 4be:	8f 91       	pop	r24
- 4c0:	0f 90       	pop	r0
- 4c2:	0f be       	out	0x3f, r0	; 63
- 4c4:	0f 90       	pop	r0
- 4c6:	1f 90       	pop	r1
- 4c8:	18 95       	reti
+00000486 <__vector_17>:
+/*
+ * Serial Transfer Complete interrupt
+ * interrupt flag cleared by hardware
+ */
+ISR(SPI_STC_vect)
+{
+ 486:	1f 92       	push	r1
+ 488:	0f 92       	push	r0
+ 48a:	0f b6       	in	r0, 0x3f	; 63
+ 48c:	0f 92       	push	r0
+ 48e:	11 24       	eor	r1, r1
+ 490:	8f 93       	push	r24
+ 492:	9f 93       	push	r25
+ 494:	ef 93       	push	r30
+ 496:	ff 93       	push	r31
+    uint8_t recvd = SPDR;
+ 498:	ee b5       	in	r30, 0x2e	; 46
+    static uint8_t send2 = 0;
+    static uint8_t addr = 0;
+    static int spi_state = 0;
 
-000004ca <main>:
+    if (CS_ON)
+ 49a:	1a 99       	sbic	0x03, 2	; 3
+ 49c:	4d c0       	rjmp	.+154    	; 0x538 <__vector_17+0xb2>
+        goto skip_state_machine;
+    
+    switch (spi_state)
+ 49e:	80 91 02 01 	lds	r24, 0x0102	; 0x800102 <spi_state.1674>
+ 4a2:	90 91 03 01 	lds	r25, 0x0103	; 0x800103 <spi_state.1674+0x1>
+ 4a6:	81 30       	cpi	r24, 0x01	; 1
+ 4a8:	91 05       	cpc	r25, r1
+ 4aa:	89 f1       	breq	.+98     	; 0x50e <__vector_17+0x88>
+ 4ac:	82 30       	cpi	r24, 0x02	; 2
+ 4ae:	91 05       	cpc	r25, r1
+ 4b0:	f1 f1       	breq	.+124    	; 0x52e <__vector_17+0xa8>
+ 4b2:	89 2b       	or	r24, r25
+ 4b4:	09 f0       	breq	.+2      	; 0x4b8 <__vector_17+0x32>
+ 4b6:	40 c0       	rjmp	.+128    	; 0x538 <__vector_17+0xb2>
+    {
+    case 0: // first byte recvd, send second
+        addr = recvd;
+ 4b8:	e0 93 01 01 	sts	0x0101, r30	; 0x800101 <addr.1673>
+        if (addr >= 0x10 && addr < MAX_ADC_PINS + 0x10)
+ 4bc:	80 ef       	ldi	r24, 0xF0	; 240
+ 4be:	8e 0f       	add	r24, r30
+ 4c0:	86 30       	cpi	r24, 0x06	; 6
+ 4c2:	90 f4       	brcc	.+36     	; 0x4e8 <__vector_17+0x62>
+        {
+            SPDR = (uint8_t)(adc_values[addr-0x10] & 0xFF);
+ 4c4:	f0 e0       	ldi	r31, 0x00	; 0
+ 4c6:	ee 0f       	add	r30, r30
+ 4c8:	ff 1f       	adc	r31, r31
+ 4ca:	e0 51       	subi	r30, 0x10	; 16
+ 4cc:	ff 4f       	sbci	r31, 0xFF	; 255
+ 4ce:	80 81       	ld	r24, Z
+ 4d0:	8e bd       	out	0x2e, r24	; 46
+            send2 = (uint8_t)((adc_values[addr-0x10] & 0xFF00) >> 8);
+ 4d2:	e0 91 01 01 	lds	r30, 0x0101	; 0x800101 <addr.1673>
+ 4d6:	f0 e0       	ldi	r31, 0x00	; 0
+ 4d8:	ee 0f       	add	r30, r30
+ 4da:	ff 1f       	adc	r31, r31
+ 4dc:	e0 51       	subi	r30, 0x10	; 16
+ 4de:	ff 4f       	sbci	r31, 0xFF	; 255
+ 4e0:	81 81       	ldd	r24, Z+1	; 0x01
+ 4e2:	80 93 00 01 	sts	0x0100, r24	; 0x800100 <_edata>
+ 4e6:	10 c0       	rjmp	.+32     	; 0x508 <__vector_17+0x82>
+        } else if (addr == 0x02)
+ 4e8:	e2 30       	cpi	r30, 0x02	; 2
+ 4ea:	31 f4       	brne	.+12     	; 0x4f8 <__vector_17+0x72>
+        {
+            SPDR = adc_channels;
+ 4ec:	80 91 0c 01 	lds	r24, 0x010C	; 0x80010c <adc_channels>
+ 4f0:	8e bd       	out	0x2e, r24	; 46
+            send2 = 0;
+ 4f2:	10 92 00 01 	sts	0x0100, r1	; 0x800100 <_edata>
+ 4f6:	08 c0       	rjmp	.+16     	; 0x508 <__vector_17+0x82>
+        } else if (addr == 0x3) {
+ 4f8:	e3 30       	cpi	r30, 0x03	; 3
+ 4fa:	31 f4       	brne	.+12     	; 0x508 <__vector_17+0x82>
+            SPDR = 0;
+ 4fc:	1e bc       	out	0x2e, r1	; 46
+            send2 = 0;
+ 4fe:	10 92 00 01 	sts	0x0100, r1	; 0x800100 <_edata>
+            toggle_eeprom = 1;
+ 502:	81 e0       	ldi	r24, 0x01	; 1
+ 504:	80 93 1c 01 	sts	0x011C, r24	; 0x80011c <toggle_eeprom>
+        }
+        spi_state = 1;
+ 508:	81 e0       	ldi	r24, 0x01	; 1
+ 50a:	90 e0       	ldi	r25, 0x00	; 0
+ 50c:	0b c0       	rjmp	.+22     	; 0x524 <__vector_17+0x9e>
+        break;
+    case 1: // second byte recvd, send third
+        SPDR = send2;
+ 50e:	80 91 00 01 	lds	r24, 0x0100	; 0x800100 <_edata>
+ 512:	8e bd       	out	0x2e, r24	; 46
+        if (addr == 0x1)
+ 514:	80 91 01 01 	lds	r24, 0x0101	; 0x800101 <addr.1673>
+ 518:	81 30       	cpi	r24, 0x01	; 1
+ 51a:	11 f4       	brne	.+4      	; 0x520 <__vector_17+0x9a>
+            adc_channels = recvd;
+ 51c:	e0 93 0c 01 	sts	0x010C, r30	; 0x80010c <adc_channels>
+        spi_state = 2;
+ 520:	82 e0       	ldi	r24, 0x02	; 2
+ 522:	90 e0       	ldi	r25, 0x00	; 0
+ 524:	90 93 03 01 	sts	0x0103, r25	; 0x800103 <spi_state.1674+0x1>
+ 528:	80 93 02 01 	sts	0x0102, r24	; 0x800102 <spi_state.1674>
+        break;
+ 52c:	05 c0       	rjmp	.+10     	; 0x538 <__vector_17+0xb2>
+    case 2:
+        SPDR = 0;
+ 52e:	1e bc       	out	0x2e, r1	; 46
+        spi_state = 0; // third byte recvd, end of transfer
+ 530:	10 92 03 01 	sts	0x0103, r1	; 0x800103 <spi_state.1674+0x1>
+ 534:	10 92 02 01 	sts	0x0102, r1	; 0x800102 <spi_state.1674>
+        break;
+    }
+skip_state_machine:
+#ifdef USE_LED
+    TOGGLE_LED5;
+ 538:	2f 9b       	sbis	0x05, 7	; 5
+ 53a:	02 c0       	rjmp	.+4      	; 0x540 <__vector_17+0xba>
+ 53c:	2f 98       	cbi	0x05, 7	; 5
+ 53e:	01 c0       	rjmp	.+2      	; 0x542 <__vector_17+0xbc>
+ 540:	2f 9a       	sbi	0x05, 7	; 5
+#endif
+    spi_stc_event = 1;
+ 542:	81 e0       	ldi	r24, 0x01	; 1
+ 544:	80 93 1d 01 	sts	0x011D, r24	; 0x80011d <spi_stc_event>
+}
+ 548:	ff 91       	pop	r31
+ 54a:	ef 91       	pop	r30
+ 54c:	9f 91       	pop	r25
+ 54e:	8f 91       	pop	r24
+ 550:	0f 90       	pop	r0
+ 552:	0f be       	out	0x3f, r0	; 63
+ 554:	0f 90       	pop	r0
+ 556:	1f 90       	pop	r1
+ 558:	18 95       	reti
+
+0000055a <__vector_3>:
+ 55a:	1f 92       	push	r1
+ 55c:	0f 92       	push	r0
+ 55e:	0f b6       	in	r0, 0x3f	; 63
+ 560:	0f 92       	push	r0
+ 562:	11 24       	eor	r1, r1
+ 564:	8f 93       	push	r24
+ 566:	81 e0       	ldi	r24, 0x01	; 1
+ 568:	80 93 1e 01 	sts	0x011E, r24	; 0x80011e <pcint0_event>
+ 56c:	8f 91       	pop	r24
+ 56e:	0f 90       	pop	r0
+ 570:	0f be       	out	0x3f, r0	; 63
+ 572:	0f 90       	pop	r0
+ 574:	1f 90       	pop	r1
+ 576:	18 95       	reti
+
+00000578 <main>:
 {
     // set the clock to 8MHz
 //    CLKPR = _BV(CLKPCE);
 //    CLKPR = 0;
 
     init();
- 4ca:	0e 94 77 00 	call	0xee	; 0xee <init>
+ 578:	0e 94 77 00 	call	0xee	; 0xee <init>
     
     machine_state = prev_state = Start;
- 4ce:	10 92 04 01 	sts	0x0104, r1	; 0x800104 <prev_state>
- 4d2:	10 92 07 01 	sts	0x0107, r1	; 0x800107 <machine_state>
+ 57c:	10 92 04 01 	sts	0x0104, r1	; 0x800104 <prev_state>
+ 580:	10 92 07 01 	sts	0x0107, r1	; 0x800107 <machine_state>
     button_mask = 0xFF;
- 4d6:	8f ef       	ldi	r24, 0xFF	; 255
- 4d8:	80 93 05 01 	sts	0x0105, r24	; 0x800105 <button_mask>
+ 584:	8f ef       	ldi	r24, 0xFF	; 255
+ 586:	80 93 05 01 	sts	0x0105, r24	; 0x800105 <button_mask>
     wakeup_timer = -1;
- 4dc:	80 93 06 01 	sts	0x0106, r24	; 0x800106 <wakeup_timer>
+ 58a:	80 93 06 01 	sts	0x0106, r24	; 0x800106 <wakeup_timer>
     idle_timer = -1;
- 4e0:	80 93 08 01 	sts	0x0108, r24	; 0x800108 <idle_timer>
+ 58e:	80 93 08 01 	sts	0x0108, r24	; 0x800108 <idle_timer>
     button_timer = -1;
- 4e4:	80 93 0a 01 	sts	0x010A, r24	; 0x80010a <button_timer>
+ 592:	80 93 0a 01 	sts	0x010A, r24	; 0x80010a <button_timer>
     WakeupEvent evt = Unknown;
     
 	// start interrupts
 	sei();
- 4e8:	78 94       	sei
+ 596:	78 94       	sei
     machine_state = prev_state = Start;
     button_mask = 0xFF;
     wakeup_timer = -1;
     idle_timer = -1;
     button_timer = -1;
     WakeupEvent evt = Unknown;
- 4ea:	d3 e0       	ldi	r29, 0x03	; 3
+ 598:	d4 e0       	ldi	r29, 0x04	; 4
                 idle_timer = -1;
             }
             if (idle_expired())
             {
-                change_state(IdleEntry);
+                change_state(ADCNoiseEntry);
                 idle_timer = -1;
- 4ec:	cf ef       	ldi	r28, 0xFF	; 255
+ 59a:	cf ef       	ldi	r28, 0xFF	; 255
 
     // main loop
     while(1)
     {
 /*--------------------------------------------------------*/
         switch (machine_state) {
- 4ee:	e0 91 07 01 	lds	r30, 0x0107	; 0x800107 <machine_state>
- 4f2:	8e 2f       	mov	r24, r30
- 4f4:	90 e0       	ldi	r25, 0x00	; 0
- 4f6:	81 31       	cpi	r24, 0x11	; 17
- 4f8:	91 05       	cpc	r25, r1
- 4fa:	08 f0       	brcs	.+2      	; 0x4fe <main+0x34>
- 4fc:	e4 c0       	rjmp	.+456    	; 0x6c6 <main+0x1fc>
- 4fe:	fc 01       	movw	r30, r24
- 500:	ed 5b       	subi	r30, 0xBD	; 189
- 502:	ff 4f       	sbci	r31, 0xFF	; 255
- 504:	0c 94 75 03 	jmp	0x6ea	; 0x6ea <__tablejump2__>
+ 59c:	e0 91 07 01 	lds	r30, 0x0107	; 0x800107 <machine_state>
+ 5a0:	8e 2f       	mov	r24, r30
+ 5a2:	90 e0       	ldi	r25, 0x00	; 0
+ 5a4:	81 31       	cpi	r24, 0x11	; 17
+ 5a6:	91 05       	cpc	r25, r1
+ 5a8:	08 f0       	brcs	.+2      	; 0x5ac <main+0x34>
+ 5aa:	e5 c0       	rjmp	.+458    	; 0x776 <main+0x1fe>
+ 5ac:	fc 01       	movw	r30, r24
+ 5ae:	ed 5b       	subi	r30, 0xBD	; 189
+ 5b0:	ff 4f       	sbci	r31, 0xFF	; 255
+ 5b2:	0c 94 cf 03 	jmp	0x79e	; 0x79e <__tablejump2__>
             change_state(WaitEntry);
             break;
 /*--------------------------------------------------------*/
         case WaitEntry:
 #ifdef USE_LED
             LED1_SET_ON;
- 508:	28 9a       	sbi	0x05, 0	; 5
+ 5b6:	28 9a       	sbi	0x05, 0	; 5
             LED2_SET_OFF;
- 50a:	5f 98       	cbi	0x0b, 7	; 11
+ 5b8:	5f 98       	cbi	0x0b, 7	; 11
             LED3_SET_OFF;
- 50c:	5e 98       	cbi	0x0b, 6	; 11
+ 5ba:	5e 98       	cbi	0x0b, 6	; 11
             LED4_SET_OFF;
- 50e:	5d 98       	cbi	0x0b, 5	; 11
+ 5bc:	5d 98       	cbi	0x0b, 5	; 11
 #endif
             ENABLE_SET_OFF;
- 510:	5c 98       	cbi	0x0b, 4	; 11
+ 5be:	5c 98       	cbi	0x0b, 4	; 11
             SHUTDOWN_SET_OFF;
- 512:	2e 98       	cbi	0x05, 6	; 5
+ 5c0:	2e 98       	cbi	0x05, 6	; 5
             change_state(Wait);
- 514:	82 e0       	ldi	r24, 0x02	; 2
- 516:	d8 c0       	rjmp	.+432    	; 0x6c8 <main+0x1fe>
+ 5c2:	82 e0       	ldi	r24, 0x02	; 2
+ 5c4:	d9 c0       	rjmp	.+434    	; 0x778 <main+0x200>
 /*--------------------------------------------------------*/
 // trigger when button pressed
 inline
 int button_pressed(void)
 {
     return button_mask == 0x00;
- 518:	80 91 05 01 	lds	r24, 0x0105	; 0x800105 <button_mask>
+ 5c6:	80 91 05 01 	lds	r24, 0x0105	; 0x800105 <button_mask>
             ENABLE_SET_OFF;
             SHUTDOWN_SET_OFF;
             change_state(Wait);
             break;
         case Wait:
             if (button_pressed())
- 51c:	81 11       	cpse	r24, r1
- 51e:	03 c0       	rjmp	.+6      	; 0x526 <main+0x5c>
+ 5ca:	81 11       	cpse	r24, r1
+ 5cc:	03 c0       	rjmp	.+6      	; 0x5d4 <main+0x5c>
                 change_state(ButtonPress);
- 520:	83 e0       	ldi	r24, 0x03	; 3
- 522:	0e 94 95 00 	call	0x12a	; 0x12a <change_state>
+ 5ce:	83 e0       	ldi	r24, 0x03	; 3
+ 5d0:	0e 94 97 00 	call	0x12e	; 0x12e <change_state>
 // trigger when the wake up period is over
 inline
 int wake_up_expired(void)
 {
     // this is 750ms
     if (wakeup_timer >= (uint8_t)(F_CPU/256/256/1.5))
- 526:	80 91 06 01 	lds	r24, 0x0106	; 0x800106 <wakeup_timer>
- 52a:	81 35       	cpi	r24, 0x51	; 81
- 52c:	0c f0       	brlt	.+2      	; 0x530 <main+0x66>
- 52e:	d5 c0       	rjmp	.+426    	; 0x6da <main+0x210>
- 530:	cd c0       	rjmp	.+410    	; 0x6cc <main+0x202>
+ 5d4:	80 91 06 01 	lds	r24, 0x0106	; 0x800106 <wakeup_timer>
+ 5d8:	81 35       	cpi	r24, 0x51	; 81
+ 5da:	0c f0       	brlt	.+2      	; 0x5de <main+0x66>
+ 5dc:	d8 c0       	rjmp	.+432    	; 0x78e <main+0x216>
+ 5de:	ce c0       	rjmp	.+412    	; 0x77c <main+0x204>
             if (wake_up_expired())
                 change_state(MCUOffEntry);
             break;
 /*--------------------------------------------------------*/
         case ButtonPress:
             button_timer = 0;
- 532:	10 92 0a 01 	sts	0x010A, r1	; 0x80010a <button_timer>
+ 5e0:	10 92 0a 01 	sts	0x010A, r1	; 0x80010a <button_timer>
             change_state(ButtonRelease);
- 536:	84 e0       	ldi	r24, 0x04	; 4
- 538:	c7 c0       	rjmp	.+398    	; 0x6c8 <main+0x1fe>
+ 5e4:	84 e0       	ldi	r24, 0x04	; 4
+ 5e6:	c8 c0       	rjmp	.+400    	; 0x778 <main+0x200>
 /*--------------------------------------------------------*/
 // trigger when button released
 inline
 int button_released(void)
 {
     return button_mask == 0xFF;
- 53a:	80 91 05 01 	lds	r24, 0x0105	; 0x800105 <button_mask>
+ 5e8:	80 91 05 01 	lds	r24, 0x0105	; 0x800105 <button_mask>
         case ButtonPress:
             button_timer = 0;
             change_state(ButtonRelease);
             break;
         case ButtonRelease:
             if (button_released()) {
- 53e:	8f 3f       	cpi	r24, 0xFF	; 255
- 540:	09 f0       	breq	.+2      	; 0x544 <main+0x7a>
- 542:	c4 c0       	rjmp	.+392    	; 0x6cc <main+0x202>
+ 5ec:	8f 3f       	cpi	r24, 0xFF	; 255
+ 5ee:	09 f0       	breq	.+2      	; 0x5f2 <main+0x7a>
+ 5f0:	c5 c0       	rjmp	.+394    	; 0x77c <main+0x204>
                 // is delay long enough, wait 200ms
                 if (button_timer >= (F_CPU/256/256/5)) {
- 544:	90 91 0a 01 	lds	r25, 0x010A	; 0x80010a <button_timer>
- 548:	80 91 04 01 	lds	r24, 0x0104	; 0x800104 <prev_state>
- 54c:	98 31       	cpi	r25, 0x18	; 24
- 54e:	60 f0       	brcs	.+24     	; 0x568 <main+0x9e>
+ 5f2:	90 91 0a 01 	lds	r25, 0x010A	; 0x80010a <button_timer>
+ 5f6:	80 91 04 01 	lds	r24, 0x0104	; 0x800104 <prev_state>
+ 5fa:	98 31       	cpi	r25, 0x18	; 24
+ 5fc:	60 f0       	brcs	.+24     	; 0x616 <main+0x9e>
                     if (prev_state == Wait)
- 550:	82 30       	cpi	r24, 0x02	; 2
- 552:	11 f4       	brne	.+4      	; 0x558 <main+0x8e>
+ 5fe:	82 30       	cpi	r24, 0x02	; 2
+ 600:	11 f4       	brne	.+4      	; 0x606 <main+0x8e>
                         change_state(SignaledOnEntry);
- 554:	85 e0       	ldi	r24, 0x05	; 5
- 556:	11 c0       	rjmp	.+34     	; 0x57a <main+0xb0>
+ 602:	85 e0       	ldi	r24, 0x05	; 5
+ 604:	11 c0       	rjmp	.+34     	; 0x628 <main+0xb0>
                     else if (prev_state == SignaledOn)
- 558:	86 30       	cpi	r24, 0x06	; 6
- 55a:	11 f4       	brne	.+4      	; 0x560 <main+0x96>
+ 606:	86 30       	cpi	r24, 0x06	; 6
+ 608:	11 f4       	brne	.+4      	; 0x60e <main+0x96>
                         change_state(MCUOffEntry);
- 55c:	8d e0       	ldi	r24, 0x0D	; 13
- 55e:	0d c0       	rjmp	.+26     	; 0x57a <main+0xb0>
+ 60a:	8d e0       	ldi	r24, 0x0D	; 13
+ 60c:	0d c0       	rjmp	.+26     	; 0x628 <main+0xb0>
                     else if (prev_state == MCURunning)
- 560:	88 30       	cpi	r24, 0x08	; 8
- 562:	69 f4       	brne	.+26     	; 0x57e <main+0xb4>
+ 60e:	88 30       	cpi	r24, 0x08	; 8
+ 610:	69 f4       	brne	.+26     	; 0x62c <main+0xb4>
                         change_state(SignaledOffEntry);
- 564:	8b e0       	ldi	r24, 0x0B	; 11
- 566:	09 c0       	rjmp	.+18     	; 0x57a <main+0xb0>
+ 612:	8b e0       	ldi	r24, 0x0B	; 11
+ 614:	09 c0       	rjmp	.+18     	; 0x628 <main+0xb0>
                 } else {
                     // delay too short
                     if (prev_state == Wait)
- 568:	82 30       	cpi	r24, 0x02	; 2
- 56a:	11 f4       	brne	.+4      	; 0x570 <main+0xa6>
+ 616:	82 30       	cpi	r24, 0x02	; 2
+ 618:	11 f4       	brne	.+4      	; 0x61e <main+0xa6>
                         change_state(WaitEntry);
- 56c:	81 e0       	ldi	r24, 0x01	; 1
- 56e:	05 c0       	rjmp	.+10     	; 0x57a <main+0xb0>
+ 61a:	81 e0       	ldi	r24, 0x01	; 1
+ 61c:	05 c0       	rjmp	.+10     	; 0x628 <main+0xb0>
                     else if (prev_state == SignaledOn)
- 570:	86 30       	cpi	r24, 0x06	; 6
- 572:	81 f3       	breq	.-32     	; 0x554 <main+0x8a>
+ 61e:	86 30       	cpi	r24, 0x06	; 6
+ 620:	81 f3       	breq	.-32     	; 0x602 <main+0x8a>
                         change_state(SignaledOnEntry);
                     else if (prev_state == MCURunning)
- 574:	88 30       	cpi	r24, 0x08	; 8
- 576:	19 f4       	brne	.+6      	; 0x57e <main+0xb4>
+ 622:	88 30       	cpi	r24, 0x08	; 8
+ 624:	19 f4       	brne	.+6      	; 0x62c <main+0xb4>
                         change_state(MCURunningEntry);
- 578:	87 e0       	ldi	r24, 0x07	; 7
- 57a:	0e 94 95 00 	call	0x12a	; 0x12a <change_state>
+ 626:	87 e0       	ldi	r24, 0x07	; 7
+ 628:	0e 94 97 00 	call	0x12e	; 0x12e <change_state>
                 }
                 button_timer = -1;
- 57e:	c0 93 0a 01 	sts	0x010A, r28	; 0x80010a <button_timer>
- 582:	a4 c0       	rjmp	.+328    	; 0x6cc <main+0x202>
+ 62c:	c0 93 0a 01 	sts	0x010A, r28	; 0x80010a <button_timer>
+ 630:	a5 c0       	rjmp	.+330    	; 0x77c <main+0x204>
             }
             break;
 /*--------------------------------------------------------*/
         case SignaledOnEntry:
 #ifdef USE_LED
             LED2_SET_ON;
- 584:	5f 9a       	sbi	0x0b, 7	; 11
+ 632:	5f 9a       	sbi	0x0b, 7	; 11
             LED1_SET_OFF;
- 586:	28 98       	cbi	0x05, 0	; 5
+ 634:	28 98       	cbi	0x05, 0	; 5
             LED3_SET_OFF;
- 588:	5e 98       	cbi	0x0b, 6	; 11
+ 636:	5e 98       	cbi	0x0b, 6	; 11
             LED4_SET_OFF;
- 58a:	5d 98       	cbi	0x0b, 5	; 11
+ 638:	5d 98       	cbi	0x0b, 5	; 11
 #endif
             wakeup_timer = -1;
- 58c:	c0 93 06 01 	sts	0x0106, r28	; 0x800106 <wakeup_timer>
+ 63a:	c0 93 06 01 	sts	0x0106, r28	; 0x800106 <wakeup_timer>
             ENABLE_SET_ON;
- 590:	5c 9a       	sbi	0x0b, 4	; 11
+ 63e:	5c 9a       	sbi	0x0b, 4	; 11
             change_state(SignaledOn);
- 592:	86 e0       	ldi	r24, 0x06	; 6
- 594:	99 c0       	rjmp	.+306    	; 0x6c8 <main+0x1fe>
+ 640:	86 e0       	ldi	r24, 0x06	; 6
+ 642:	9a c0       	rjmp	.+308    	; 0x778 <main+0x200>
             break;
         case SignaledOn:
             if (mcu_is_running())
- 596:	19 9b       	sbis	0x03, 1	; 3
- 598:	03 c0       	rjmp	.+6      	; 0x5a0 <main+0xd6>
+ 644:	19 9b       	sbis	0x03, 1	; 3
+ 646:	03 c0       	rjmp	.+6      	; 0x64e <main+0xd6>
                 change_state(MCURunningEntry);
- 59a:	87 e0       	ldi	r24, 0x07	; 7
- 59c:	0e 94 95 00 	call	0x12a	; 0x12a <change_state>
+ 648:	87 e0       	ldi	r24, 0x07	; 7
+ 64a:	0e 94 97 00 	call	0x12e	; 0x12e <change_state>
 /*--------------------------------------------------------*/
 // trigger when button pressed
 inline
 int button_pressed(void)
 {
     return button_mask == 0x00;
- 5a0:	80 91 05 01 	lds	r24, 0x0105	; 0x800105 <button_mask>
+ 64e:	80 91 05 01 	lds	r24, 0x0105	; 0x800105 <button_mask>
             change_state(SignaledOn);
             break;
         case SignaledOn:
             if (mcu_is_running())
                 change_state(MCURunningEntry);
             if (button_pressed())
- 5a4:	81 11       	cpse	r24, r1
- 5a6:	92 c0       	rjmp	.+292    	; 0x6cc <main+0x202>
+ 652:	81 11       	cpse	r24, r1
+ 654:	93 c0       	rjmp	.+294    	; 0x77c <main+0x204>
                 change_state(ButtonPress);
- 5a8:	83 e0       	ldi	r24, 0x03	; 3
- 5aa:	8e c0       	rjmp	.+284    	; 0x6c8 <main+0x1fe>
+ 656:	83 e0       	ldi	r24, 0x03	; 3
+ 658:	8f c0       	rjmp	.+286    	; 0x778 <main+0x200>
             break;
 /*--------------------------------------------------------*/
         case MCURunningEntry:
 #ifdef USE_LED
             LED3_SET_ON;
- 5ac:	5e 9a       	sbi	0x0b, 6	; 11
+ 65a:	5e 9a       	sbi	0x0b, 6	; 11
             LED1_SET_OFF;
- 5ae:	28 98       	cbi	0x05, 0	; 5
+ 65c:	28 98       	cbi	0x05, 0	; 5
             LED2_SET_OFF;
- 5b0:	5f 98       	cbi	0x0b, 7	; 11
+ 65e:	5f 98       	cbi	0x0b, 7	; 11
             LED4_SET_OFF;
- 5b2:	5d 98       	cbi	0x0b, 5	; 11
+ 660:	5d 98       	cbi	0x0b, 5	; 11
 #endif
             idle_timer = 0;
- 5b4:	10 92 08 01 	sts	0x0108, r1	; 0x800108 <idle_timer>
+ 662:	10 92 08 01 	sts	0x0108, r1	; 0x800108 <idle_timer>
             change_state(MCURunning);
- 5b8:	88 e0       	ldi	r24, 0x08	; 8
- 5ba:	86 c0       	rjmp	.+268    	; 0x6c8 <main+0x1fe>
+ 666:	88 e0       	ldi	r24, 0x08	; 8
+ 668:	87 c0       	rjmp	.+270    	; 0x778 <main+0x200>
 /*--------------------------------------------------------*/
 // trigger when button pressed
 inline
 int button_pressed(void)
 {
     return button_mask == 0x00;
- 5bc:	80 91 05 01 	lds	r24, 0x0105	; 0x800105 <button_mask>
+ 66a:	80 91 05 01 	lds	r24, 0x0105	; 0x800105 <button_mask>
 #endif
             idle_timer = 0;
             change_state(MCURunning);
             break;
         case MCURunning:
             if (button_pressed())
- 5c0:	81 11       	cpse	r24, r1
- 5c2:	05 c0       	rjmp	.+10     	; 0x5ce <main+0x104>
+ 66e:	81 11       	cpse	r24, r1
+ 670:	05 c0       	rjmp	.+10     	; 0x67c <main+0x104>
             {
                 change_state(ButtonPress);
- 5c4:	83 e0       	ldi	r24, 0x03	; 3
- 5c6:	0e 94 95 00 	call	0x12a	; 0x12a <change_state>
+ 672:	83 e0       	ldi	r24, 0x03	; 3
+ 674:	0e 94 97 00 	call	0x12e	; 0x12e <change_state>
                 idle_timer = -1;
- 5ca:	c0 93 08 01 	sts	0x0108, r28	; 0x800108 <idle_timer>
+ 678:	c0 93 08 01 	sts	0x0108, r28	; 0x800108 <idle_timer>
             }
             // if turned off via the desktop
             if (!mcu_is_running())
- 5ce:	19 99       	sbic	0x03, 1	; 3
- 5d0:	05 c0       	rjmp	.+10     	; 0x5dc <main+0x112>
+ 67c:	19 99       	sbic	0x03, 1	; 3
+ 67e:	05 c0       	rjmp	.+10     	; 0x68a <main+0x112>
             {
                 change_state(MCUOffEntry);
- 5d2:	8d e0       	ldi	r24, 0x0D	; 13
- 5d4:	0e 94 95 00 	call	0x12a	; 0x12a <change_state>
+ 680:	8d e0       	ldi	r24, 0x0D	; 13
+ 682:	0e 94 97 00 	call	0x12e	; 0x12e <change_state>
                 idle_timer = -1;
- 5d8:	c0 93 08 01 	sts	0x0108, r28	; 0x800108 <idle_timer>
+ 686:	c0 93 08 01 	sts	0x0108, r28	; 0x800108 <idle_timer>
 // trigger when the idle period is over
 inline
 int idle_expired(void)
 {
     // this is 375ms
     if (idle_timer >= (uint8_t)(F_CPU/256/256/3))
- 5dc:	80 91 08 01 	lds	r24, 0x0108	; 0x800108 <idle_timer>
- 5e0:	88 32       	cpi	r24, 0x28	; 40
- 5e2:	0c f0       	brlt	.+2      	; 0x5e6 <main+0x11c>
- 5e4:	7c c0       	rjmp	.+248    	; 0x6de <main+0x214>
- 5e6:	72 c0       	rjmp	.+228    	; 0x6cc <main+0x202>
+ 68a:	80 91 08 01 	lds	r24, 0x0108	; 0x800108 <idle_timer>
+ 68e:	88 32       	cpi	r24, 0x28	; 40
+ 690:	0c f0       	brlt	.+2      	; 0x694 <main+0x11c>
+ 692:	7f c0       	rjmp	.+254    	; 0x792 <main+0x21a>
+ 694:	73 c0       	rjmp	.+230    	; 0x77c <main+0x204>
             }
             break;
 /*--------------------------------------------------------*/
-        case IdleEntry:
+        case ADCNoiseEntry:
 #ifdef USE_LED
             LED1_SET_OFF;
- 5e8:	28 98       	cbi	0x05, 0	; 5
+ 696:	28 98       	cbi	0x05, 0	; 5
             LED2_SET_OFF;
- 5ea:	5f 98       	cbi	0x0b, 7	; 11
+ 698:	5f 98       	cbi	0x0b, 7	; 11
             LED3_SET_OFF;
- 5ec:	5e 98       	cbi	0x0b, 6	; 11
+ 69a:	5e 98       	cbi	0x0b, 6	; 11
             LED4_SET_OFF;
- 5ee:	5d 98       	cbi	0x0b, 5	; 11
+ 69c:	5d 98       	cbi	0x0b, 5	; 11
 #endif
             // set INTO interrupt
             EIMSK |= _BV(INT0);
- 5f0:	e8 9a       	sbi	0x1d, 0	; 29
-            // enter Idle mode
-            set_sleep_mode(SLEEP_MODE_IDLE);
- 5f2:	83 b7       	in	r24, 0x33	; 51
- 5f4:	81 7f       	andi	r24, 0xF1	; 241
- 5f6:	83 bf       	out	0x33, r24	; 51
+ 69e:	e8 9a       	sbi	0x1d, 0	; 29
+            // enter Sleep mode
+            set_sleep_mode(SLEEP_MODE_ADC);
+ 6a0:	83 b7       	in	r24, 0x33	; 51
+ 6a2:	81 7f       	andi	r24, 0xF1	; 241
+ 6a4:	82 60       	ori	r24, 0x02	; 2
+ 6a6:	83 bf       	out	0x33, r24	; 51
             sleep_enable();
- 5f8:	83 b7       	in	r24, 0x33	; 51
- 5fa:	81 60       	ori	r24, 0x01	; 1
- 5fc:	83 bf       	out	0x33, r24	; 51
+ 6a8:	83 b7       	in	r24, 0x33	; 51
+ 6aa:	81 60       	ori	r24, 0x01	; 1
+ 6ac:	83 bf       	out	0x33, r24	; 51
             sleep_mode();
- 5fe:	83 b7       	in	r24, 0x33	; 51
- 600:	81 60       	ori	r24, 0x01	; 1
- 602:	83 bf       	out	0x33, r24	; 51
- 604:	88 95       	sleep
- 606:	83 b7       	in	r24, 0x33	; 51
- 608:	8e 7f       	andi	r24, 0xFE	; 254
- 60a:	83 bf       	out	0x33, r24	; 51
+ 6ae:	83 b7       	in	r24, 0x33	; 51
+ 6b0:	81 60       	ori	r24, 0x01	; 1
+ 6b2:	83 bf       	out	0x33, r24	; 51
+ 6b4:	88 95       	sleep
+ 6b6:	83 b7       	in	r24, 0x33	; 51
+ 6b8:	8e 7f       	andi	r24, 0xFE	; 254
+ 6ba:	83 bf       	out	0x33, r24	; 51
 // as these are in priority order, if a higher priority
 // happens, then it will get chosen
 inline
 WakeupEvent get_wakeup_event(void)
 {
     if (int0_event)
- 60c:	80 91 0b 01 	lds	r24, 0x010B	; 0x80010b <int0_event>
- 610:	81 11       	cpse	r24, r1
- 612:	0a c0       	rjmp	.+20     	; 0x628 <main+0x15e>
+ 6bc:	80 91 0b 01 	lds	r24, 0x010B	; 0x80010b <int0_event>
+ 6c0:	81 11       	cpse	r24, r1
+ 6c2:	0a c0       	rjmp	.+20     	; 0x6d8 <main+0x160>
         return ButtonEvt;
     if (spi_stc_event)
- 614:	80 91 1d 01 	lds	r24, 0x011D	; 0x80011d <spi_stc_event>
- 618:	81 11       	cpse	r24, r1
- 61a:	08 c0       	rjmp	.+16     	; 0x62c <main+0x162>
+ 6c4:	80 91 1d 01 	lds	r24, 0x011D	; 0x80011d <spi_stc_event>
+ 6c8:	81 11       	cpse	r24, r1
+ 6ca:	08 c0       	rjmp	.+16     	; 0x6dc <main+0x164>
         return SPItxfer;
     if (adc_complete_event)
- 61c:	80 91 0f 01 	lds	r24, 0x010F	; 0x80010f <adc_complete_event>
- 620:	81 11       	cpse	r24, r1
- 622:	06 c0       	rjmp	.+12     	; 0x630 <main+0x166>
+ 6cc:	80 91 0f 01 	lds	r24, 0x010F	; 0x80010f <adc_complete_event>
+ 6d0:	81 11       	cpse	r24, r1
+ 6d2:	06 c0       	rjmp	.+12     	; 0x6e0 <main+0x168>
         return ADCcomplete;
     return Unknown;
- 624:	d3 e0       	ldi	r29, 0x03	; 3
- 626:	05 c0       	rjmp	.+10     	; 0x632 <main+0x168>
+ 6d4:	d4 e0       	ldi	r29, 0x04	; 4
+ 6d6:	05 c0       	rjmp	.+10     	; 0x6e2 <main+0x16a>
 // happens, then it will get chosen
 inline
 WakeupEvent get_wakeup_event(void)
 {
     if (int0_event)
         return ButtonEvt;
- 628:	d0 e0       	ldi	r29, 0x00	; 0
- 62a:	03 c0       	rjmp	.+6      	; 0x632 <main+0x168>
+ 6d8:	d0 e0       	ldi	r29, 0x00	; 0
+ 6da:	03 c0       	rjmp	.+6      	; 0x6e2 <main+0x16a>
     if (spi_stc_event)
         return SPItxfer;
- 62c:	d1 e0       	ldi	r29, 0x01	; 1
- 62e:	01 c0       	rjmp	.+2      	; 0x632 <main+0x168>
+ 6dc:	d2 e0       	ldi	r29, 0x02	; 2
+ 6de:	01 c0       	rjmp	.+2      	; 0x6e2 <main+0x16a>
     if (adc_complete_event)
         return ADCcomplete;
- 630:	d2 e0       	ldi	r29, 0x02	; 2
-            set_sleep_mode(SLEEP_MODE_IDLE);
+ 6e0:	d3 e0       	ldi	r29, 0x03	; 3
+            set_sleep_mode(SLEEP_MODE_ADC);
             sleep_enable();
             sleep_mode();
             // get wakeup source
             evt = get_wakeup_event();
-            change_state(IdleExit);
- 632:	8a e0       	ldi	r24, 0x0A	; 10
- 634:	49 c0       	rjmp	.+146    	; 0x6c8 <main+0x1fe>
+            change_state(ADCNoiseExit);
+ 6e2:	8a e0       	ldi	r24, 0x0A	; 10
+ 6e4:	49 c0       	rjmp	.+146    	; 0x778 <main+0x200>
             break;
-        case IdleExit:
+        case ADCNoiseExit:
             // turn off INT0 interrupt
             EIMSK &= ~(_BV(INT0));
- 636:	e8 98       	cbi	0x1d, 0	; 29
+ 6e6:	e8 98       	cbi	0x1d, 0	; 29
             if (evt == ButtonEvt || !mcu_is_running())
- 638:	dd 23       	and	r29, r29
- 63a:	11 f0       	breq	.+4      	; 0x640 <main+0x176>
- 63c:	19 99       	sbic	0x03, 1	; 3
- 63e:	02 c0       	rjmp	.+4      	; 0x644 <main+0x17a>
+ 6e8:	dd 23       	and	r29, r29
+ 6ea:	11 f0       	breq	.+4      	; 0x6f0 <main+0x178>
+ 6ec:	19 99       	sbic	0x03, 1	; 3
+ 6ee:	02 c0       	rjmp	.+4      	; 0x6f4 <main+0x17c>
                 change_state(MCURunningEntry);
- 640:	87 e0       	ldi	r24, 0x07	; 7
- 642:	42 c0       	rjmp	.+132    	; 0x6c8 <main+0x1fe>
+ 6f0:	87 e0       	ldi	r24, 0x07	; 7
+ 6f2:	42 c0       	rjmp	.+132    	; 0x778 <main+0x200>
             else
-                change_state(IdleEntry);
- 644:	89 e0       	ldi	r24, 0x09	; 9
- 646:	40 c0       	rjmp	.+128    	; 0x6c8 <main+0x1fe>
+                change_state(ADCNoiseEntry);
+ 6f4:	89 e0       	ldi	r24, 0x09	; 9
+ 6f6:	40 c0       	rjmp	.+128    	; 0x778 <main+0x200>
             break;
 /*--------------------------------------------------------*/
         case SignaledOffEntry:
 #ifdef USE_LED
             LED4_SET_ON;
- 648:	5d 9a       	sbi	0x0b, 5	; 11
+ 6f8:	5d 9a       	sbi	0x0b, 5	; 11
             LED1_SET_OFF;
- 64a:	28 98       	cbi	0x05, 0	; 5
+ 6fa:	28 98       	cbi	0x05, 0	; 5
             LED2_SET_OFF;
- 64c:	5f 98       	cbi	0x0b, 7	; 11
+ 6fc:	5f 98       	cbi	0x0b, 7	; 11
             LED3_SET_OFF;
- 64e:	5e 98       	cbi	0x0b, 6	; 11
+ 6fe:	5e 98       	cbi	0x0b, 6	; 11
 #endif
             SHUTDOWN_SET_ON;
- 650:	2e 9a       	sbi	0x05, 6	; 5
+ 700:	2e 9a       	sbi	0x05, 6	; 5
             change_state(SignaledOff);
- 652:	8c e0       	ldi	r24, 0x0C	; 12
- 654:	39 c0       	rjmp	.+114    	; 0x6c8 <main+0x1fe>
+ 702:	8c e0       	ldi	r24, 0x0C	; 12
+ 704:	39 c0       	rjmp	.+114    	; 0x778 <main+0x200>
             break;
         case SignaledOff:
             if (!mcu_is_running())
- 656:	19 99       	sbic	0x03, 1	; 3
- 658:	39 c0       	rjmp	.+114    	; 0x6cc <main+0x202>
+ 706:	19 99       	sbic	0x03, 1	; 3
+ 708:	39 c0       	rjmp	.+114    	; 0x77c <main+0x204>
             {
                 SHUTDOWN_SET_OFF;
- 65a:	2e 98       	cbi	0x05, 6	; 5
- 65c:	3e c0       	rjmp	.+124    	; 0x6da <main+0x210>
+ 70a:	2e 98       	cbi	0x05, 6	; 5
+ 70c:	40 c0       	rjmp	.+128    	; 0x78e <main+0x216>
             }
             break;
 /*--------------------------------------------------------*/
         case MCUOffEntry: case MCUOff:
 #ifdef USE_LED
             LED1_SET_OFF;
- 65e:	28 98       	cbi	0x05, 0	; 5
+ 70e:	28 98       	cbi	0x05, 0	; 5
             LED2_SET_OFF;
- 660:	5f 98       	cbi	0x0b, 7	; 11
+ 710:	5f 98       	cbi	0x0b, 7	; 11
             LED3_SET_OFF;
- 662:	5e 98       	cbi	0x0b, 6	; 11
+ 712:	5e 98       	cbi	0x0b, 6	; 11
             LED4_SET_OFF;
- 664:	5d 98       	cbi	0x0b, 5	; 11
+ 714:	5d 98       	cbi	0x0b, 5	; 11
 #endif
             ENABLE_SET_OFF;
- 666:	5c 98       	cbi	0x0b, 4	; 11
+ 716:	5c 98       	cbi	0x0b, 4	; 11
             change_state(PowerDownEntry);
- 668:	8f e0       	ldi	r24, 0x0F	; 15
- 66a:	2e c0       	rjmp	.+92     	; 0x6c8 <main+0x1fe>
+ 718:	8f e0       	ldi	r24, 0x0F	; 15
+ 71a:	2e c0       	rjmp	.+92     	; 0x778 <main+0x200>
             break;
 /*--------------------------------------------------------*/
         case PowerDownEntry:
 #ifdef USE_LED
             LED1_SET_OFF;
- 66c:	28 98       	cbi	0x05, 0	; 5
+ 71c:	28 98       	cbi	0x05, 0	; 5
             LED2_SET_OFF;
- 66e:	5f 98       	cbi	0x0b, 7	; 11
+ 71e:	5f 98       	cbi	0x0b, 7	; 11
             LED3_SET_OFF;
- 670:	5e 98       	cbi	0x0b, 6	; 11
+ 720:	5e 98       	cbi	0x0b, 6	; 11
             LED4_SET_OFF;
- 672:	5d 98       	cbi	0x0b, 5	; 11
+ 722:	5d 98       	cbi	0x0b, 5	; 11
             LED5_SET_OFF;
- 674:	2f 98       	cbi	0x05, 7	; 5
+ 724:	2f 98       	cbi	0x05, 7	; 5
             LED6_SET_OFF;
- 676:	59 98       	cbi	0x0b, 1	; 11
+ 726:	59 98       	cbi	0x0b, 1	; 11
 #endif
             // enter Power-Down mode
             set_sleep_mode(SLEEP_MODE_PWR_DOWN);
- 678:	83 b7       	in	r24, 0x33	; 51
- 67a:	81 7f       	andi	r24, 0xF1	; 241
- 67c:	84 60       	ori	r24, 0x04	; 4
- 67e:	83 bf       	out	0x33, r24	; 51
+ 728:	83 b7       	in	r24, 0x33	; 51
+ 72a:	81 7f       	andi	r24, 0xF1	; 241
+ 72c:	84 60       	ori	r24, 0x04	; 4
+ 72e:	83 bf       	out	0x33, r24	; 51
 
             // SHUTDOWN pin to input and pull-up on
             SHUTDOWN_DIR &= ~(_BV(SHUTDOWN));
- 680:	26 98       	cbi	0x04, 6	; 4
+ 730:	26 98       	cbi	0x04, 6	; 4
             SHUTDOWN_PORT |= _BV(SHUTDOWN);
- 682:	2e 9a       	sbi	0x05, 6	; 5
+ 732:	2e 9a       	sbi	0x05, 6	; 5
 
             // modules power off
             sensor_pre_power_down();
- 684:	0e 94 04 01 	call	0x208	; 0x208 <sensor_pre_power_down>
+ 734:	0e 94 1f 01 	call	0x23e	; 0x23e <sensor_pre_power_down>
             spi_pre_power_down();
- 688:	0e 94 da 01 	call	0x3b4	; 0x3b4 <spi_pre_power_down>
+ 738:	0e 94 fa 01 	call	0x3f4	; 0x3f4 <spi_pre_power_down>
             
             // set INTO interrupt
             EIMSK |= _BV(INT0);
- 68c:	e8 9a       	sbi	0x1d, 0	; 29
+ 73c:	e8 9a       	sbi	0x1d, 0	; 29
 
             // do the power down, if no INT0 interrupt
             cli();
- 68e:	f8 94       	cli
+ 73e:	f8 94       	cli
             if (!int0_event) {
- 690:	80 91 0b 01 	lds	r24, 0x010B	; 0x80010b <int0_event>
- 694:	81 11       	cpse	r24, r1
- 696:	08 c0       	rjmp	.+16     	; 0x6a8 <main+0x1de>
+ 740:	80 91 0b 01 	lds	r24, 0x010B	; 0x80010b <int0_event>
+ 744:	81 11       	cpse	r24, r1
+ 746:	08 c0       	rjmp	.+16     	; 0x758 <main+0x1e0>
                 sleep_enable();
- 698:	83 b7       	in	r24, 0x33	; 51
- 69a:	81 60       	ori	r24, 0x01	; 1
- 69c:	83 bf       	out	0x33, r24	; 51
+ 748:	83 b7       	in	r24, 0x33	; 51
+ 74a:	81 60       	ori	r24, 0x01	; 1
+ 74c:	83 bf       	out	0x33, r24	; 51
                 sei();
- 69e:	78 94       	sei
+ 74e:	78 94       	sei
                 sleep_cpu();
- 6a0:	88 95       	sleep
+ 750:	88 95       	sleep
                 sleep_disable();
- 6a2:	83 b7       	in	r24, 0x33	; 51
- 6a4:	8e 7f       	andi	r24, 0xFE	; 254
- 6a6:	83 bf       	out	0x33, r24	; 51
+ 752:	83 b7       	in	r24, 0x33	; 51
+ 754:	8e 7f       	andi	r24, 0xFE	; 254
+ 756:	83 bf       	out	0x33, r24	; 51
             }
             sei();
- 6a8:	78 94       	sei
+ 758:	78 94       	sei
             change_state(PowerDownExit);
- 6aa:	80 e1       	ldi	r24, 0x10	; 16
- 6ac:	0e 94 95 00 	call	0x12a	; 0x12a <change_state>
+ 75a:	80 e1       	ldi	r24, 0x10	; 16
+ 75c:	0e 94 97 00 	call	0x12e	; 0x12e <change_state>
             // NO BREAK, fall through to PowerDownExit
 /*--------------------------------------------------------*/
         case PowerDownExit:
             // turn off INT0 interrupt
             EIMSK &= ~(_BV(INT0));
- 6b0:	e8 98       	cbi	0x1d, 0	; 29
+ 760:	e8 98       	cbi	0x1d, 0	; 29
             
             spi_post_power_down();
- 6b2:	0e 94 e2 01 	call	0x3c4	; 0x3c4 <spi_post_power_down>
+ 762:	0e 94 03 02 	call	0x406	; 0x406 <spi_post_power_down>
             sensor_post_power_down();
- 6b6:	0e 94 0f 01 	call	0x21e	; 0x21e <sensor_post_power_down>
+ 766:	0e 94 2a 01 	call	0x254	; 0x254 <sensor_post_power_down>
             // SHUTDOWN pin pull up off, to output
             SHUTDOWN_PORT &= ~(_BV(SHUTDOWN));
- 6ba:	2e 98       	cbi	0x05, 6	; 5
+ 76a:	2e 98       	cbi	0x05, 6	; 5
             SHUTDOWN_DIR |= _BV(SHUTDOWN);
- 6bc:	26 9a       	sbi	0x04, 6	; 4
+ 76c:	26 9a       	sbi	0x04, 6	; 4
             wakeup_timer = 0;
- 6be:	10 92 06 01 	sts	0x0106, r1	; 0x800106 <wakeup_timer>
+ 76e:	10 92 06 01 	sts	0x0106, r1	; 0x800106 <wakeup_timer>
             change_state(WaitEntry);
- 6c2:	81 e0       	ldi	r24, 0x01	; 1
- 6c4:	01 c0       	rjmp	.+2      	; 0x6c8 <main+0x1fe>
+ 772:	81 e0       	ldi	r24, 0x01	; 1
+ 774:	01 c0       	rjmp	.+2      	; 0x778 <main+0x200>
             break;
 /*--------------------------------------------------------*/
         default:
             change_state(Start);
- 6c6:	80 e0       	ldi	r24, 0x00	; 0
- 6c8:	0e 94 95 00 	call	0x12a	; 0x12a <change_state>
+ 776:	80 e0       	ldi	r24, 0x00	; 0
+ 778:	0e 94 97 00 	call	0x12e	; 0x12e <change_state>
         }
 /*--------------------------------------------------------*/
         spi_state_machine();
- 6cc:	0e 94 ec 01 	call	0x3d8	; 0x3d8 <spi_state_machine>
+ 77c:	0e 94 30 02 	call	0x460	; 0x460 <spi_state_machine>
         sensor_state_machine();
- 6d0:	0e 94 21 01 	call	0x242	; 0x242 <sensor_state_machine>
+ 780:	0e 94 3c 01 	call	0x278	; 0x278 <sensor_state_machine>
 
         int0_event = 0;
- 6d4:	10 92 0b 01 	sts	0x010B, r1	; 0x80010b <int0_event>
+ 784:	10 92 0b 01 	sts	0x010B, r1	; 0x80010b <int0_event>
+        int1_event = 0;
+ 788:	10 92 09 01 	sts	0x0109, r1	; 0x800109 <int1_event>
     }
- 6d8:	0a cf       	rjmp	.-492    	; 0x4ee <main+0x24>
+ 78c:	07 cf       	rjmp	.-498    	; 0x59c <main+0x24>
             break;
         case Wait:
             if (button_pressed())
                 change_state(ButtonPress);
             if (wake_up_expired())
                 change_state(MCUOffEntry);
- 6da:	8d e0       	ldi	r24, 0x0D	; 13
- 6dc:	f5 cf       	rjmp	.-22     	; 0x6c8 <main+0x1fe>
+ 78e:	8d e0       	ldi	r24, 0x0D	; 13
+ 790:	f3 cf       	rjmp	.-26     	; 0x778 <main+0x200>
                 change_state(MCUOffEntry);
                 idle_timer = -1;
             }
             if (idle_expired())
             {
-                change_state(IdleEntry);
- 6de:	89 e0       	ldi	r24, 0x09	; 9
- 6e0:	0e 94 95 00 	call	0x12a	; 0x12a <change_state>
+                change_state(ADCNoiseEntry);
+ 792:	89 e0       	ldi	r24, 0x09	; 9
+ 794:	0e 94 97 00 	call	0x12e	; 0x12e <change_state>
                 idle_timer = -1;
- 6e4:	c0 93 08 01 	sts	0x0108, r28	; 0x800108 <idle_timer>
- 6e8:	f1 cf       	rjmp	.-30     	; 0x6cc <main+0x202>
+ 798:	c0 93 08 01 	sts	0x0108, r28	; 0x800108 <idle_timer>
+ 79c:	ef cf       	rjmp	.-34     	; 0x77c <main+0x204>
 
-000006ea <__tablejump2__>:
- 6ea:	ee 0f       	add	r30, r30
- 6ec:	ff 1f       	adc	r31, r31
- 6ee:	05 90       	lpm	r0, Z+
- 6f0:	f4 91       	lpm	r31, Z
- 6f2:	e0 2d       	mov	r30, r0
- 6f4:	09 94       	ijmp
+0000079e <__tablejump2__>:
+ 79e:	ee 0f       	add	r30, r30
+ 7a0:	ff 1f       	adc	r31, r31
+ 7a2:	05 90       	lpm	r0, Z+
+ 7a4:	f4 91       	lpm	r31, Z
+ 7a6:	e0 2d       	mov	r30, r0
+ 7a8:	09 94       	ijmp
 
-000006f6 <_exit>:
- 6f6:	f8 94       	cli
+000007aa <_exit>:
+ 7aa:	f8 94       	cli
 
-000006f8 <__stop_program>:
- 6f8:	ff cf       	rjmp	.-2      	; 0x6f8 <__stop_program>
+000007ac <__stop_program>:
+ 7ac:	ff cf       	rjmp	.-2      	; 0x7ac <__stop_program>
