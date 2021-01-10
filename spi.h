@@ -8,7 +8,7 @@
 #include <stdint.h>
 
 extern volatile uint8_t spi_stc_event;
-extern volatile uint8_t pcint0_event;
+extern volatile uint8_t spi_state;
 
 extern void spi_init(void);
 extern void spi_pre_power_down(void);

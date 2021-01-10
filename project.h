@@ -23,7 +23,7 @@
  *             +--------------------+         
  *             |                    |         
  *       RESET-|1  PC6        PC5 29|-ADC5    
- *            -|2  PD0        PC4 27|-ADC4    
+ *        LED7-|2  PD0        PC4 27|-ADC4    
  *        LED6-|3  PD1        PC3 26|-ADC3    
  *      BUTTON-|4  PD2        PC2 25|-ADC2    
  *            -|5  PD3        PC1 24|-ADC1    
@@ -145,6 +145,7 @@
 #define LED3 6
 #define LED4 5
 #define LED6 1
+#define LED7 0
 // PortB LED's
 #define LED1 0
 #define LED5 7
@@ -155,6 +156,8 @@
     {if (bit_is_set(PORTB, LED5)) PORTB&=~(_BV(LED5)); else PORTB|=_BV(LED5);}
 #define TOGGLE_LED6 \
     {if (bit_is_set(PORTD, LED6)) PORTD&=~(_BV(LED6)); else PORTD|=_BV(LED6);}
+#define TOGGLE_LED7 \
+    {if (bit_is_set(PORTD, LED7)) PORTD&=~(_BV(LED7)); else PORTD|=_BV(LED7);}
 
 #define LED1_SET_ON PORTB |= _BV(LED1)
 #define LED2_SET_ON PORTD |= _BV(LED2)
@@ -162,6 +165,7 @@
 #define LED4_SET_ON PORTD |= _BV(LED4)
 #define LED5_SET_ON PORTB |= _BV(LED5)
 #define LED6_SET_ON PORTD |= _BV(LED6)
+#define LED7_SET_ON PORTD |= _BV(LED7)
 
 #define LED1_SET_OFF PORTB &= ~(_BV(LED1))
 #define LED2_SET_OFF PORTD &= ~(_BV(LED2))
@@ -169,6 +173,7 @@
 #define LED4_SET_OFF PORTD &= ~(_BV(LED4))
 #define LED5_SET_OFF PORTB &= ~(_BV(LED5))
 #define LED6_SET_OFF PORTD &= ~(_BV(LED6))
+#define LED7_SET_OFF PORTD &= ~(_BV(LED7))
 
 #endif
 

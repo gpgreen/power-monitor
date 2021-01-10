@@ -7,3 +7,6 @@
 *.sym
 *~
 .dep/
+GPATH
+GRTAGS
+GTAGS

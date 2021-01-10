@@ -12,6 +12,7 @@
  Chip Sel: pin 10
  MCU_RUNNING: pin 9
  SHUTDOWN: pin 8  
+ BUTTON: pin 7
  */
  
 #include <SPI.h>
@@ -19,6 +20,7 @@
 const int chipSelectPin = 10;
 const int mcuRunningPin = 9;
 const int shutdownPin = 8;
+const int buttonPin = 7;
 
 char input_buffer[20];
 bool sd;
@@ -39,7 +41,8 @@ void setup() {
   digitalWrite(mcuRunningPin, LOW);
   
   pinMode(shutdownPin, INPUT);
-  
+  pinMode(buttonPin, INPUT);
+    
   // set channel 0, 1
   writeRegister(1, _BV(0)|_BV(1), 0x0);
   delay(10);
@@ -50,18 +53,20 @@ void loop() {
   
   String str = Serial.readString();
   checkInput(str);
-  writeRegister(0x2, 0x00, 0x00);
-  delay(10);
-  for (int i=0; i<6; i++)
-  {
-    // get channel(s)
-    writeRegister(0x10+i, 0x00, 0x00);
+  if (!sd) {
+    writeRegister(0x2, 0x00, 0x00);
     delay(10);
-  }
-  if (!sd && digitalRead(shutdownPin) == HIGH) {
-    Serial.println("**** SHUTDOWN DETECTED ****");
-    sd = true;
-    t = millis();
+    for (int i=0; i<2; i++)
+    {
+      // get channel(s)
+      writeRegister(0x10+i, 0x00, 0x00);
+      delay(10);
+    }
+    if (digitalRead(shutdownPin) == HIGH) {
+      Serial.println("**** SHUTDOWN DETECTED ****");
+      sd = true;
+      t = millis();
+    }
   } else if (sd) {
     if (digitalRead(shutdownPin) == HIGH) {
       unsigned long et = millis() - t;
@@ -106,6 +111,14 @@ void checkInput(String s)
 void writeRegister(int addr, int byte1, int byte2) {
 
   SPI.beginTransaction(SPISettings(100000, MSBFIRST, SPI_MODE0));
+
+  // set BUTTON low for a bit, to wakeup the device
+  pinMode(buttonPin, OUTPUT);
+  digitalWrite(buttonPin, LOW);
+  _delay_us(5);
+  pinMode(buttonPin, INPUT);
+  _delay_us(50);
+  
   // take the chip select low to select the device:
   digitalWrite(chipSelectPin, LOW);
   //for(int i=0; i<200; i++);

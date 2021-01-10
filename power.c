@@ -68,9 +68,6 @@ volatile int8_t idle_timer;
 // flag for INT0
 volatile uint8_t int0_event;
 
-// flag for INT1
-volatile uint8_t int1_event;
-
 /*--------------------------------------------------------*/
 
 void
@@ -97,12 +94,12 @@ init(void)
 
 #ifdef USE_LED
     // PORTD setup PINS for output
-    DDRD |= (_BV(LED2)|_BV(LED3)|_BV(LED4)|_BV(LED6));
+    DDRD |= (_BV(LED2)|_BV(LED3)|_BV(LED4)|_BV(LED6)|_BV(LED7));
     // PORTB setup PINS for output
     DDRB |= (_BV(LED1)|_BV(LED5));
-    // set unused ports as input and pull-up on
-    DDRD &= ~(_BV(0)|_BV(3));
-    PORTD |= (_BV(0)|_BV(3));
+    // unused pins input, pull-up on
+    DDRD &= ~(_BV(3));
+    PORTD |= _BV(3);
 #else
     // set unused ports as input and pull-up on
     DDRD &= ~(_BV(0)|_BV(1)|_BV(3)|_BV(5)|_BV(6)|_BV(7));
@@ -354,6 +351,7 @@ main(void)
 #endif
             // set INTO interrupt
             EIMSK |= _BV(INT0);
+            spi_pre_adc_noise();
             // enter Sleep mode
             set_sleep_mode(SLEEP_MODE_ADC);
             sleep_enable();
@@ -363,12 +361,14 @@ main(void)
             change_state(ADCNoiseExit);
             break;
         case ADCNoiseExit:
-            // turn off INT0 interrupt
-            EIMSK &= ~(_BV(INT0));
-            if (evt == ButtonEvt || !mcu_is_running())
-                change_state(MCURunningEntry);
-            else
+            if (evt == ADCcomplete && mcu_is_running())
                 change_state(ADCNoiseEntry);
+            else {
+                // turn off INT0 interrupt
+                EIMSK &= ~(_BV(INT0));
+                spi_post_adc_noise();
+                change_state(MCURunningEntry);
+            }
             break;
 /*--------------------------------------------------------*/
         case SignaledOffEntry:
@@ -408,6 +408,7 @@ main(void)
             LED4_SET_OFF;
             LED5_SET_OFF;
             LED6_SET_OFF;
+            LED7_SET_OFF;
 #endif
             // enter Power-Down mode
             set_sleep_mode(SLEEP_MODE_PWR_DOWN);
@@ -456,7 +457,6 @@ main(void)
         sensor_state_machine();
 
         int0_event = 0;
-        int1_event = 0;
     }
     return 0;
 }
@@ -491,13 +491,4 @@ ISR(TIMER0_OVF_vect)
 ISR(INT0_vect)
 {
     int0_event = 1;
-}
-
-/*
- * INT1 interrupt
- * interrupt flag cleared by hardware
- */
-ISR(INT1_vect)
-{
-    int1_event = 1;
 }

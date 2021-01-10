@@ -8,6 +8,14 @@
  * involves the master sending a byte that is the register address,
  * and then 2 more bytes. The slave returns a value in the second byte
  * corresponding to that value
+ * IMPORTANT -- pulse BUTTON low for 5us to wake up AVR from ADC noise reduction
+ * mode or SPI won't be turned on.
+ * Delay 50us after pulse of BUTTON
+ * Delay 40us after sending the address byte before sending the next byte
+ * Delay 20us between the second and last byte
+ * Delay 10us after the last byte before trying another transaction.
+ * These delays should give the AVR enough time to respond to the interrupts
+ * and prepare for the next byte or transaction.
  *
  * REGISTERS
  * 0x01 = turn on adc channels
@@ -44,8 +52,8 @@ volatile uint8_t toggle_eeprom;
 // stc interrupt happened
 volatile uint8_t spi_stc_event;
 
-// pcint0 interrupt happened
-volatile uint8_t pcint0_event;
+// the state of the SPI transaction
+volatile uint8_t spi_state;
 
 void
 spi_init(void)
@@ -91,37 +99,42 @@ spi_post_power_down(void)
     // turn on SPI
     PRR &= ~(_BV(PRSPI));
     // enable SPI, enable interrupt
+    spi_state = 0;
     SPCR = _BV(SPE)|_BV(SPIE);
 }
 
 void
 spi_pre_adc_noise(void)
 {
-    // turn on interrupt PCINT2
-    PCMSK0 |= _BV(PCINT2);
-    PCICR |= _BV(PCIE0);
-    
     // shutdown modules
     SPCR = 0;
     PRR |= _BV(PRSPI);
+#ifdef USE_LED
+    LED7_SET_OFF;
+#endif
 }
 
 void
 spi_post_adc_noise(void)
 {
-    // turn off interrupt PCINT2
-    PCICR &= ~(_BV(PCIE0));
-    PCMSK0 &= ~(_BV(PCINT2));
-
     // turn on SPI
     PRR &= ~(_BV(PRSPI));
     // enable SPI, enable interrupt
+    spi_state = 0;
     SPCR = _BV(SPE)|_BV(SPIE);
+#ifdef USE_LED
+    LED7_SET_ON;
+#endif
 }
 
 void
 spi_state_machine(void)
 {
+    // SPI could be turned off here, due to
+    // entering/exiting ADC Noise Reduction state, so don't
+    // touch the hardware or expect it to
+    // to be working
+    
     // toggle eeprom if chosen
     if (toggle_eeprom)
     {
@@ -138,7 +151,6 @@ spi_state_machine(void)
     }
     // turn off interrupt flag
     spi_stc_event = 0;
-    pcint0_event = 0;
 }
 
 /*
@@ -150,7 +162,6 @@ ISR(SPI_STC_vect)
     uint8_t recvd = SPDR;
     static uint8_t send2 = 0;
     static uint8_t addr = 0;
-    static int spi_state = 0;
 
     if (CS_ON)
         goto skip_state_machine;
@@ -190,13 +201,4 @@ skip_state_machine:
     TOGGLE_LED5;
 #endif
     spi_stc_event = 1;
-}
-
-/*
- * Pin Change Interrupt 0
- * when the CS pin is driven low, this should trigger
- */
-ISR(PCINT0_vect)
-{
-    pcint0_event = 1;
 }
