@@ -27,6 +27,8 @@
  *   third byte is zero
  * 0x03 = toggle EEPROM pin
  *   second and third byte 0
+ * 0x04 = firmware version
+ *  first byte is major, second byte is minor
  * 0x10-0x14 = retrieve adc value on the channel [address - 16], ie address 0x10 is adc channel 0
  *
  * SPI protocol is implemented using a state machine, transitions happen during
@@ -163,25 +165,26 @@ ISR(SPI_STC_vect)
     static uint8_t send2 = 0;
     static uint8_t addr = 0;
 
+    // if CS pin isn't low, then not intended for us, skip
     if (CS_ON)
         goto skip_state_machine;
     
-    switch (spi_state)
-    {
+    switch (spi_state) {
     case 0: // first byte recvd, send second
         addr = recvd;
-        if (addr >= 0x10 && addr < MAX_ADC_PINS + 0x10)
-        {
+        if (addr >= 0x10 && addr < MAX_ADC_PINS + 0x10) {
             SPDR = (uint8_t)(adc_values[addr-0x10] & 0xFF);
             send2 = (uint8_t)((adc_values[addr-0x10] & 0xFF00) >> 8);
-        } else if (addr == 0x02)
-        {
+        } else if (addr == 0x02) {
             SPDR = adc_channels;
             send2 = 0;
         } else if (addr == 0x3) {
             SPDR = 0;
             send2 = 0;
             toggle_eeprom = 1;
+        } else if (addr == 0x4) {
+            SPDR = MAJOR_VERSION;
+            send2 = MINOR_VERSION;
         }
         spi_state = 1;
         break;

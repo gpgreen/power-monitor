@@ -65,9 +65,13 @@
 #ifndef PROJECT_H_
 #define PROJECT_H_
 
+// version of firmware
+#define MAJOR_VERSION   0
+#define MINOR_VERSION   2
+
 // MCU part, the Chart Plotter Hat uses the 32pin version
-#define USE_28PIN 1
-//#define USE_32PIN 1
+//#define USE_28PIN 1
+#define USE_32PIN 1
 
 // Define whether to use LED's for debugging or not
 #define USE_LED 1
