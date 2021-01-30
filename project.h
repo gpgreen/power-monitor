@@ -67,14 +67,16 @@
 
 // version of firmware
 #define MAJOR_VERSION   0
-#define MINOR_VERSION   2
+#define MINOR_VERSION   3
 
 // MCU part, the Chart Plotter Hat uses the 32pin version
 //#define USE_28PIN 1
 #define USE_32PIN 1
 
 // Define whether to use LED's for debugging or not
-#define USE_LED 1
+#ifdef USE_28PIN
+ #define USE_LED 1
+#endif
 
 /*----------------------------------------------------------------*/
 // Define pin labels
@@ -120,6 +122,15 @@
 #define CS_DIR DDRB
 #define CS 2
 
+#define LED1_PORT PORTB
+#define LED1_DIR DDRB
+#define LED1 0
+
+#define LED1_SET_ON PORTB |= _BV(LED1)
+#define LED1_SET_OFF PORTB &= ~(_BV(LED1))
+#define TOGGLE_LED1 \
+    {if (bit_is_set(PORTB, LED1)) PORTB&=~(_BV(LED1)); else PORTB|=_BV(LED1);}
+
 /*----------------------------------------------------------------*/
 // Define pin macros
 
@@ -151,19 +162,13 @@
 #define LED6 1
 #define LED7 0
 // PortB LED's
-#define LED1 0
 #define LED5 7
 
-#define TOGGLE_LED1 \
-    {if (bit_is_set(PORTB, LED1)) PORTB&=~(_BV(LED1)); else PORTB|=_BV(LED1);}
-#define TOGGLE_LED5 \
-    {if (bit_is_set(PORTB, LED5)) PORTB&=~(_BV(LED5)); else PORTB|=_BV(LED5);}
 #define TOGGLE_LED6 \
     {if (bit_is_set(PORTD, LED6)) PORTD&=~(_BV(LED6)); else PORTD|=_BV(LED6);}
 #define TOGGLE_LED7 \
     {if (bit_is_set(PORTD, LED7)) PORTD&=~(_BV(LED7)); else PORTD|=_BV(LED7);}
 
-#define LED1_SET_ON PORTB |= _BV(LED1)
 #define LED2_SET_ON PORTD |= _BV(LED2)
 #define LED3_SET_ON PORTD |= _BV(LED3)
 #define LED4_SET_ON PORTD |= _BV(LED4)
@@ -171,7 +176,6 @@
 #define LED6_SET_ON PORTD |= _BV(LED6)
 #define LED7_SET_ON PORTD |= _BV(LED7)
 
-#define LED1_SET_OFF PORTB &= ~(_BV(LED1))
 #define LED2_SET_OFF PORTD &= ~(_BV(LED2))
 #define LED3_SET_OFF PORTD &= ~(_BV(LED3))
 #define LED4_SET_OFF PORTD &= ~(_BV(LED4))

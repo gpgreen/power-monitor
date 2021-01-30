@@ -201,7 +201,7 @@ ISR(SPI_STC_vect)
     }
 skip_state_machine:
 #ifdef USE_LED
-    TOGGLE_LED5;
+    TOGGLE_LED6;
 #endif
     spi_stc_event = 1;
 }

@@ -92,11 +92,15 @@ init(void)
     // SHUTDOWN, output, no pullup
     SHUTDOWN_DIR |= _BV(SHUTDOWN);
 
+    // LED
+    LED1_DIR |= _BV(LED1);
+    LED1_SET_OFF;
+    
 #ifdef USE_LED
     // PORTD setup PINS for output
     DDRD |= (_BV(LED2)|_BV(LED3)|_BV(LED4)|_BV(LED6)|_BV(LED7));
     // PORTB setup PINS for output
-    DDRB |= (_BV(LED1)|_BV(LED5));
+    DDRB |= _BV(LED5);
     // unused pins input, pull-up on
     DDRD &= ~(_BV(3));
     PORTD |= _BV(3);
@@ -252,10 +256,10 @@ main(void)
 /*--------------------------------------------------------*/
         case WaitEntry:
 #ifdef USE_LED
-            LED1_SET_ON;
-            LED2_SET_OFF;
+            LED2_SET_ON;
             LED3_SET_OFF;
             LED4_SET_OFF;
+            LED5_SET_OFF;
 #endif
             ENABLE_SET_OFF;
             SHUTDOWN_SET_OFF;
@@ -297,10 +301,10 @@ main(void)
 /*--------------------------------------------------------*/
         case SignaledOnEntry:
 #ifdef USE_LED
-            LED2_SET_ON;
-            LED1_SET_OFF;
-            LED3_SET_OFF;
+            LED3_SET_ON;
+            LED2_SET_OFF;
             LED4_SET_OFF;
+            LED5_SET_OFF;
 #endif
             wakeup_timer = -1;
             ENABLE_SET_ON;
@@ -315,10 +319,10 @@ main(void)
 /*--------------------------------------------------------*/
         case MCURunningEntry:
 #ifdef USE_LED
-            LED3_SET_ON;
-            LED1_SET_OFF;
+            LED4_SET_ON;
             LED2_SET_OFF;
-            LED4_SET_OFF;
+            LED3_SET_OFF;
+            LED5_SET_OFF;
 #endif
             idle_timer = 0;
             change_state(MCURunning);
@@ -344,10 +348,10 @@ main(void)
 /*--------------------------------------------------------*/
         case ADCNoiseEntry:
 #ifdef USE_LED
-            LED1_SET_OFF;
             LED2_SET_OFF;
             LED3_SET_OFF;
             LED4_SET_OFF;
+            LED5_SET_OFF;
 #endif
             // set INTO interrupt
             EIMSK |= _BV(INT0);
@@ -373,17 +377,19 @@ main(void)
 /*--------------------------------------------------------*/
         case SignaledOffEntry:
 #ifdef USE_LED
-            LED4_SET_ON;
-            LED1_SET_OFF;
+            LED5_SET_ON;
             LED2_SET_OFF;
             LED3_SET_OFF;
+            LED4_SET_OFF;
 #endif
+            LED1_SET_ON;
             SHUTDOWN_SET_ON;
             change_state(SignaledOff);
             break;
         case SignaledOff:
             if (!mcu_is_running())
             {
+                LED1_SET_OFF;
                 SHUTDOWN_SET_OFF;
                 change_state(MCUOffEntry);
             }
@@ -391,10 +397,10 @@ main(void)
 /*--------------------------------------------------------*/
         case MCUOffEntry: case MCUOff:
 #ifdef USE_LED
-            LED1_SET_OFF;
             LED2_SET_OFF;
             LED3_SET_OFF;
             LED4_SET_OFF;
+            LED5_SET_OFF;
 #endif
             ENABLE_SET_OFF;
             change_state(PowerDownEntry);
@@ -402,7 +408,6 @@ main(void)
 /*--------------------------------------------------------*/
         case PowerDownEntry:
 #ifdef USE_LED
-            LED1_SET_OFF;
             LED2_SET_OFF;
             LED3_SET_OFF;
             LED4_SET_OFF;
