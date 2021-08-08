@@ -42,10 +42,10 @@
  *                    ATmega328P-32A
  *             +--------------------------+        
  *             |                          |        
- *            -|4  VCC              PB0 12|-LED1   
- *            -|18 AVCC             PB1 13|-MCU_RUNNING
- *            -|20 AREF             PB2 14|-CS
- *            -|3  GND              PB3 15|-MOSI   
+ *         3.3-|4  VCC              PB0 12|-LED1   
+ *         3.3-|18 AVCC             PB1 13|-MCU_RUNNING
+ *         CAP-|20 AREF             PB2 14|-CS
+ *         GND-|3  GND              PB3 15|-MOSI   
  *             |                    PB4 16|-MISO   
  *          A6-|19 ADC6             PB5 17|-SCK    
  *          A7-|22 ADC7             PB6  7|-SHUTDOWN

@@ -13,6 +13,7 @@
  MCU_RUNNING: pin 9
  SHUTDOWN: pin 8  
  BUTTON: pin 7
+ ENABLE: pin 6
  */
  
 #include <SPI.h>
@@ -21,15 +22,17 @@ const int chipSelectPin = 10;
 const int mcuRunningPin = 9;
 const int shutdownPin = 8;
 const int buttonPin = 7;
+const int enablePin = 6;
 
 char input_buffer[20];
-bool sd;
+bool sd_signal;
 unsigned long t;
+bool shutdown;
 
 void setup() {
-  Serial.begin(115600);
+  Serial.begin(115200);
   Serial.setTimeout(2000);
-  Serial.println("SPI tryout");
+  Serial.println("\nSPI tryout");
 
   // start the SPI library:
   SPI.begin();
@@ -39,60 +42,79 @@ void setup() {
   // setup board pins
   pinMode(mcuRunningPin, OUTPUT);
   digitalWrite(mcuRunningPin, LOW);
-  
   pinMode(shutdownPin, INPUT);
   pinMode(buttonPin, INPUT);
-    
-  // set channel 0, 1
-  writeRegister(1, _BV(0)|_BV(1), 0x0);
-  delay(10);
-  sd = false;
+  pinMode(enablePin, INPUT);
+
+  // flags
+  shutdown = true;
+  sd_signal = false;
 }
 
 void loop() {
-  
-  String str = Serial.readString();
-  checkInput(str);
-  if (!sd) {
-    writeRegister(0x2, 0x00, 0x00);
-    delay(10);
-    for (int i=0; i<2; i++)
-    {
-      // get channel(s)
-      writeRegister(0x10+i, 0x00, 0x00);
+
+  // if enable pin is high, we can try spi
+  if (digitalRead(enablePin)) {
+    if (shutdown) {
+      Serial.println("Pi power on..");
+      shutdown = false;
+      // get firmware version
+      writeRegister(4, 0, 0);
       delay(10);
+      // set channel 0, 1
+      writeRegister(1, _BV(0)|_BV(1), 0x0);
+      delay(10);
+      sd_signal = false;
     }
-    if (digitalRead(shutdownPin) == HIGH) {
-      Serial.println("**** SHUTDOWN DETECTED ****");
-      sd = true;
-      t = millis();
-    }
-  } else if (sd) {
-    if (digitalRead(shutdownPin) == HIGH) {
-      unsigned long et = millis() - t;
-      Serial.print("ET:"); Serial.println(et);
-      if (et > 600) {
-        Serial.println("**** SHUTDOWN INITIATED ****");
-        delay(2000);
-        digitalWrite(mcuRunningPin, LOW);
-        sd = false;
+    String str = Serial.readString();
+    checkInput(str);
+    if (!sd_signal) {
+      writeRegister(0x2, 0x00, 0x00);
+      delay(10);
+      for (int i=0; i<2; i++)
+      {
+        // get channel(s)
+        writeRegister(0x10+i, 0x00, 0x00);
+        delay(10);
+      }
+      if (digitalRead(shutdownPin) == HIGH) {
+        Serial.println("**** SHUTDOWN DETECTED ****");
+        sd_signal = true;
+        t = millis();
       }
     } else {
-      Serial.println("**** SHUTDOWN PULSE too short ****");
-      sd = false;
+      if (digitalRead(shutdownPin) == HIGH) {
+        unsigned long et = millis() - t;
+        Serial.print("ET:"); Serial.println(et);
+        if (et > 600) {
+          Serial.println("**** SHUTDOWN INITIATED ****");
+          delay(2000);
+          digitalWrite(mcuRunningPin, LOW);
+          sd_signal = false;
+        }
+      } else {
+        Serial.println("**** SHUTDOWN PULSE too short ****");
+        sd_signal = false;
+      }
     }
+    Serial.print("shutdown:");
+    if (digitalRead(shutdownPin) == HIGH)
+      Serial.println("hi");
+    else
+      Serial.println("lo");
+    Serial.print("mcu_running:");
+    if (digitalRead(mcuRunningPin) == HIGH)
+      Serial.println("hi");
+    else
+      Serial.println("lo");
+  } else {
+    // enable pin not hi
+    if (!shutdown) {
+      Serial.println("Pi power off..");
+    }
+    shutdown = true;
   }
-  Serial.print("shutdown:");
-  if (digitalRead(shutdownPin) == HIGH)
-    Serial.println("hi");
-  else
-    Serial.println("lo");
-  Serial.print("mcu_running:");
-  if (digitalRead(mcuRunningPin) == HIGH)
-    Serial.println("hi");
-  else
-    Serial.println("lo");
-} 
+}
 
 void checkInput(String s)
 {
@@ -110,7 +132,7 @@ void checkInput(String s)
 
 void writeRegister(int addr, int byte1, int byte2) {
 
-  SPI.beginTransaction(SPISettings(100000, MSBFIRST, SPI_MODE0));
+  SPI.beginTransaction(SPISettings(32000, MSBFIRST, SPI_MODE0));
 
   // set BUTTON low for a bit, to wakeup the device
   pinMode(buttonPin, OUTPUT);

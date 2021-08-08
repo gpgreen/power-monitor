@@ -51,24 +51,17 @@ sensor_pre_power_down(void)
 
     // shutdown modules
     PRR |= _BV(PRADC);
-
-    // turn on pull ups on adc ports
-    PORTC |= (_BV(PC0)|_BV(PC1)|_BV(PC2)|_BV(PC3)|_BV(PC4)|_BV(PC5));
 }
 
 void
 sensor_post_power_down(void)
 {
-    // turn off pull ups on ADC ports
-    PORTC &= ~(_BV(PC0)|_BV(PC1)|_BV(PC2)|_BV(PC3)|_BV(PC4)|_BV(PC5));
-
     // startup adc
     PRR &= ~(_BV(PRADC));
 
     // init ADC
     ADCSRA = k_adc_status_reg;
     current_channel = -1;
-    
 }
 
 void
