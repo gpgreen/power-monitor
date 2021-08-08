@@ -20,16 +20,9 @@
  *  Int RC osc 8.0MHz; Start-up time 6CK+0ms;[CKSEL=0010 SUT=00];
  *  Boot Flash section=256 words Boot start address=$3F00 [BOOTSZ=11]
  *  Enable Serial Program [SPIEN=0]
- *  Brown-out detection disabled
- *  Low=0xc2 [1100 0010] Hi=0xdf [1101 1111] Ext=0xFF
+ *  Brown-out at VCC=2.7
+ *  Low=0x42 [1100 0010] Hi=0xdf [1101 1111] Ext=0xFd
  *  from http://www.engbedded.com/fusecalc/
- *
- * to read fuses:
- * avrdude -c usbtiny -p atmega328p -U lfuse:r:lfuse.txt:h
- *    -U hfuse:r:hfuse.txt:h -U efuse:r:efuse.txt:h
- * to set fuses:
- * avrdude -c usbtiny -p atmega328p -U lfuse:w:0xc2:m
- *    -U hfuse:w:0xdf:m -U efuse:w:0xff:m
  *
  */
 
@@ -45,9 +38,16 @@
 #include "sensor.h"
 #include "spi.h"
 
+/*-----------------------------------------------------------------------*/
+
+// simavr
+#include <avr/avr_mcu_section.h>
+AVR_MCU(F_CPU, "atmega328p");
+AVR_MCU_VOLTAGES(3300, 3300, 0) /* VCC, AVCC, VREF - millivolts */
+
 /*--------------------------------------------------------
-  globals
-  --------------------------------------------------------*/
+ * globals
+ *--------------------------------------------------------*/
 
 StateMachine machine_state;
 StateMachine prev_state;
@@ -125,7 +125,6 @@ init(void)
 
 /*--------------------------------------------------------*/
 // trigger when MCU activates MCU_RUNNING signal
-inline
 int mcu_is_running(void)
 {
     return MCU_RUNNING_ON;
@@ -133,7 +132,6 @@ int mcu_is_running(void)
 
 /*--------------------------------------------------------*/
 // trigger when button pressed
-inline
 int button_pressed(void)
 {
     return button_mask == 0x00;
@@ -141,7 +139,6 @@ int button_pressed(void)
 
 /*--------------------------------------------------------*/
 // trigger when button released
-inline
 int button_released(void)
 {
     return button_mask == 0xFF;
@@ -149,7 +146,6 @@ int button_released(void)
 
 /*--------------------------------------------------------*/
 // trigger when the wake up period is over
-inline
 int wake_up_expired(void)
 {
     // this is 750ms
@@ -160,7 +156,6 @@ int wake_up_expired(void)
 
 /*--------------------------------------------------------*/
 // trigger when the idle period is over
-inline
 int idle_expired(void)
 {
     // this is 375ms
@@ -173,7 +168,6 @@ int idle_expired(void)
 // determine interrupt source, no need for atomic
 // as these are in priority order, if a higher priority
 // happens, then it will get chosen
-inline
 WakeupEvent get_wakeup_event(void)
 {
     if (int0_event)
@@ -240,6 +234,9 @@ main(void)
     idle_timer = -1;
     button_timer = -1;
     WakeupEvent evt = Unknown;
+
+    // start watchdog
+    wdt_enable(WDTO_250MS);
     
 	// start interrupts
 	sei();
@@ -247,6 +244,7 @@ main(void)
     // main loop
     while(1)
     {
+        wdt_reset();
 /*--------------------------------------------------------*/
         switch (machine_state) {
         case Start:
@@ -429,6 +427,9 @@ main(void)
             // set INTO interrupt
             EIMSK |= _BV(INT0);
 
+            // disable wdt
+            wdt_disable();
+            
             // do the power down, if no INT0 interrupt
             cli();
             if (!int0_event) {
@@ -438,6 +439,10 @@ main(void)
                 sleep_disable();
             }
             sei();
+
+            // enable the watchdog
+            wdt_enable(WDTO_250MS);
+            
             change_state(PowerDownExit);
             // NO BREAK, fall through to PowerDownExit
 /*--------------------------------------------------------*/

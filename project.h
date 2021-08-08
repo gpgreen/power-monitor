@@ -67,7 +67,7 @@
 
 // version of firmware
 #define MAJOR_VERSION   0
-#define MINOR_VERSION   3
+#define MINOR_VERSION   4
 
 // MCU part, the Chart Plotter Hat uses the 32pin version
 //#define USE_28PIN 1
