@@ -173,6 +173,7 @@ ISR(SPI_STC_vect)
     case 0: // first byte recvd, send second
         addr = recvd;
         if (addr >= 0x10 && addr < MAX_ADC_PINS + 0x10) {
+            // interrupts are off, so safe to look at adc_values
             SPDR = (uint8_t)(adc_values[addr-0x10] & 0xFF);
             send2 = (uint8_t)((adc_values[addr-0x10] & 0xFF00) >> 8);
         } else if (addr == 0x02) {

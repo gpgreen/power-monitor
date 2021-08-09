@@ -20,8 +20,8 @@ uint16_t adc_values[MAX_ADC_PINS];
 // flag for adc interrupt
 volatile uint8_t adc_complete_event;
 
-// turn on ADC, enable interrupt, scale clock by 32
-const uint8_t k_adc_status_reg = _BV(ADEN)|_BV(ADIE)|_BV(ADPS2)|_BV(ADPS0);
+// turn on ADC, enable interrupt, scale clock by 128
+const uint8_t k_adc_status_reg = _BV(ADEN)|_BV(ADIE)|_BV(ADPS2)|_BV(ADPS1)|_BV(ADPS0);
 
 void
 sensor_init(void)
@@ -82,10 +82,9 @@ sensor_state_machine(void)
                 break;
             }
         }
+        // start conversion
         ADMUX = current_channel | _BV(REFS0);
-
-        // conversion will start when adc noise reduction mode is entered
-        //ADCSRA |= _BV(ADSC);
+        ADCSRA |= _BV(ADSC);
     }
 
     // adc measurement finished, get the next channel
@@ -113,8 +112,7 @@ sensor_state_machine(void)
             }
             // start new conversion, with AVCC as reference
             ADMUX = current_channel | _BV(REFS0);
-            // conversion will start when adc noise reduction mode is entered
-            //ADCSRA |= _BV(ADSC);
+            ADCSRA |= _BV(ADSC);
         }
         adc_complete_event = 0;
     } else {

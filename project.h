@@ -70,8 +70,11 @@
 #define MINOR_VERSION   4
 
 // MCU part, the Chart Plotter Hat uses the 32pin version
-//#define USE_28PIN 1
-#define USE_32PIN 1
+#ifndef USE_28PIN
+#ifndef USE_32PIN
+#error "Either -DUSE_28PIN or -DUSE_32PIN must be used"
+#endif
+#endif
 
 // Define whether to use LED's for debugging or not
 #ifdef USE_28PIN

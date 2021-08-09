@@ -11,6 +11,9 @@
 
 cmake_minimum_required(VERSION 2.8)
 
+# option for prototype board with LED's instead of actual hardware
+option(PROTOTYPE "build for prototype board" OFF)
+
 ### TOOLCHAIN SETUP AREA #################################################
 # Set any variables used in the toolchain prior project() call. In that
 # case they are already set and used.
@@ -28,7 +31,7 @@ set(AVR_MCU atmega328p)
 set(AVRDUDE_MCU m328p)
 set(AVR_USE_E_FUSE on)
 set(AVR_E_FUSE 0xfd)
-set(AVR_H_FUSE 0xdf)
+set(AVR_H_FUSE 0xd9)
 set(AVR_L_FUSE 0x42)
 
 ### END TOOLCHAIN SETUP AREA #############################################
@@ -132,6 +135,14 @@ add_definitions("-funsigned-bitfields")
 add_definitions("-ffunction-sections")
 add_definitions("-c")
 add_definitions("-std=gnu99")
+
+if (PROTOTYPE)
+  add_definitions("-DUSE_28PIN")
+  message(STATUS "Targeted for prototype with LED's")
+else()
+  add_definitions("-DUSE_32PIN")
+  message(STATUS "Targeted for power-monitor hat")
+endif()
 
 ##########################################################################
 # include search paths

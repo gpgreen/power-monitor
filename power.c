@@ -18,10 +18,10 @@
  * signature = 0x1e9109
  * Fuse bits for ATmega328P
  *  Int RC osc 8.0MHz; Start-up time 6CK+0ms;[CKSEL=0010 SUT=00];
- *  Boot Flash section=256 words Boot start address=$3F00 [BOOTSZ=11]
+ *  Boot Flash section=2048 words Boot start address=$3800 [BOOTSZ=00]
  *  Enable Serial Program [SPIEN=0]
  *  Brown-out at VCC=2.7
- *  Low=0x42 [1100 0010] Hi=0xdf [1101 1111] Ext=0xFd
+ *  Low=0x42 Hi=0xd9 Ext=0xFd
  *  from http://www.engbedded.com/fusecalc/
  *
  */

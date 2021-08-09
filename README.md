@@ -30,10 +30,13 @@ systemctl disable shutdown_monitor.service
 ## ATMega328P fuse settings
 The fuses are changed from the default and need to be updated
 ```
-avrdude -p atmega328p -c <your programmer here> -U lfuse:w:0xc2:m -U hfuse:w:0xdf:m -U efuse:w:0xff:m
+avrdude -p atmega328p -c <your programmer here> -U lfuse:w:0x42:m -U hfuse:w:0xdf:m -U efuse:w:0xfd:m
 ```
 
 ## Building and firmware load
+
+TODO: fix this to do match cmake build now
+
 Makefile is setup to use avr-gcc, avr-libc, and avrdude to compile and program the chip. 
 
 The compiled firmware (power.hex) can be programmed into the hardware using
