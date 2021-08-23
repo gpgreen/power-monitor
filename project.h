@@ -4,6 +4,12 @@
  *
  * Hardware Changes
  * ----------------
+ * Rev C
+ * Added HDWR_ID and CAN_ENABLE
+ * board has CAN hardware connected to Pi header
+ * Led's removed from board, but pins for led's added
+ * to connector
+ *
  * Rev B
  * LED1 attached to PB0
  * LED removed from SHUTDOWN
@@ -53,9 +59,9 @@
  *            -|30 PD0                    |        
  *            -|31 PD1              PC0 23|-A0     
  *      BUTTON-|32 PD2              PC1 24|-A1     
- *            -|1  PD3              PC2 25|-A2     
+ *   [HDWR_ID]-|1  PD3              PC2 25|-A2     
  *          EN-|2  PD4              PC3 26|-A3     
- *            -|9  PD5              PC4 27|-A4     
+ *    [CAN_EN]-|9  PD5              PC4 27|-A4     
  *            -|10 PD6              PC5 28|-A5     
  *            -|11 PD7              PC6 29|-RESET  
  *             |                          |        
@@ -95,10 +101,20 @@
 #define BUTTON_DIR DDRD
 #define BUTTON 2
 
+#define HDWR_ID_PORT PORTD
+#define HDWR_ID_PIN PIND
+#define HDWR_ID_DIR DDRD
+#define HDWR_ID 3
+
 #define ENABLE_PORT PORTD
 #define ENABLE_PIN PIND
 #define ENABLE_DIR DDRD
 #define ENABLE 4
+
+#define CAN_ENABLE_PORT PORTD
+#define CAN_ENABLE_PIN PIND
+#define CAN_ENABLE_DIR DDRD
+#define CAN_ENABLE 5
 
 // PortC
 #define RESET 6
@@ -148,9 +164,6 @@
 
 #define SHUTDOWN_SET_ON SHUTDOWN_PORT |= _BV(SHUTDOWN)
 #define SHUTDOWN_SET_OFF SHUTDOWN_PORT &= ~(_BV(SHUTDOWN))
-
-#define ENABLE_SET_ON ENABLE_PORT |= _BV(ENABLE)
-#define ENABLE_SET_OFF ENABLE_PORT &= ~(_BV(ENABLE))
 
 /*----------------------------------------------------------------
  * USE_LED is set if we hav LED's set on unused ports for

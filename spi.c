@@ -29,6 +29,11 @@
  *   second and third byte 0
  * 0x04 = firmware version
  *  first byte is major, second byte is minor
+ * 0x05 = jump to bootloader
+ *   second and third byte 0
+ *   after sending the byte, set MCU_RUNNING to low externally so bootloader does not
+ *   jump back into application code
+ *   delay is 100ms so that the pin can be pulled down
  * 0x10-0x14 = retrieve adc value on the channel [address - 16], ie address 0x10 is adc channel 0
  *
  * SPI protocol is implemented using a state machine, transitions happen during
@@ -43,10 +48,23 @@
 #include <avr/io.h>
 #include <avr/interrupt.h>
 #include <util/atomic.h>
+#include <util/delay.h>
 
 #include "project.h"
 #include "spi.h"
 #include "sensor.h"
+
+#if BOOTSTART == 0x3F00
+#define BOOTLOADER_JUMP asm volatile("jmp 0x3F00\n\t" : : )
+#elif BOOTSTART == 0x3E00
+#define BOOTLOADER_JUMP asm volatile("jmp 0x3E00\n\t" : : )
+#elif BOOTSTART == 0x3C00
+#define BOOTLOADER_JUMP asm volatile("jmp 0x3C00\n\t" : : )
+#elif BOOTSTART == 0x3800
+#define BOOTLOADER_JUMP asm volatile("jmp 0x3800\n\t" : : )
+#else
+#error BOOTSTART must be defined to starting address of bootloader
+#endif
 
 // toggling of eeprom
 volatile uint8_t toggle_eeprom;
@@ -186,6 +204,10 @@ ISR(SPI_STC_vect)
         } else if (addr == 0x4) {
             SPDR = MAJOR_VERSION;
             send2 = MINOR_VERSION;
+        } else if (addr == 0x5) {
+            // set MCU_RUNNING to low (externally) to stay in bootloader
+            _delay_ms(100);
+            BOOTLOADER_JUMP;
         }
         spi_state = 1;
         break;

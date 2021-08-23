@@ -32,7 +32,9 @@ set(AVRDUDE_MCU m328p)
 set(AVR_USE_E_FUSE on)
 set(AVR_E_FUSE 0xfd)
 set(AVR_H_FUSE 0xd9)
-set(AVR_L_FUSE 0x42)
+set(AVR_L_FUSE 0xe2)
+set(BOOTSTART 0x3800)
+message(STATUS "Current boot start address is set to: ${BOOTSTART}")
 
 ### END TOOLCHAIN SETUP AREA #############################################
 
@@ -135,6 +137,7 @@ add_definitions("-funsigned-bitfields")
 add_definitions("-ffunction-sections")
 add_definitions("-c")
 add_definitions("-std=gnu99")
+add_definitions("-DBOOTSTART=${BOOTSTART}")
 
 if (PROTOTYPE)
   add_definitions("-DUSE_28PIN")

@@ -52,6 +52,9 @@ AVR_MCU_VOLTAGES(3300, 3300, 0) /* VCC, AVCC, VREF - millivolts */
 StateMachine machine_state;
 StateMachine prev_state;
 
+// this will be non-zero if this is hat with CAN hardware
+int can_hardware;
+
 // button state mask updated by timer interrupt
 // will be 0xFF when button up, 0x00 when down (debounced)
 volatile uint8_t button_mask;
@@ -67,6 +70,21 @@ volatile int8_t idle_timer;
 
 // flag for INT0
 volatile uint8_t int0_event;
+
+/*--------------------------------------------------------*/
+
+void set_enable(int direction) 
+{
+    if (direction) {
+        ENABLE_PORT |= _BV(ENABLE);
+        if (can_hardware)
+            CAN_ENABLE_PORT |= _BV(CAN_ENABLE);
+    } else {
+        ENABLE_PORT &= ~_BV(ENABLE);
+        if (can_hardware)
+            CAN_ENABLE_PORT &= ~_BV(CAN_ENABLE);
+    }
+}
 
 /*--------------------------------------------------------*/
 
@@ -92,6 +110,22 @@ init(void)
     // SHUTDOWN, output, no pullup
     SHUTDOWN_DIR |= _BV(SHUTDOWN);
 
+    // hardware indication, input w/pullup
+    HDWR_ID_DIR &= ~_BV(HDWR_ID);
+    HDWR_ID_PORT |= _BV(HDWR_ID);
+    // if hardware ident is low, this has CAN
+    if (!(HDWR_ID_PIN & _BV(HDWR_ID))) {
+        // set CAN_ENABLE, output
+        CAN_ENABLE_DIR |= _BV(CAN_ENABLE);
+        can_hardware = 1;
+        // disable pullup on grounded pin
+        HDWR_ID_PORT &= ~_BV(HDWR_ID);
+    } else {
+        // setup as unused, pull-up on
+        CAN_ENABLE_DIR &= ~_BV(CAN_ENABLE);
+        CAN_ENABLE_PORT |= _BV(CAN_ENABLE);
+    }
+    
     // LED
     LED1_DIR |= _BV(LED1);
     LED1_SET_OFF;
@@ -106,12 +140,12 @@ init(void)
     PORTD |= _BV(3);
 #else
     // set unused ports as input and pull-up on
-    DDRD &= ~(_BV(0)|_BV(1)|_BV(3)|_BV(5)|_BV(6)|_BV(7));
-    PORTD |= (_BV(0)|_BV(1)|_BV(3)|_BV(5)|_BV(6)|_BV(7));
+    DDRD &= ~(_BV(0)|_BV(1)|_BV(6)|_BV(7));
+    PORTD |= (_BV(0)|_BV(1)|_BV(6)|_BV(7));
 #endif
     
     // enable inactive is low
-    ENABLE_SET_OFF;
+    set_enable(0);
 
     // shutdown inactive is low
     SHUTDOWN_SET_OFF;
@@ -259,7 +293,7 @@ main(void)
             LED4_SET_OFF;
             LED5_SET_OFF;
 #endif
-            ENABLE_SET_OFF;
+            set_enable(0);
             SHUTDOWN_SET_OFF;
             change_state(Wait);
             break;
@@ -305,7 +339,7 @@ main(void)
             LED5_SET_OFF;
 #endif
             wakeup_timer = -1;
-            ENABLE_SET_ON;
+            set_enable(1);
             change_state(SignaledOn);
             break;
         case SignaledOn:
@@ -400,7 +434,7 @@ main(void)
             LED4_SET_OFF;
             LED5_SET_OFF;
 #endif
-            ENABLE_SET_OFF;
+            set_enable(0);
             change_state(PowerDownEntry);
             break;
 /*--------------------------------------------------------*/
