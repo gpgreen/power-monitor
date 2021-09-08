@@ -90,7 +90,7 @@ spi_init(void)
     // PORTB setup PINS for output
     SPI_DIR |= _BV(MISO);
 
-    // EEPROM to input, no pullup
+    // EEPROM to input, no pullup (external pullup)
     EEPROM_DIR &= ~_BV(EEPROM);
     
     // enabled SPI, enable interrupt
@@ -107,11 +107,17 @@ spi_pre_power_down(void)
     // MISO to input, pull-up on
     SPI_DIR &= ~(_BV(MISO));
     SPI_PORT |= _BV(MISO);
+
+    // EEPROM pull-up on
+    EEPROM_PORT |= _BV(EEPROM);
 }
 
 void
 spi_post_power_down(void)
 {
+    // EEPROM pull-up off
+    EEPROM_PORT &= ~_BV(EEPROM);
+    
     // MISO to output, pull-up off
     SPI_PORT &= ~(_BV(MISO));
     SPI_DIR |= _BV(MISO);
@@ -124,37 +130,8 @@ spi_post_power_down(void)
 }
 
 void
-spi_pre_adc_noise(void)
-{
-    // shutdown modules
-    SPCR = 0;
-    PRR |= _BV(PRSPI);
-#ifdef USE_LED
-    LED7_SET_OFF;
-#endif
-}
-
-void
-spi_post_adc_noise(void)
-{
-    // turn on SPI
-    PRR &= ~(_BV(PRSPI));
-    // enable SPI, enable interrupt
-    spi_state = 0;
-    SPCR = _BV(SPE)|_BV(SPIE);
-#ifdef USE_LED
-    LED7_SET_ON;
-#endif
-}
-
-void
 spi_state_machine(void)
 {
-    // SPI could be turned off here, due to
-    // entering/exiting ADC Noise Reduction state, so don't
-    // touch the hardware or expect it to
-    // to be working
-    
     // toggle eeprom if chosen
     if (toggle_eeprom)
     {

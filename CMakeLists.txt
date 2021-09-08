@@ -34,7 +34,6 @@ set(AVR_E_FUSE 0xfd)
 set(AVR_H_FUSE 0xd9)
 set(AVR_L_FUSE 0xe2)
 set(BOOTSTART 0x3800)
-message(STATUS "Current boot start address is set to: ${BOOTSTART}")
 
 ### END TOOLCHAIN SETUP AREA #############################################
 
@@ -56,6 +55,7 @@ message(STATUS "Current use E fuse is set to: ${AVR_USE_E_FUSE}")
 message(STATUS "Current E_FUSE is set to: ${AVR_E_FUSE}")
 message(STATUS "Current H_FUSE is set to: ${AVR_H_FUSE}")
 message(STATUS "Current L_FUSE is set to: ${AVR_L_FUSE}")
+message(STATUS "Current boot start address is set to: ${BOOTSTART}")
 
 ##################################################################################
 # set build type, if not already set at cmake command line
@@ -115,8 +115,8 @@ if(CMAKE_BUILD_TYPE MATCHES RelWithDebInfo)
 endif(CMAKE_BUILD_TYPE MATCHES RelWithDebInfo)
 
 if(CMAKE_BUILD_TYPE MATCHES Debug)
-   set(CMAKE_C_FLAGS_DEBUG "-O0 -save-temps -g -gdwarf-3 -gstrict-dwarf")
-   set(CMAKE_CXX_FLAGS_DEBUG "-O0 -save-temps -g -gdwarf-3 -gstrict-dwarf")
+   set(CMAKE_C_FLAGS_DEBUG "-Os -save-temps -g -gdwarf-3 -gstrict-dwarf")
+   set(CMAKE_CXX_FLAGS_DEBUG "-Os -save-temps -g -gdwarf-3 -gstrict-dwarf")
 endif(CMAKE_BUILD_TYPE MATCHES Debug)
 
 ##################################################################################
@@ -144,7 +144,7 @@ if (PROTOTYPE)
   message(STATUS "Targeted for prototype with LED's")
 else()
   add_definitions("-DUSE_32PIN")
-  message(STATUS "Targeted for power-monitor hat")
+  message(STATUS "Targeted for chart plotter hat")
 endif()
 
 ##########################################################################

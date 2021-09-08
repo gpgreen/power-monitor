@@ -17,24 +17,12 @@ typedef enum {
     SignaledOn,
     MCURunningEntry,
     MCURunning,
-    ADCNoiseEntry,
-    ADCNoiseExit,
     SignaledOffEntry,
     SignaledOff,
     MCUOffEntry,
     MCUOff,
-    PowerDownEntry,
-    PowerDownExit
+    PowerDown,
 } StateMachine;
-
-/*--------------------------------------------------------*/
-
-typedef enum {
-    ButtonEvt,
-    SPItxfer,
-    ADCcomplete,
-    Unknown
-} WakeupEvent;
 
 /*--------------------------------------------------------
   globals

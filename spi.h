@@ -13,8 +13,6 @@ extern volatile uint8_t spi_state;
 extern void spi_init(void);
 extern void spi_pre_power_down(void);
 extern void spi_post_power_down(void);
-extern void spi_pre_adc_noise(void);
-extern void spi_post_adc_noise(void);
 extern void spi_state_machine(void);
 
 #endif /* SPI_H_ */

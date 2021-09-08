@@ -4,7 +4,11 @@ a switching power supply. Supplies a shutdown signal to another MCU
 so that it can shutdown cleanly before the power supply is switched
 off.
 
-Also implements ADC measurements in response to SPI requests.
+Also implements ADC measurements in response to SPI requests. The AVR
+acts as an SPI peripheral, connected to SPI0 on the Raspberry Pi.
+
+Incorporates a MCP2515 CAN controller and MCP2551 CAN transceiver
+connected to SPI1 on the Raspberry Pi.
 
 Intended for use with Raspberry PI boat computer project. The
 corresponding hardware design is at: ![Chart Plotter Hat](https://github.com/gpgreen/chart_plotter_hat)
@@ -52,7 +56,7 @@ Prototype board with LED's
              +--------------------+         
 ```
 ![Chart Plotter Hat] board
-HDWR_ID and CAN_EN are only present on Rev C hat with CAN hardware
+HDWR_ID only present on Rev C hat with CAN hardware
 HDWR_ID is grounded on that hardware to allow identifying it in the
 firmware initialization.
 ```
@@ -72,7 +76,7 @@ firmware initialization.
       BUTTON-|32 PD2              PC1 24|-A1     
    [HDWR_ID]-|1  PD3              PC2 25|-A2     
           EN-|2  PD4              PC3 26|-A3     
-    [CAN_EN]-|9  PD5              PC4 27|-A4     
+            -|9  PD5              PC4 27|-A4     
             -|10 PD6              PC5 28|-A5     
             -|11 PD7              PC6 29|-RESET  
              |                          |        

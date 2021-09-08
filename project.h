@@ -5,7 +5,7 @@
  * Hardware Changes
  * ----------------
  * Rev C
- * Added HDWR_ID and CAN_ENABLE
+ * Added HDWR_ID
  * board has CAN hardware connected to Pi header
  * Led's removed from board, but pins for led's added
  * to connector
@@ -61,7 +61,7 @@
  *      BUTTON-|32 PD2              PC1 24|-A1     
  *   [HDWR_ID]-|1  PD3              PC2 25|-A2     
  *          EN-|2  PD4              PC3 26|-A3     
- *    [CAN_EN]-|9  PD5              PC4 27|-A4     
+ *            -|9  PD5              PC4 27|-A4     
  *            -|10 PD6              PC5 28|-A5     
  *            -|11 PD7              PC6 29|-RESET  
  *             |                          |        
@@ -110,11 +110,6 @@
 #define ENABLE_PIN PIND
 #define ENABLE_DIR DDRD
 #define ENABLE 4
-
-#define CAN_ENABLE_PORT PORTD
-#define CAN_ENABLE_PIN PIND
-#define CAN_ENABLE_DIR DDRD
-#define CAN_ENABLE 5
 
 // PortC
 #define RESET 6

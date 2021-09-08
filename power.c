@@ -65,9 +65,6 @@ volatile int8_t button_timer;
 // number of timer interrupts for wake up period
 volatile int8_t wakeup_timer;
 
-// number of timer interrupts for idle period
-volatile int8_t idle_timer;
-
 // flag for INT0
 volatile uint8_t int0_event;
 
@@ -77,12 +74,37 @@ void set_enable(int direction)
 {
     if (direction) {
         ENABLE_PORT |= _BV(ENABLE);
-        if (can_hardware)
-            CAN_ENABLE_PORT |= _BV(CAN_ENABLE);
     } else {
         ENABLE_PORT &= ~_BV(ENABLE);
-        if (can_hardware)
-            CAN_ENABLE_PORT &= ~_BV(CAN_ENABLE);
+    }
+}
+
+/*--------------------------------------------------------*/
+
+void sleep_output_pins(int pre_sleep) 
+{
+    if (pre_sleep) {
+        LED1_DIR &= ~_BV(LED1);
+        LED1_PORT |= _BV(LED1);
+        
+        SHUTDOWN_DIR &= ~_BV(SHUTDOWN);
+        SHUTDOWN_PORT |= _BV(SHUTDOWN);
+
+        ENABLE_DIR &= ~_BV(ENABLE);
+        ENABLE_PORT |= _BV(ENABLE);
+
+    } else {
+        LED1_PORT &= ~_BV(LED1);
+        LED1_DIR |= _BV(LED1);
+
+        // SHUTDOWN, output, no pullup
+        SHUTDOWN_PORT &= ~_BV(SHUTDOWN);
+        SHUTDOWN_DIR |= _BV(SHUTDOWN);
+
+        // ENABLE, output, no pullup
+        ENABLE_PORT &= ~_BV(ENABLE);
+        ENABLE_DIR  |= _BV(ENABLE);
+
     }
 }
 
@@ -94,40 +116,30 @@ init(void)
     // turn off modules that aren't used
     PRR |= (_BV(PRTWI)|_BV(PRTIM2)|_BV(PRTIM1)|_BV(PRUSART0));
     
-    // timer set to CK/256, overflow interrupt enabled
+    // timer0 set to CK/256, overflow interrupt enabled
     TCCR0B = _BV(CS02);
     TIMSK0 = _BV(TOIE0);
 
-    // MCU_RUNNING, input, no pullup
+    // MCU_RUNNING, input, no pullup (external pull-down)
     MCU_RUNNING_DIR &= ~(_BV(MCU_RUNNING));
 
-    // BUTTON, input, no pullup
+    // BUTTON, input, no pullup (external pull-up)
     BUTTON_DIR &= ~(_BV(BUTTON));
-
-    // ENABLE, output, no pullup
-    ENABLE_DIR |= _BV(ENABLE);
-
-    // SHUTDOWN, output, no pullup
-    SHUTDOWN_DIR |= _BV(SHUTDOWN);
 
     // hardware indication, input w/pullup
     HDWR_ID_DIR &= ~_BV(HDWR_ID);
     HDWR_ID_PORT |= _BV(HDWR_ID);
     // if hardware ident is low, this has CAN
     if (!(HDWR_ID_PIN & _BV(HDWR_ID))) {
-        // set CAN_ENABLE, output
-        CAN_ENABLE_DIR |= _BV(CAN_ENABLE);
         can_hardware = 1;
         // disable pullup on grounded pin
         HDWR_ID_PORT &= ~_BV(HDWR_ID);
-    } else {
-        // setup as unused, pull-up on
-        CAN_ENABLE_DIR &= ~_BV(CAN_ENABLE);
-        CAN_ENABLE_PORT |= _BV(CAN_ENABLE);
     }
+
+    // set pins
+    sleep_output_pins(0);
     
     // LED
-    LED1_DIR |= _BV(LED1);
     LED1_SET_OFF;
     
 #ifdef USE_LED
@@ -140,8 +152,8 @@ init(void)
     PORTD |= _BV(3);
 #else
     // set unused ports as input and pull-up on
-    DDRD &= ~(_BV(0)|_BV(1)|_BV(6)|_BV(7));
-    PORTD |= (_BV(0)|_BV(1)|_BV(6)|_BV(7));
+    DDRD &= ~(_BV(0)|_BV(1)|_BV(5)|_BV(6)|_BV(7));
+    PORTD |= (_BV(0)|_BV(1)|_BV(5)|_BV(6)|_BV(7));
 #endif
     
     // enable inactive is low
@@ -189,31 +201,6 @@ int wake_up_expired(void)
 }
 
 /*--------------------------------------------------------*/
-// trigger when the idle period is over
-int idle_expired(void)
-{
-    // this is 375ms
-    if (idle_timer >= (uint8_t)(F_CPU/256/256/3))
-        return 1;
-    return 0;
-}
-
-/*--------------------------------------------------------*/
-// determine interrupt source, no need for atomic
-// as these are in priority order, if a higher priority
-// happens, then it will get chosen
-WakeupEvent get_wakeup_event(void)
-{
-    if (int0_event)
-        return ButtonEvt;
-    if (spi_stc_event)
-        return SPItxfer;
-    if (adc_complete_event)
-        return ADCcomplete;
-    return Unknown;
-}
-
-/*--------------------------------------------------------*/
 // change state
 void
 change_state(StateMachine new_state)
@@ -223,9 +210,7 @@ change_state(StateMachine new_state)
         case WaitEntry:
         case SignaledOnEntry:
         case MCURunningEntry:
-        case ADCNoiseEntry:
         case SignaledOffEntry:
-        case PowerDownEntry:
         case ButtonPress:
         case ButtonRelease:
             break;
@@ -265,15 +250,15 @@ main(void)
     machine_state = prev_state = Start;
     button_mask = 0xFF;
     wakeup_timer = -1;
-    idle_timer = -1;
     button_timer = -1;
-    WakeupEvent evt = Unknown;
 
     // start watchdog
     wdt_enable(WDTO_250MS);
     
 	// start interrupts
 	sei();
+
+    wakeup_timer = 0;
 
     // main loop
     while(1)
@@ -282,8 +267,8 @@ main(void)
 /*--------------------------------------------------------*/
         switch (machine_state) {
         case Start:
-            wakeup_timer = 0;
-            change_state(WaitEntry);
+            if (wake_up_expired())
+                change_state(WaitEntry);
             break;
 /*--------------------------------------------------------*/
         case WaitEntry:
@@ -293,6 +278,7 @@ main(void)
             LED4_SET_OFF;
             LED5_SET_OFF;
 #endif
+            wakeup_timer = 0;
             set_enable(0);
             SHUTDOWN_SET_OFF;
             change_state(Wait);
@@ -356,54 +342,17 @@ main(void)
             LED3_SET_OFF;
             LED5_SET_OFF;
 #endif
-            idle_timer = 0;
             change_state(MCURunning);
             break;
         case MCURunning:
             if (button_pressed())
             {
                 change_state(ButtonPress);
-                idle_timer = -1;
             }
             // if turned off via the desktop
             if (!mcu_is_running())
             {
                 change_state(MCUOffEntry);
-                idle_timer = -1;
-            }
-            if (idle_expired())
-            {
-                change_state(ADCNoiseEntry);
-                idle_timer = -1;
-            }
-            break;
-/*--------------------------------------------------------*/
-        case ADCNoiseEntry:
-#ifdef USE_LED
-            LED2_SET_OFF;
-            LED3_SET_OFF;
-            LED4_SET_OFF;
-            LED5_SET_OFF;
-#endif
-            // set INTO interrupt
-            EIMSK |= _BV(INT0);
-            spi_pre_adc_noise();
-            // enter Sleep mode
-            set_sleep_mode(SLEEP_MODE_ADC);
-            sleep_enable();
-            sleep_mode();
-            // get wakeup source
-            evt = get_wakeup_event();
-            change_state(ADCNoiseExit);
-            break;
-        case ADCNoiseExit:
-            if (evt == ADCcomplete && mcu_is_running())
-                change_state(ADCNoiseEntry);
-            else {
-                // turn off INT0 interrupt
-                EIMSK &= ~(_BV(INT0));
-                spi_post_adc_noise();
-                change_state(MCURunningEntry);
             }
             break;
 /*--------------------------------------------------------*/
@@ -435,10 +384,10 @@ main(void)
             LED5_SET_OFF;
 #endif
             set_enable(0);
-            change_state(PowerDownEntry);
+            change_state(PowerDown);
             break;
 /*--------------------------------------------------------*/
-        case PowerDownEntry:
+        case PowerDown:
 #ifdef USE_LED
             LED2_SET_OFF;
             LED3_SET_OFF;
@@ -450,15 +399,17 @@ main(void)
             // enter Power-Down mode
             set_sleep_mode(SLEEP_MODE_PWR_DOWN);
 
-            // SHUTDOWN pin to input and pull-up on
-            SHUTDOWN_DIR &= ~(_BV(SHUTDOWN));
-            SHUTDOWN_PORT |= _BV(SHUTDOWN);
+            // turn off Timer0 ovf interrupt
+            TIMSK0 &= ~_BV(TOIE0);
+
+            sleep_output_pins(1);
 
             // modules power off
             sensor_pre_power_down();
             spi_pre_power_down();
-            
-            // set INTO interrupt
+            // turn off Timer0
+            PRR |= _BV(PRTIM0);
+            // set INTO interrupt (Button)
             EIMSK |= _BV(INT0);
 
             // disable wdt
@@ -477,19 +428,19 @@ main(void)
             // enable the watchdog
             wdt_enable(WDTO_250MS);
             
-            change_state(PowerDownExit);
-            // NO BREAK, fall through to PowerDownExit
-/*--------------------------------------------------------*/
-        case PowerDownExit:
-            // turn off INT0 interrupt
+            // turn off INT0 interrupt (Button)
             EIMSK &= ~(_BV(INT0));
-            
+
+            // turn on modules
+            PRR &= ~_BV(PRTIM0);
             spi_post_power_down();
             sensor_post_power_down();
-            // SHUTDOWN pin pull up off, to output
-            SHUTDOWN_PORT &= ~(_BV(SHUTDOWN));
-            SHUTDOWN_DIR |= _BV(SHUTDOWN);
-            wakeup_timer = 0;
+
+            sleep_output_pins(0);
+
+            // set Timer0 ovf interrupt
+            TIMSK0 |= _BV(TOIE0);
+
             change_state(WaitEntry);
             break;
 /*--------------------------------------------------------*/
@@ -521,8 +472,6 @@ ISR(TIMER0_OVF_vect)
         button_timer++;
     if (wakeup_timer >= 0)
         wakeup_timer++;
-    if (idle_timer >= 0)
-        idle_timer++;
 #ifdef USE_LED
     TOGGLE_LED6;
 #endif
