@@ -108,16 +108,13 @@ spi_pre_power_down(void)
     SPI_DIR &= ~(_BV(MISO));
     SPI_PORT |= _BV(MISO);
 
-    // EEPROM pull-up on
-    EEPROM_PORT |= _BV(EEPROM);
+    // EEPROM to input, in case it is toggled to output
+    EEPROM_DIR &= ~_BV(EEPROM);
 }
 
 void
 spi_post_power_down(void)
 {
-    // EEPROM pull-up off
-    EEPROM_PORT &= ~_BV(EEPROM);
-    
     // MISO to output, pull-up off
     SPI_PORT &= ~(_BV(MISO));
     SPI_DIR |= _BV(MISO);
