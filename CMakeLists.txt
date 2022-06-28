@@ -24,7 +24,7 @@ option(PROTOTYPE "build for prototype board" OFF)
 ##################################################################################
 set(AVR_UPLOADTOOL avrdude)
 set(AVR_PROGRAMMER usbtiny)
-set(AVR_UPLOADTOOL_PORT /dev/ttyACM0)
+# set(AVR_UPLOADTOOL_PORT /dev/ttyACM0)
 set(AVR_UPLOADTOOL_OPTIONS "-C/home/ggreen/apps/arduino-1.8.15/hardware/tools/avr/etc/avrdude.conf")
 # AVR and fuses needs to be set
 set(AVR_MCU atmega328p)
@@ -129,7 +129,7 @@ add_definitions("-Wall")
 #add_definitions("-Werror")
 # http://gcc.gnu.org/onlinedocs/gcc-4.8.2/gcc/Alternate-Keywords.html#Alternate-Keywords
 # [...]-pedantic and other options cause warnings for many GNU C extensions. You can prevent such warnings within
-# one expression by writing __extension__ before the expression. __extension__ has no effect aside from this.[...] 
+# one expression by writing __extension__ before the expression. __extension__ has no effect aside from this.[...]
 add_definitions("-pedantic")
 add_definitions("-pedantic-errors")
 add_definitions("-funsigned-char")
@@ -197,4 +197,3 @@ message(STATUS "avrutilslib: ${UTILS_LIB}")
 #	${I2CMASTER_LIB}
 #	${UTILS_LIB}
 #)
-

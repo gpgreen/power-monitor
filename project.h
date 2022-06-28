@@ -7,8 +7,7 @@
  * Rev C
  * Added HDWR_ID
  * board has CAN hardware connected to Pi header
- * Led's removed from board, but pins for led's added
- * to connector
+ * pins for led added to connector
  *
  * Rev B
  * LED1 attached to PB0

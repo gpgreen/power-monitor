@@ -102,6 +102,11 @@ To configure the firmware for a hat hardware build run cmake as follows:
 cmake -G ninja -DCMAKE_TOOLCHAIN_FILE=<build-tools>/cmake-avr/generic-gcc-avr.cmake
 ```
 
+To configure the firmware for a prototype build run cmake as follows:
+```
+cmake -G ninja -DPROTOTYPE=ON -DCMAKE_TOOLCHAIN_FILE=<build-tools>/cmake-avr/generic-gcc-avr.cmake
+```
+
 To see all targets:
 ```
 ninja help

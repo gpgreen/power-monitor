@@ -8,6 +8,13 @@ the signal is detected, then first kill opencpn with the 'pkill'
 command, then call 'poweroff' to shutdown the Pi
 cleanly.
 
+Environment variables required:
+
+OPENCPN_PKILL_DELAY
+  How long to wait in seconds after receiving the shutdown signal
+OPENCPN_USER
+  Which user is used to execute 'pkill'
+
 """
 
 import sys

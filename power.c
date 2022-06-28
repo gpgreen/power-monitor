@@ -65,12 +65,12 @@ volatile int8_t button_timer;
 // number of timer interrupts for wake up period
 volatile int8_t wakeup_timer;
 
-// flag for INT0
-volatile uint8_t int0_event;
+// flag for wakeup event
+volatile uint8_t we_event;
 
 /*--------------------------------------------------------*/
 
-void set_enable(int direction) 
+void set_enable(int direction)
 {
     if (direction) {
         ENABLE_PORT |= _BV(ENABLE);
@@ -81,12 +81,12 @@ void set_enable(int direction)
 
 /*--------------------------------------------------------*/
 
-void sleep_output_pins(int pre_sleep) 
+void sleep_output_pins(int pre_sleep)
 {
     if (pre_sleep) {
         LED1_DIR &= ~_BV(LED1);
         LED1_PORT |= _BV(LED1);
-        
+
         SHUTDOWN_DIR &= ~_BV(SHUTDOWN);
         SHUTDOWN_PORT |= _BV(SHUTDOWN);
 
@@ -115,7 +115,7 @@ init(void)
 {
     // turn off modules that aren't used
     PRR |= (_BV(PRTWI)|_BV(PRTIM2)|_BV(PRTIM1)|_BV(PRUSART0));
-    
+
     // timer0 set to CK/256, overflow interrupt enabled
     TCCR0B = _BV(CS02);
     TIMSK0 = _BV(TOIE0);
@@ -138,10 +138,10 @@ init(void)
 
     // set pins
     sleep_output_pins(0);
-    
+
     // LED
     LED1_SET_OFF;
-    
+
 #ifdef USE_LED
     // PORTD setup PINS for output
     DDRD |= (_BV(LED2)|_BV(LED3)|_BV(LED4)|_BV(LED6)|_BV(LED7));
@@ -155,7 +155,7 @@ init(void)
     DDRD &= ~(_BV(0)|_BV(1)|_BV(5)|_BV(6)|_BV(7));
     PORTD |= (_BV(0)|_BV(1)|_BV(5)|_BV(6)|_BV(7));
 #endif
-    
+
     // enable inactive is low
     set_enable(0);
 
@@ -246,7 +246,7 @@ main(void)
 //    CLKPR = 0;
 
     init();
-    
+
     machine_state = prev_state = Start;
     button_mask = 0xFF;
     wakeup_timer = -1;
@@ -254,7 +254,7 @@ main(void)
 
     // start watchdog
     wdt_enable(WDTO_250MS);
-    
+
 	// start interrupts
 	sei();
 
@@ -409,15 +409,16 @@ main(void)
             spi_pre_power_down();
             // turn off Timer0
             PRR |= _BV(PRTIM0);
-            // set INTO interrupt (Button)
+
+            // set INTO interrupt (Button/PD2)
             EIMSK |= _BV(INT0);
 
             // disable wdt
             wdt_disable();
-            
-            // do the power down, if no INT0 interrupt
+
+            // do the power down, if no interrupt's
             cli();
-            if (!int0_event) {
+            if (!we_event) {
                 sleep_enable();
                 sei();
                 sleep_cpu();
@@ -427,8 +428,8 @@ main(void)
 
             // enable the watchdog
             wdt_enable(WDTO_250MS);
-            
-            // turn off INT0 interrupt (Button)
+
+            // turn off INT0 interrupt (Button/PD2)
             EIMSK &= ~(_BV(INT0));
 
             // turn on modules
@@ -451,7 +452,7 @@ main(void)
         spi_state_machine();
         sensor_state_machine();
 
-        int0_event = 0;
+        we_event = 0;
     }
     return 0;
 }
@@ -483,5 +484,14 @@ ISR(TIMER0_OVF_vect)
  */
 ISR(INT0_vect)
 {
-    int0_event = 1;
+    we_event = 1;
+}
+
+/*
+ * PCINT0 interrupt
+ * interrupt flag cleared by hardware
+ */
+ISR(PCINT0_vect)
+{
+    we_event = 1;
 }
