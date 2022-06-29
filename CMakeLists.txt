@@ -22,9 +22,22 @@ option(PROTOTYPE "build for prototype board" OFF)
 ##################################################################################
 # tools to be used for programming the AVR
 ##################################################################################
+if (PROTOTYPE)
+set(AVR_UPLOADTOOL avrdude)
+set(AVR_PROGRAMMER arduino)
+set(AVR_UPLOADTOOL_PORT /dev/ttyUSB0)
+set(AVR_UPLOADTOOL_OPTIONS "-C/home/ggreen/apps/arduino-1.8.15/hardware/tools/avr/etc/avrdude.conf")
+# AVR and fuses needs to be set
+set(AVR_MCU atmega328p)
+set(AVRDUDE_MCU m328p)
+set(AVR_USE_E_FUSE on)
+set(AVR_E_FUSE 0xfc)
+set(AVR_H_FUSE 0xd8)
+set(AVR_L_FUSE 0xff)
+set(BOOTSTART 0x3800)
+else()
 set(AVR_UPLOADTOOL avrdude)
 set(AVR_PROGRAMMER usbtiny)
-# set(AVR_UPLOADTOOL_PORT /dev/ttyACM0)
 set(AVR_UPLOADTOOL_OPTIONS "-C/home/ggreen/apps/arduino-1.8.15/hardware/tools/avr/etc/avrdude.conf")
 # AVR and fuses needs to be set
 set(AVR_MCU atmega328p)
@@ -34,7 +47,7 @@ set(AVR_E_FUSE 0xfd)
 set(AVR_H_FUSE 0xd9)
 set(AVR_L_FUSE 0xe2)
 set(BOOTSTART 0x3800)
-
+endif()
 ### END TOOLCHAIN SETUP AREA #############################################
 
 ##########################################################################

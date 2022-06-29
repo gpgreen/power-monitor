@@ -9,7 +9,7 @@
 #include "project.h"
 
 #ifdef USE_28PIN
-#define MAX_ADC_PINS 6
+#define MAX_ADC_PINS 3
 #else
 #define MAX_ADC_PINS 8
 #endif

@@ -26,15 +26,23 @@ const uint8_t k_adc_status_reg = _BV(ADEN)|_BV(ADIE)|_BV(ADPS2)|_BV(ADPS1)|_BV(A
 void
 sensor_init(void)
 {
+#ifdef USE_28PIN
+    // PORTC setup PINS for input
+    DDRC &= ~(_BV(PC0)|_BV(PC1)|_BV(PC2));
+#else
     // PORTC setup PINS for input
     DDRC &= ~(_BV(PC0)|_BV(PC1)|_BV(PC2)|_BV(PC3)|_BV(PC4)|_BV(PC5));
-
+#endif
     // turn off analog comparator and digital input buffer
     ACSR |= _BV(ACD);
     DIDR1 |= _BV(AIN1D)|_BV(AIN0D);
 
     // turn off digital input buffers
+#ifdef USE_28PIN
+    DIDR0 |= _BV(ADC0D)|_BV(ADC1D)|_BV(ADC2D);
+#else
     DIDR0 |= _BV(ADC0D)|_BV(ADC1D)|_BV(ADC2D)|_BV(ADC3D)|_BV(ADC4D)|_BV(ADC5D);
+#endif
 
     // init ADC
     ADCSRA = k_adc_status_reg;

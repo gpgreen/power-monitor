@@ -21,7 +21,7 @@
  *  Boot Flash section=2048 words Boot start address=$3800 [BOOTSZ=00]
  *  Enable Serial Program [SPIEN=0]
  *  Brown-out at VCC=2.7
- *  Low=0x42 Hi=0xd9 Ext=0xFd
+ *  Low=0xe2 Hi=0xd9 Ext=0xFd
  *  from http://www.engbedded.com/fusecalc/
  *
  */
@@ -49,11 +49,15 @@ AVR_MCU_VOLTAGES(3300, 3300, 0) /* VCC, AVCC, VREF - millivolts */
  * globals
  *--------------------------------------------------------*/
 
+// this will be non-zero if this is hat with CAN hardware
+int g_can_hardware;
+
+/*--------------------------------------------------------
+ * static locals
+ *--------------------------------------------------------*/
+
 StateMachine machine_state;
 StateMachine prev_state;
-
-// this will be non-zero if this is hat with CAN hardware
-int can_hardware;
 
 // button state mask updated by timer interrupt
 // will be 0xFF when button up, 0x00 when down (debounced)
@@ -131,7 +135,7 @@ init(void)
     HDWR_ID_PORT |= _BV(HDWR_ID);
     // if hardware ident is low, this has CAN
     if (!(HDWR_ID_PIN & _BV(HDWR_ID))) {
-        can_hardware = 1;
+        g_can_hardware = 1;
         // disable pullup on grounded pin
         HDWR_ID_PORT &= ~_BV(HDWR_ID);
     }
@@ -144,12 +148,9 @@ init(void)
 
 #ifdef USE_LED
     // PORTD setup PINS for output
-    DDRD |= (_BV(LED2)|_BV(LED3)|_BV(LED4)|_BV(LED6)|_BV(LED7));
-    // PORTB setup PINS for output
-    DDRB |= _BV(LED5);
-    // unused pins input, pull-up on
-    DDRD &= ~(_BV(3));
-    PORTD |= _BV(3);
+    DDRD |= (_BV(LED2)|_BV(LED3)|_BV(LED4));
+    // PORTC setup PINS for output
+    DDRC |= (_BV(LED6)|_BV(LED5));
 #else
     // set unused ports as input and pull-up on
     DDRD &= ~(_BV(0)|_BV(1)|_BV(5)|_BV(6)|_BV(7));
@@ -242,8 +243,8 @@ int
 main(void)
 {
     // set the clock to 8MHz
-//    CLKPR = _BV(CLKPCE);
-//    CLKPR = 0;
+    CLKPR = _BV(CLKPCE);
+    CLKPR = 0;
 
     init();
 
@@ -394,7 +395,6 @@ main(void)
             LED4_SET_OFF;
             LED5_SET_OFF;
             LED6_SET_OFF;
-            LED7_SET_OFF;
 #endif
             // enter Power-Down mode
             set_sleep_mode(SLEEP_MODE_PWR_DOWN);
@@ -474,7 +474,7 @@ ISR(TIMER0_OVF_vect)
     if (wakeup_timer >= 0)
         wakeup_timer++;
 #ifdef USE_LED
-    TOGGLE_LED6;
+//    TOGGLE_LED6;
 #endif
 }
 
@@ -483,15 +483,6 @@ ISR(TIMER0_OVF_vect)
  * interrupt flag cleared by hardware
  */
 ISR(INT0_vect)
-{
-    we_event = 1;
-}
-
-/*
- * PCINT0 interrupt
- * interrupt flag cleared by hardware
- */
-ISR(PCINT0_vect)
 {
     we_event = 1;
 }

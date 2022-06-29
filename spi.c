@@ -8,8 +8,6 @@
  * involves the master sending a byte that is the register address,
  * and then 2 more bytes. The slave returns a value in the second byte
  * corresponding to that value
- * IMPORTANT -- pulse BUTTON low for 5us to wake up AVR from ADC noise reduction
- * mode or SPI won't be turned on.
  * Delay 50us after pulse of BUTTON
  * Delay 40us after sending the address byte before sending the next byte
  * Delay 20us between the second and last byte
@@ -34,6 +32,9 @@
  *   after sending the byte, set MCU_RUNNING to low externally so bootloader does not
  *   jump back into application code
  *   delay is 100ms so that the pin can be pulled down
+ * 0x06 = can_hardware
+ *   second byte contains value of can_hardware flag, 1 if present, 0 if not
+ *   third byte is zero
  * 0x10-0x14 = retrieve adc value on the channel [address - 16], ie address 0x10 is adc channel 0
  *
  * SPI protocol is implemented using a state machine, transitions happen during
@@ -82,17 +83,17 @@ spi_init(void)
     // due to fuse setting
     SPI_DIR &= ~(_BV(MOSI)|_BV(SCK));
     CS_DIR &= ~(_BV(CS));
-    
+
     // set pullups on input pins
     SPI_PORT |= (_BV(MOSI)|_BV(SCK));
     CS_PORT |= _BV(CS);
-    
+
     // PORTB setup PINS for output
     SPI_DIR |= _BV(MISO);
 
     // EEPROM to input, no pullup (external pullup)
     EEPROM_DIR &= ~_BV(EEPROM);
-    
+
     // enabled SPI, enable interrupt
     SPCR = _BV(SPE)|_BV(SPIE);
 }
@@ -160,7 +161,7 @@ ISR(SPI_STC_vect)
     // if CS pin isn't low, then not intended for us, skip
     if (CS_ON)
         goto skip_state_machine;
-    
+
     switch (spi_state) {
     case 0: // first byte recvd, send second
         addr = recvd;
@@ -182,6 +183,9 @@ ISR(SPI_STC_vect)
             // set MCU_RUNNING to low (externally) to stay in bootloader
             _delay_ms(100);
             BOOTLOADER_JUMP;
+        } else if (addr == 0x6) {
+            SPDR = g_can_hardware;
+            send2 = 0;
         }
         spi_state = 1;
         break;

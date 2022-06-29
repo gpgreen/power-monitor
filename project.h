@@ -23,52 +23,19 @@
  *
  * PINOUTS
  * -------
- *
- *                 ATmega328P-28P3            
- *             +--------------------+         
- *             |                    |         
- *       RESET-|1  PC6        PC5 29|-ADC5    
- *        LED7-|2  PD0        PC4 27|-ADC4    
- *        LED6-|3  PD1        PC3 26|-ADC3    
- *      BUTTON-|4  PD2        PC2 25|-ADC2    
- *            -|5  PD3        PC1 24|-ADC1    
- *      ENABLE-|6  PD4        PC0 23|-ADC0    
- *         VCC-|7                 22|-GND     
- *         GND-|8                 21|-AREF    
- *    SHUTDOWN-|9  PB6            20|-AVCC    
- *        LED5-|10 PB7        PB5 19|-SCK     
- *        LED4-|11 PD5        PB4 18|-MISO    
- *        LED3-|12 PD6        PB3 17|-MOSI    
- *        LED2-|13 PD7        PB2 16|-CS
- *        LED1-|14 PB0        PB1 15|-MCU_RUNNING
- *             |                    |         
- *             +--------------------+         
- *          
- *                    ATmega328P-32A
- *             +--------------------------+        
- *             |                          |        
- *         3.3-|4  VCC              PB0 12|-LED1   
- *         3.3-|18 AVCC             PB1 13|-MCU_RUNNING
- *         CAP-|20 AREF             PB2 14|-CS
- *         GND-|3  GND              PB3 15|-MOSI   
- *             |                    PB4 16|-MISO   
- *          A6-|19 ADC6             PB5 17|-SCK    
- *          A7-|22 ADC7             PB6  7|-SHUTDOWN
- *             |                    PB7  8|-EEPROM 
- *            -|30 PD0                    |        
- *            -|31 PD1              PC0 23|-A0     
- *      BUTTON-|32 PD2              PC1 24|-A1     
- *   [HDWR_ID]-|1  PD3              PC2 25|-A2     
- *          EN-|2  PD4              PC3 26|-A3     
- *            -|9  PD5              PC4 27|-A4     
- *            -|10 PD6              PC5 28|-A5     
- *            -|11 PD7              PC6 29|-RESET  
- *             |                          |        
- *             +--------------------------+        
+ * See [README.md] for pinouts
  *
  */
 #ifndef PROJECT_H_
 #define PROJECT_H_
+
+/*----------------------------------------------------------------*/
+// global variables
+/*----------------------------------------------------------------*/
+
+extern int g_can_hardware;
+
+/*----------------------------------------------------------------*/
 
 // version of firmware
 #define MAJOR_VERSION   0
@@ -100,24 +67,42 @@
 #define BUTTON_DIR DDRD
 #define BUTTON 2
 
+#ifdef USE_32PIN
 #define HDWR_ID_PORT PORTD
 #define HDWR_ID_PIN PIND
 #define HDWR_ID_DIR DDRD
 #define HDWR_ID 3
+#endif
 
 #define ENABLE_PORT PORTD
 #define ENABLE_PIN PIND
 #define ENABLE_DIR DDRD
 #define ENABLE 4
 
+#ifdef USE_28PIN
+#define SHUTDOWN_PORT PORTD
+#define SHUTDOWN_PIN PIND
+#define SHUTDOWN_DIR DDRD
+#define SHUTDOWN 3
+#endif
+
 // PortC
 #define RESET 6
 
+#ifdef USE_28PIN
+#define HDWR_ID_PORT PORTC
+#define HDWR_ID_PIN PINC
+#define HDWR_ID_DIR DDRC
+#define HDWR_ID 5
+#endif
+
 // PortB
+#ifdef USE_32PIN
 #define SHUTDOWN_PORT PORTB
 #define SHUTDOWN_PIN PINB
 #define SHUTDOWN_DIR DDRB
 #define SHUTDOWN 6
+#endif
 
 #define EEPROM_PORT PORTB
 #define EEPROM_PIN PINB
@@ -169,29 +154,26 @@
 #define LED2 7
 #define LED3 6
 #define LED4 5
-#define LED6 1
-#define LED7 0
 // PortB LED's
-#define LED5 7
+#define LED1 0
+// PortC LED's
+#define LED5 3
+#define LED6 4
 
 #define TOGGLE_LED6 \
-    {if (bit_is_set(PORTD, LED6)) PORTD&=~(_BV(LED6)); else PORTD|=_BV(LED6);}
-#define TOGGLE_LED7 \
-    {if (bit_is_set(PORTD, LED7)) PORTD&=~(_BV(LED7)); else PORTD|=_BV(LED7);}
+    {if (bit_is_set(PORTC, LED6)) PORTC&=~(_BV(LED6)); else PORTC|=_BV(LED6);}
 
 #define LED2_SET_ON PORTD |= _BV(LED2)
 #define LED3_SET_ON PORTD |= _BV(LED3)
 #define LED4_SET_ON PORTD |= _BV(LED4)
-#define LED5_SET_ON PORTB |= _BV(LED5)
-#define LED6_SET_ON PORTD |= _BV(LED6)
-#define LED7_SET_ON PORTD |= _BV(LED7)
+#define LED5_SET_ON PORTC |= _BV(LED5)
+#define LED6_SET_ON PORTC |= _BV(LED6)
 
 #define LED2_SET_OFF PORTD &= ~(_BV(LED2))
 #define LED3_SET_OFF PORTD &= ~(_BV(LED3))
 #define LED4_SET_OFF PORTD &= ~(_BV(LED4))
-#define LED5_SET_OFF PORTB &= ~(_BV(LED5))
-#define LED6_SET_OFF PORTD &= ~(_BV(LED6))
-#define LED7_SET_OFF PORTD &= ~(_BV(LED7))
+#define LED5_SET_OFF PORTC &= ~(_BV(LED5))
+#define LED6_SET_OFF PORTC &= ~(_BV(LED6))
 
 #endif
 
