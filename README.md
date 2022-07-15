@@ -46,7 +46,7 @@ Prototype board using a Arduino Nano (or clone), with LED's
              |                    |
              +--------------------+
 ```
-![Chart Plotter Hat] board
+![Chart Plotter Hat](https://github.com/gpgreen/chart_plotter_hat)
 HDWR_ID only present on Rev C hat with CAN hardware
 HDWR_ID is grounded on that hardware to allow identifying it in the
 firmware initialization.
