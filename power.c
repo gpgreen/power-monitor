@@ -63,6 +63,10 @@ StateMachine prev_state;
 // will be 0xFF when button up, 0x00 when down (debounced)
 volatile uint8_t button_mask;
 
+// mcu_running state mask updated by timer interrupt
+// will be 0xFF when mcu_running up, 0x00 when down (debounced)
+volatile uint8_t mcu_running_mask;
+
 // number of timer interrupt while button is down
 volatile int8_t button_timer;
 
@@ -85,6 +89,7 @@ void set_enable(int direction)
 
 /*--------------------------------------------------------*/
 
+// setup pins before/after power down if they have no pull up/down
 void sleep_output_pins(int pre_sleep)
 {
     if (pre_sleep) {
@@ -94,21 +99,17 @@ void sleep_output_pins(int pre_sleep)
         SHUTDOWN_DIR &= ~_BV(SHUTDOWN);
         SHUTDOWN_PORT |= _BV(SHUTDOWN);
 
-        ENABLE_DIR &= ~_BV(ENABLE);
-        ENABLE_PORT |= _BV(ENABLE);
-
     } else {
         LED1_PORT &= ~_BV(LED1);
         LED1_DIR |= _BV(LED1);
+        // LED
+        LED1_SET_OFF;
 
         // SHUTDOWN, output, no pullup
         SHUTDOWN_PORT &= ~_BV(SHUTDOWN);
         SHUTDOWN_DIR |= _BV(SHUTDOWN);
-
-        // ENABLE, output, no pullup
-        ENABLE_PORT &= ~_BV(ENABLE);
-        ENABLE_DIR  |= _BV(ENABLE);
-
+        // shutdown inactive is low
+        SHUTDOWN_SET_OFF;
     }
 }
 
@@ -123,6 +124,12 @@ init(void)
     // timer0 set to CK/256, overflow interrupt enabled
     TCCR0B = _BV(CS02);
     TIMSK0 = _BV(TOIE0);
+
+    // ENABLE, output, no pullup (external pull-down)
+    ENABLE_DIR  |= _BV(ENABLE);
+
+    // enable inactive is low
+    set_enable(0);
 
     // MCU_RUNNING, input, no pullup (external pull-down)
     MCU_RUNNING_DIR &= ~(_BV(MCU_RUNNING));
@@ -143,9 +150,6 @@ init(void)
     // set pins
     sleep_output_pins(0);
 
-    // LED
-    LED1_SET_OFF;
-
 #ifdef USE_LED
     // PORTD setup PINS for output
     DDRD |= (_BV(LED2)|_BV(LED3)|_BV(LED4));
@@ -156,12 +160,6 @@ init(void)
     DDRD &= ~(_BV(0)|_BV(1)|_BV(5)|_BV(6)|_BV(7));
     PORTD |= (_BV(0)|_BV(1)|_BV(5)|_BV(6)|_BV(7));
 #endif
-
-    // enable inactive is low
-    set_enable(0);
-
-    // shutdown inactive is low
-    SHUTDOWN_SET_OFF;
 
     // the other components
     sensor_init();
@@ -174,7 +172,7 @@ init(void)
 // trigger when MCU activates MCU_RUNNING signal
 int mcu_is_running(void)
 {
-    return MCU_RUNNING_ON;
+    return mcu_running_mask == 0xFF;
 }
 
 /*--------------------------------------------------------*/
@@ -469,6 +467,11 @@ ISR(TIMER0_OVF_vect)
         button_mask |= 1;
     else
         button_mask &= ~1;
+    mcu_running_mask <<= 1;
+    if (MCU_RUNNING_ON)
+        mcu_running_mask |= 1;
+    else
+        mcu_running_mask &= ~1;
     if (button_timer >= 0)
         button_timer++;
     if (wakeup_timer >= 0)

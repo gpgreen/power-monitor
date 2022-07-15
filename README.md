@@ -13,23 +13,14 @@ connected to SPI1 on the Raspberry Pi.
 Intended for use with Raspberry PI boat computer project. The
 corresponding hardware design is at: ![Chart Plotter Hat](https://github.com/gpgreen/chart_plotter_hat)
 
-## Raspberry Pi scripts
+## Raspberry Pi
 
-The script `shutdown_monitor.py` is used to control and monitor
-the GPIO pins on the Raspberry Pi to work in concert with this
-firmware. This script is copied to /usr/bin. The systemd service file
-`shutdown_monitor.service` and is copied to /lib/systemd/service.
+There are rust binaries to interact with this hat, in particular a
+daemon service that has the Raspberry PI respond to the firmware on
+this hardware, located at:
+![chartplotterhat_utils](https://github.com/gpgreen/chartplotterhat_utils)
 
-Enabling and starting the service using systemd
-```
-systemctl enable shutdown_monitor.service
-systemctl start shutdown_monitor.service
-```
-
-To disable the service from starting at boot
-```
-systemctl disable shutdown_monitor.service
-```
+Another utility interacts with the spi functions of this firmware.
 
 ## ATMega328P pinout
 
