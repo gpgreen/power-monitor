@@ -47,6 +47,7 @@ set(AVR_E_FUSE 0xfd)
 set(AVR_H_FUSE 0xd9)
 set(AVR_L_FUSE 0xe2)
 set(BOOTSTART 0x3800)
+set(AVR_USE_MIN_PRINTF off)
 endif()
 ### END TOOLCHAIN SETUP AREA #############################################
 
@@ -69,6 +70,7 @@ message(STATUS "Current E_FUSE is set to: ${AVR_E_FUSE}")
 message(STATUS "Current H_FUSE is set to: ${AVR_H_FUSE}")
 message(STATUS "Current L_FUSE is set to: ${AVR_L_FUSE}")
 message(STATUS "Current boot start address is set to: ${BOOTSTART}")
+message(STATUS "Linking with min printf: ${AVR_USE_MIN_PRINTF}")
 
 ##################################################################################
 # set build type, if not already set at cmake command line
